@@ -1,0 +1,343 @@
+EVE-FRAME STAGE B
+FROZEN CONTEXT EMBEDDING EXTRACTION PROTOCOL v3
+================================================
+
+STATUS
+Frozen before contextual XLM-R embedding extraction.
+
+This stage performs deterministic inference only.
+
+No Stage-B supervised training occurs here.
+
+==================================================
+1. INPUT DOCUMENT SET
+==================================================
+
+Input relation resource:
+
+verified_context_v3/verified_event_neighbor_pairs_v3.csv
+
+Verified event-neighbor pairs:
+112.
+
+Unique verified background documents:
+81.
+
+Only background_doc_id values appearing in the frozen verified
+event-neighbor table are encoded.
+
+No additional background document is encoded for use as verified
+context.
+
+==================================================
+2. CANONICAL TEXT SOURCE
+==================================================
+
+Canonical corpus:
+
+01_event_aware_v3/01_data_audit/
+Corpus1502_document_holdout_v3.csv
+
+Canonical corpus SHA256:
+
+8998f17cdb16550fb581f9dc21dbae8e064839cb6dbfcffc1445f2b433bc49f7
+
+Canonical text field:
+
+dapt_text
+
+Context-text-source freeze SHA256:
+
+d5117af6c59d3274085c2203f047a571c4456ab6c115469da0c81b5bc4ef8d8d
+
+All 81 required background documents have non-empty dapt_text.
+
+==================================================
+3. CONTEXT ENCODER
+==================================================
+
+Model:
+
+FacebookAI/xlm-roberta-base
+
+Initialization:
+
+original pretrained XLM-R base checkpoint.
+
+The context encoder is separate from the trainable Stage-B main
+document encoder.
+
+The context encoder is:
+
+- frozen;
+- placed in eval mode;
+- used under torch.no_grad();
+- never optimized;
+- never exposed to main-task labels.
+
+AutoModel configuration:
+
+local_files_only = True
+add_pooling_layer = False
+attn_implementation = "eager"
+
+Hidden dimension:
+
+768.
+
+==================================================
+4. TOKENIZATION
+==================================================
+
+Tokenizer:
+
+AutoTokenizer.from_pretrained(
+    "FacebookAI/xlm-roberta-base",
+    local_files_only=True
+)
+
+Text field:
+
+dapt_text
+
+Frozen tokenization parameters:
+
+truncation = True
+max_length = 256
+stride = 32
+return_overflowing_tokens = True
+return_offsets_mapping = True
+return_special_tokens_mask = True
+padding = False
+
+Maximum retained chunks per document:
+
+8.
+
+If tokenizer creates more than 8 chunks, only the first 8 are
+retained, exactly as in Stage A.
+
+==================================================
+5. OVERLAP-AWARE DOCUMENT POOLING
+==================================================
+
+The implementation must reproduce the frozen Stage-A procedure.
+
+For every retained chunk:
+
+1. obtain last_hidden_state;
+2. ignore special tokens;
+3. ignore zero-length offset tokens;
+4. define each token key as:
+
+   (character_start, character_end, token_id)
+
+5. if an overlapping token key appears in more than one chunk,
+   average its hidden vectors across repeated appearances;
+6. average all resulting unique-token vectors.
+
+The resulting document representation is one 768-dimensional vector.
+
+No CLS-only pooling is permitted.
+
+No simple mean-of-chunks pooling is permitted.
+
+No alternative attention pooling is permitted.
+
+==================================================
+6. NUMERICAL EXECUTION
+==================================================
+
+GPU:
+BF16-capable CUDA GPU.
+
+Context encoder forward pass:
+
+torch.autocast(
+    device_type="cuda",
+    dtype=torch.bfloat16
+)
+
+Deterministic configuration must match Stage A:
+
+TF32:
+disabled.
+
+cuDNN benchmark:
+disabled.
+
+Flash SDP:
+disabled.
+
+Memory-efficient SDP:
+disabled.
+
+Math SDP:
+enabled.
+
+cuDNN SDP:
+disabled when supported.
+
+torch.use_deterministic_algorithms(
+    True,
+    warn_only=False
+)
+
+The final pooled vector is detached and converted to float32 before
+storage.
+
+Stored embedding dtype:
+
+float32.
+
+No stochastic dropout is active because the context encoder remains
+in eval mode.
+
+==================================================
+7. OUTPUT ORDER
+==================================================
+
+The 81 unique background_doc_id values are stored in deterministic
+lexicographic doc_id order.
+
+The embedding matrix row order must exactly match the companion
+manifest row order.
+
+Expected embedding matrix shape:
+
+(81, 768).
+
+Expected manifest rows:
+
+81.
+
+Expected unique manifest doc_id:
+
+81.
+
+==================================================
+8. REQUIRED OUTPUTS
+==================================================
+
+The extraction stage must produce:
+
+1. context_background_embeddings_xlmr_v3.npy
+
+   shape:
+   81 x 768
+
+   dtype:
+   float32
+
+2. context_background_embedding_manifest_v3.csv
+
+   required fields:
+   - row_index
+   - doc_id
+   - dapt_text_length
+   - total_chunks
+   - used_chunks
+   - truncated_by_chunk_cap
+
+3. context_background_chunking_v3.csv
+
+   document-level tokenization/chunking audit.
+
+4. EVE_FRAME_STAGE_B_CONTEXT_EMBEDDING_RESULTS_v3.json
+
+   records:
+   - model name
+   - input hashes
+   - number of requested documents
+   - number encoded
+   - matrix shape
+   - dtype
+   - finite-value checks
+   - vector-norm summary
+   - EventGold status
+   - main-task-label-use status
+
+5. EVE_FRAME_STAGE_B_CONTEXT_EMBEDDING_SHA256SUMS_v3.txt
+
+==================================================
+9. INTEGRITY REQUIREMENTS
+==================================================
+
+Before inference the implementation must verify:
+
+- canonical corpus SHA256;
+- context-text-source freeze SHA256;
+- verified event-neighbor table SHA256;
+- exactly 112 verified pairs;
+- exactly 81 unique required background documents;
+- exactly 81/81 required IDs found in canonical corpus;
+- exactly 81/81 non-empty dapt_text values.
+
+After inference it must verify:
+
+- matrix shape == (81, 768);
+- dtype == float32;
+- all values finite;
+- no duplicate manifest doc_id;
+- manifest row_index exactly equals matrix row order;
+- all 81 vectors have finite, non-zero norm.
+
+==================================================
+10. EXCLUSIONS
+==================================================
+
+No main-task labels are used.
+
+No primary_frame label is used.
+
+No stance label is used.
+
+No misinformation_relation label is used.
+
+No topic variable is used.
+
+No language variable is used.
+
+No country variable is used.
+
+No region variable is used.
+
+No source-domain variable is used.
+
+No EventGold document is accessed.
+
+MPNet is not used to generate these contextual representations.
+
+==================================================
+11. STAGE-A IMPLEMENTATION REFERENCE
+==================================================
+
+Frozen Stage-A trainer:
+
+01_event_aware_v3/07_eve_frame_stage_a_no_event/
+37_train_eve_frame_stage_a_v3.py
+
+Stage-A trainer SHA256:
+
+62f5f55fcdeaf4e5c947313bcc326daa8ceb225e2ab954ffa7b24430e1e760b9
+
+The context extractor must reproduce the relevant Stage-A
+tokenize_documents() and encode_document() behavior rather than
+implementing a conceptually similar but different pooling rule.
+
+==================================================
+12. EVENTGOLD
+==================================================
+
+EventGold-35 remains SEALED.
+
+Context-vector extraction must not access EventGold.
+
+==================================================
+13. FREEZE RULE
+==================================================
+
+Once this protocol is hashed, the contextual embedding model,
+tokenization, chunk cap, pooling procedure, numerical precision,
+document set, text source, and output ordering may not be altered in
+response to subsequent Stage-B supervised performance.

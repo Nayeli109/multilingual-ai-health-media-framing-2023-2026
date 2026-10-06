@@ -1,0 +1,26 @@
+{
+  "status": "POSTHOC_REPRESENTATION_TOPOLOGY_ANALYSIS_COMPLETE",
+  "analysis_type": "EXPLORATORY_MECHANISTIC_POSTHOC",
+  "model_training_performed": false,
+  "model_selection_performed": false,
+  "human_annotation_performed": false,
+  "eventgold_used_for_model_selection": false,
+  "paired_articles": 199,
+  "representation_dimension": 768,
+  "homology_dimensions": [
+    0,
+    1
+  ],
+  "topology_subsampling_replicates": 1000,
+  "topology_subsample_fraction": 0.8,
+  "rng_seed": 20261005,
+  "parallel_workers": 4,
+  "input_sha256": {
+    "01_event_aware_v3/05_supervised_transformers/threeway_representation_probe_v3/XLMR_BASE_embeddings.npy": "e5999855bc5c542011b80c8a21682064dc8ae1dc2b46a8a2b243049ffff10da8",
+    "01_event_aware_v3/05_supervised_transformers/threeway_representation_probe_v3/XLMR_DAPT_INDUCTIVE_embeddings.npy": "b409b5718188def8a2df2c4727bb89dd530f7ed9293d633b3afddbd789bc9ac7",
+    "01_event_aware_v3/08_eve_frame_stage_b_event_context/context_embeddings_v3/context_background_embeddings_xlmr_v3.npy": "3cf6e72a6da04a49fa032cb97984d4e851111cd306f0e28d65141212cb0d15d4",
+    "01_event_aware_v3/08_eve_frame_stage_b_event_context/event_prototypes_v3/verified_event_prototypes_xlmr_v3.npy": "0f7e9956210c7dbaf460867ce2a71164403a429ed44b600dfc10b43425ecaa4f",
+    "01_event_aware_v3/05_supervised_transformers/frozen_paired_inference_v3/paired_inference_distributions_v3.npz": "8acd33c04b277d452f0cfc09af5c7b5fb7d23916fcc49e9767d89f54621943ce",
+    "01_event_aware_v3/05_supervised_transformers/frozen_foldsafe_axis_ablation_v3/axis_ablation_bootstrap_distributions_v3.npz": "b9244eac1aed80f7bc497f34b904499627732710199c3445e62489439c8fc636"
+  }
+}

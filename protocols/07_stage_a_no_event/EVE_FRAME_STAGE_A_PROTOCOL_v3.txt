@@ -1,0 +1,184 @@
+EVE-FRAME STAGE A — NO_EVENT MULTITASK CORE v3
+===============================================
+
+STATUS
+Frozen before Stage-A training.
+
+PURPOSE
+Stage A is the mandatory NO_EVENT ablation/core for the subsequent
+EVE-FRAME architecture.
+
+It is NOT claimed to be the complete event-aware model.
+
+EVENT-CONTEXT DECISION
+The manually resolved event-matching tables overlap only 2 of the
+199 LegacyAux development articles.
+
+Topic labels, source domains, outlets, language, and region are not
+substituted for true event identity.
+
+Therefore Stage A contains no event-context branch.
+
+A genuine event-aware module will only be introduced after an
+appropriate event-indexed development resource is available.
+
+DATA
+LegacyAux_leakage_free_v3.csv
+N = 199 documents.
+
+TEXT
+dapt_text.
+
+TARGETS
+1. primary_frame
+2. stance
+3. misinformation_relation
+
+Target columns:
+primary_frame = final_primary_frame_validated
+stance = final_stance_validated
+misinformation_relation = final_misinformation_relation_validated
+
+SEALED BENCHMARK
+EventGold-35 remains completely sealed.
+
+INITIALIZATION
+FacebookAI/xlm-roberta-base.
+
+DAPT is not used in Stage A because the completed BASE-vs-DAPT
+experiment did not support a general downstream advantage for DAPT.
+
+ARCHITECTURE
+Shared multilingual XLM-R encoder.
+
+For each document:
+XLM-R contextual token representations
+-> overlap-aware unique-token document mean
+-> dropout 0.10
+-> three independent task-specific linear classification heads.
+
+All three classification heads are optimized jointly.
+
+No language feature.
+No region feature.
+No source-domain feature.
+No topic feature.
+No event feature.
+
+This deliberately prevents contextual shortcuts and isolates the
+effect of shared multi-task representation learning.
+
+FOLD-SAFE EVALUATION
+The existing frozen task-specific four-fold design is preserved.
+
+Each run has one TARGET TASK.
+
+For target task t and outer fold k:
+
+Selection phase:
+- expose only documents assigned inner_train for target task t/fold k;
+- optimize ALL THREE labels on those training documents;
+- inner_dev documents are never used for optimization;
+- outer_test documents are never exposed to the encoder during training;
+- model selection uses target-task inner-dev Macro-F1 only;
+- tie-breaker: lower target-task inner-dev weighted CE loss.
+
+Refit phase:
+- reinitialize from XLM-R BASE;
+- train on inner_train + inner_dev documents for the selected number
+  of epochs;
+- all three labels are jointly optimized;
+- outer_test articles remain completely unseen until final evaluation.
+
+This prevents auxiliary-task training from exposing target-test article
+text to the shared encoder.
+
+MODEL SEEDS
+11
+29
+47
+83
+131
+
+TOTAL DEFINITIVE CONFIGURATIONS
+3 target tasks x 4 outer folds x 5 seeds = 60.
+
+TOKENIZATION
+Fast XLM-R tokenizer.
+max_length = 256
+stride = 32
+maximum chunks per article = 8
+
+DOCUMENT POOLING
+The same overlap-aware logic used in the supervised comparator is
+retained:
+
+Repeated contextual representations corresponding to the same unique
+token position across overlapping chunks are averaged first.
+The resulting unique-token representations are then mean pooled to one
+document vector.
+
+LOSS
+Equal-weight multi-task objective:
+
+L = (L_primary + L_stance + L_misinformation) / 3
+
+Each component is class-weighted cross entropy.
+
+Class weights are estimated using training documents only.
+No validation or test distribution is used to calculate class weights.
+
+OPTIMIZATION
+AdamW
+learning rate = 1e-5
+weight decay = 0.01
+linear warmup = 10%
+gradient clipping = 1.0
+gradient accumulation = 8 documents
+maximum selection epochs = 8
+
+MODEL SELECTION
+Target-task inner-dev Macro-F1.
+Tie-breaker: lower target-task validation loss.
+
+REFIT
+Selected epoch count is retained.
+Scheduler horizon remains fixed at 8 epochs so the refit learning-rate
+trajectory matches the corresponding prefix of model selection.
+
+NUMERICAL SETTINGS
+A100 GPU.
+BF16.
+Strict deterministic algorithms.
+Eager attention.
+Flash SDP disabled.
+Memory-efficient SDP disabled.
+TF32 disabled.
+
+PRIMARY STAGE-A ENDPOINT
+Five-seed probability-ensemble OOF Macro-F1 for each target task.
+
+SECONDARY ENDPOINTS
+Balanced accuracy.
+Accuracy.
+Weighted F1.
+Per-class recall/F1.
+Minority-class recovery.
+
+COMPARATOR
+The frozen BASE supervised benchmark.
+
+No Stage-A result will retroactively modify the BASE-vs-DAPT experiment.
+
+INTERPRETATION
+Stage A tests whether joint structural supervision across frame,
+stance, and misinformation relation improves document representations
+relative to independent single-task fine-tuning.
+
+Stage A does NOT test the incremental contribution of event context.
+
+That contribution requires a later explicit EVE-FRAME vs NO_EVENT
+ablation after a valid event-indexed development design is frozen.
+
+EventGold-35 status:
+SEALED.

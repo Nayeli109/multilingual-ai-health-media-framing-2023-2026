@@ -1,0 +1,546 @@
+EVE-FRAME STAGE B
+EVENT-CONDITIONED ARCHITECTURE PROTOCOL v3
+===========================================
+
+STATUS
+Frozen before Stage-B context-vector construction and before any
+Stage-B supervised training.
+
+PURPOSE
+Evaluate whether independently verified same-event context provides
+incremental information beyond the frozen Stage-A NO_EVENT multi-task
+core.
+
+This protocol is frozen before observing Stage-B supervised results.
+
+==================================================
+1. FROZEN PREDECESSOR COMPONENTS
+==================================================
+
+Stage-A NO_EVENT is CLOSED.
+
+Stage-A final closure SHA256:
+e127f23bcd6696833cb8d3d2b3c244f45307b198ef3607ddf28baa3b617745df
+
+Stage-A trainer SHA256:
+62f5f55fcdeaf4e5c947313bcc326daa8ceb225e2ab954ffa7b24430e1e760b9
+
+Frozen fine-tune nested split SHA256:
+3aa88ac76bf63dd2e39f3a2943ba46bca6b528a427678b49ef1174f4f8cd0584
+
+Event verifier is CLOSED.
+
+Event-verifier final closure SHA256:
+d19165aa7dfdbe62744504800ff34c2a6aa44851fc311ba010bc34bb467f984d
+
+Verified-context construction is CLOSED.
+
+Verified-context final closure SHA256:
+2ab38726ca3fe424594d77fde629b4dd54f99f353928f0a4f36b89173c2f42be
+
+Verified-context results SHA256:
+8c2d8ea7815e1055baf33528b5d0bc3acc0c734fec668165646daecf1a77388e
+
+Verified-context by-document SHA256:
+c0102a3e0c02ec042b3eb4e4f4cd01c155227042148e3559f79d0f31e24007fa
+
+EventGold-35 remains SEALED.
+
+==================================================
+2. SUPERVISED TARGETS
+==================================================
+
+LegacyAux-199.
+
+Tasks:
+1. primary_frame
+2. stance
+3. misinformation_relation
+
+The same task-specific frozen four-fold design used by Stage A is
+retained.
+
+Seeds:
+11
+29
+47
+83
+131
+
+No new fold construction is permitted.
+
+==================================================
+3. STAGE-A CORE PRESERVATION
+==================================================
+
+The Stage-B document pathway preserves the Stage-A conceptual core.
+
+Main document encoder:
+FacebookAI/xlm-roberta-base.
+
+Main encoder:
+TRAINABLE.
+
+Document tokenization/pooling:
+identical to the frozen Stage-A implementation.
+
+Maximum token length:
+256.
+
+Stride:
+32.
+
+Maximum chunks per document:
+8.
+
+Document pooling:
+the exact overlap-aware document pooling procedure used by Stage A.
+
+Dropout:
+0.1.
+
+Three independent task heads are retained.
+
+Joint multi-task optimization is retained.
+
+No language, country, region, source-domain, outlet, or topic feature
+is supplied to the supervised model.
+
+==================================================
+4. VERIFIED EVENT CONTEXT
+==================================================
+
+For LegacyAux target article i:
+
+R_i =
+set of background documents accepted by the frozen event verifier.
+
+Frozen event-verifier threshold:
+0.5.
+
+Verified context is available for:
+51 / 199 LegacyAux articles.
+
+NO_CONTEXT:
+148 / 199 LegacyAux articles.
+
+No unverified neighbor may be inserted.
+
+No nearest-neighbor fallback is permitted.
+
+No same-topic fallback is permitted.
+
+==================================================
+5. CONTEXT ENCODER
+==================================================
+
+Verified background documents are represented using a separate frozen:
+
+FacebookAI/xlm-roberta-base
+
+context encoder.
+
+The context encoder:
+- is never fine-tuned;
+- remains in eval mode;
+- does not receive supervised target labels;
+- does not receive gradients.
+
+Its tokenizer, chunking parameters and document pooling procedure must
+match the Stage-A document representation procedure:
+
+max_length = 256
+stride = 32
+max_chunks = 8
+overlap-aware document pooling identical to Stage A.
+
+Context encoder output dimension:
+768.
+
+MPNet is NOT used as the Stage-B contextual representation.
+
+MPNet remains restricted to:
+- candidate retrieval;
+- frozen same-event verification.
+
+==================================================
+6. EVENT PROTOTYPE
+==================================================
+
+For a target article with >=1 verified event neighbor:
+
+e_i =
+uniform arithmetic mean of the frozen XLM-R context representations
+of all verified neighbors.
+
+Every verified neighbor receives equal weight.
+
+Frozen verifier probability is NOT used as an aggregation weight.
+
+No top-k truncation is used.
+
+No learned attention over neighbors is used.
+
+For an article with zero verified neighbors:
+
+context_available m_i = 0.
+
+No artificial event prototype is constructed.
+
+==================================================
+7. VERIFIED_CONTEXT FUSION
+==================================================
+
+Let:
+
+z_i =
+trainable Stage-A-style XLM-R document representation.
+
+e_i =
+frozen event prototype.
+
+m_i =
+1 if verified context exists;
+0 otherwise.
+
+Context projection:
+
+c_i =
+m_i * LayerNorm(
+    W_c e_i + b_c
+)
+
+W_c:
+768 x 768 trainable linear projection.
+
+The projection is shared across all three tasks.
+
+Context gate:
+
+g_i =
+m_i * sigmoid(
+    w_g^T [z_i ; c_i] + b_g
+)
+
+The gate is a scalar.
+
+The gate is shared across all three tasks.
+
+Fused representation:
+
+z_tilde_i =
+z_i + g_i * c_i
+
+The existing Stage-A dropout and task heads operate on z_tilde_i.
+
+Exact NO_CONTEXT invariant:
+
+if m_i = 0:
+
+c_i = 0
+g_i = 0
+z_tilde_i = z_i
+
+Therefore no learned substitute vector is supplied to an article with
+no verified event context.
+
+==================================================
+8. NEGATIVE CONTROL: PERMUTED_CONTEXT
+==================================================
+
+A parameter-matched negative control is predeclared.
+
+PERMUTED_CONTEXT uses:
+- the same main encoder;
+- the same frozen context encoder;
+- the same context projection;
+- the same gate;
+- the same heads;
+- the same optimizer;
+- the same folds;
+- the same seeds;
+- the same context-availability mask m_i.
+
+Only context identity is disrupted.
+
+No main-task label is used in constructing the permutation.
+
+To prevent held-out article information from entering training through
+the control:
+
+INNER-SELECTION PHASE
+
+For context-available INNER_TRAIN documents:
+verified event prototypes are deterministically deranged among
+INNER_TRAIN context-available documents.
+
+For context-available INNER_DEV documents:
+false context prototypes are deterministically assigned from the
+INNER_TRAIN prototype pool.
+
+No INNER_DEV-derived prototype is supplied to INNER_TRAIN.
+
+OUTER_REFIT / TEST PHASE
+
+For context-available OUTER_TRAIN documents:
+verified prototypes are deterministically deranged among
+OUTER_TRAIN context-available documents.
+
+For context-available OUTER_TEST documents:
+false prototypes are deterministically assigned from the
+OUTER_TRAIN prototype pool.
+
+No OUTER_TEST-derived prototype is supplied to OUTER_TRAIN.
+
+If a training prototype pool contains only one context-available
+prototype, that prototype may be assigned to held-out control examples,
+but no held-out prototype may enter training.
+
+Permutation/assignment rules must be deterministic and frozen before
+Stage-B supervised training.
+
+The same control mapping is used across all five random training seeds
+for a given task/fold/phase.
+
+==================================================
+9. MODEL ARMS
+==================================================
+
+Existing frozen comparator:
+
+A. STAGE_A_NO_EVENT
+
+No retraining of Stage A is permitted.
+
+New Stage-B arms:
+
+B. VERIFIED_CONTEXT
+
+C. PERMUTED_CONTEXT
+
+New supervised training configurations:
+
+2 Stage-B arms
+x 3 target tasks
+x 4 outer folds
+x 5 seeds
+
+= 120 Stage-B training runs.
+
+==================================================
+10. OPTIMIZATION
+==================================================
+
+Stage-B retains the frozen Stage-A optimization design wherever
+technically applicable.
+
+Main encoder initialization:
+XLM-R base.
+
+Optimizer:
+AdamW.
+
+Learning rate:
+1e-5.
+
+Weight decay:
+0.01.
+
+Warmup ratio:
+0.1.
+
+Gradient clipping:
+1.0.
+
+Gradient accumulation:
+8 documents.
+
+Maximum epochs:
+8.
+
+Mixed precision:
+BF16 on A100.
+
+Deterministic eager attention.
+
+Flash attention:
+disabled.
+
+Memory-efficient attention:
+disabled.
+
+TF32:
+disabled.
+
+Training loss:
+mean of the three task-specific class-weighted CE losses over the
+labels available for each training document.
+
+Class weighting:
+training data only.
+
+Cross-entropy implementation must preserve the corrected Stage-A
+class-weight behavior.
+
+==================================================
+11. MODEL SELECTION
+==================================================
+
+As in Stage A, each run has a target task.
+
+INNER_TRAIN:
+used for joint multi-task optimization.
+
+INNER_DEV:
+untouched during optimization.
+
+Model-selection criterion:
+target-task INNER_DEV Macro-F1.
+
+Tie break:
+lower target-task validation loss.
+
+After epoch selection:
+discard selected model,
+reinitialize from the same base initialization,
+and refit on the full outer-training partition for the selected epoch
+count.
+
+OUTER_TEST:
+not used for selection or optimization.
+
+==================================================
+12. PRIMARY STAGE-B COMPARISON
+==================================================
+
+Primary scientific comparison:
+
+VERIFIED_CONTEXT
+versus
+frozen STAGE_A_NO_EVENT.
+
+For each of the three tasks:
+
+- construct five-seed probability-ensemble OOF predictions;
+- average probabilities across seeds;
+- take argmax only after probability averaging.
+
+Primary metric:
+Macro-F1.
+
+Inferential unit:
+article.
+
+Seeds are stochastic fits, not independent observations.
+
+Uncertainty:
+10,000 paired stratified bootstrap replicates by true-label strata.
+
+Primary hypothesis test:
+10,000 paired article-level probability-vector randomization
+replicates.
+
+Multiplicity:
+Benjamini-Hochberg correction across the three task-level Macro-F1
+contrasts.
+
+No fold-level or seed-level pseudo-replication is permitted.
+
+==================================================
+13. CONTEXT-SPECIFICITY CONTROL
+==================================================
+
+Secondary predeclared comparison:
+
+VERIFIED_CONTEXT
+versus
+PERMUTED_CONTEXT.
+
+The same article-level OOF ensemble construction is used.
+
+Primary control metric:
+Macro-F1.
+
+The same:
+- paired stratified bootstrap;
+- paired probability-vector randomization;
+- three-task BH correction
+
+are applied as a separate predeclared family.
+
+This comparison tests whether any Stage-B effect depends on correct
+event identity rather than merely:
+- additional parameters;
+- context availability;
+- exposure to auxiliary text representations.
+
+No claim of causal mechanism is made from this control alone.
+
+==================================================
+14. DESCRIPTIVE ANALYSES
+==================================================
+
+The following are descriptive unless separately predeclared before
+results are observed:
+
+- balanced accuracy
+- accuracy
+- weighted F1
+- per-class precision
+- per-class recall
+- per-class F1
+- confusion matrices
+- seed stability
+- performance among context-available articles
+- performance among NO_CONTEXT articles
+- gate-value distributions
+- error analysis
+
+No post-hoc threshold optimization is permitted.
+
+No post-hoc architecture tuning is permitted.
+
+==================================================
+15. DECISION RULE AFTER STAGE B
+==================================================
+
+The Stage-B architecture is frozen by this protocol.
+
+Observed supervised results may determine scientific interpretation,
+but must not trigger reactive changes to:
+
+- event-verifier threshold
+- retrieval threshold
+- context encoder
+- prototype aggregation
+- projection dimension
+- gate definition
+- optimizer
+- folds
+- seeds
+- model-selection criterion
+- primary statistical analysis
+
+Any later architecture modification would constitute a new explicitly
+versioned experiment and could not replace this predeclared Stage-B
+analysis.
+
+==================================================
+16. EVENTGOLD
+==================================================
+
+EventGold-35 remains SEALED.
+
+EventGold may not be accessed for:
+- context-encoder development
+- Stage-B training
+- Stage-B model selection
+- ablation selection
+- statistical-plan modification
+
+EventGold is opened only after:
+- context representations are frozen;
+- Stage-B implementation is frozen;
+- Stage-B supervised analysis is complete;
+- required ablations are complete;
+- the final external-evaluation protocol is frozen.

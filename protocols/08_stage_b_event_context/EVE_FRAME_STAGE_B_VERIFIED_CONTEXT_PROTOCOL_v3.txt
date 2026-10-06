@@ -1,0 +1,221 @@
+EVE-FRAME STAGE B
+VERIFIED EVENT-CONTEXT CONSTRUCTION PROTOCOL v3
+=================================================
+
+STATUS
+Frozen before applying the validated event verifier to LegacyAux.
+
+PURPOSE
+Construct a label-free, verified event-context resource for each
+LegacyAux article before defining or training the Stage-B fusion model.
+
+This stage does NOT train EVE-FRAME.
+
+--------------------------------------------------
+TARGET DOCUMENTS
+--------------------------------------------------
+
+LegacyAux:
+199 documents.
+
+LegacyAux is used here only as a set of target article texts and
+metadata.
+
+Primary-frame, stance, and misinformation-relation labels are not used
+for:
+- candidate generation
+- event verification
+- neighbor selection
+- coverage analysis
+- context construction
+
+--------------------------------------------------
+BACKGROUND
+--------------------------------------------------
+
+Initial Clean1502 corpus:
+1502 documents.
+
+LegacyAux documents:
+199.
+
+Raw unlabeled background:
+1303 documents.
+
+Exact-title/text duplicate exclusions relative to LegacyAux:
+49 documents.
+
+Final clean event-context background:
+1254 documents.
+
+LegacyAux documents are never used as context prototypes for other
+LegacyAux documents.
+
+--------------------------------------------------
+CANDIDATE GENERATION
+--------------------------------------------------
+
+Candidate retrieval is frozen to the previously audited BROAD rule:
+
+absolute publication-date difference <= 14 days
+AND
+multilingual MPNet cosine similarity >= 0.68
+
+No topic label is used.
+
+No country, region, language, outlet, or source-domain restriction is
+used.
+
+The BROAD rule is used only to generate candidate article pairs.
+
+It is NOT interpreted as evidence that two articles describe the same
+event.
+
+Expected historical label-free BROAD coverage before verification:
+
+103 / 199 LegacyAux articles with >=1 candidate.
+
+Expected BROAD candidate-pair count:
+454.
+
+--------------------------------------------------
+EVENT VERIFICATION
+--------------------------------------------------
+
+Every BROAD candidate pair is evaluated using the final frozen event
+verifier.
+
+Event verifier:
+SYMMETRIC_MPNET.
+
+Features:
+- |u-v|
+- u*v
+- cosine similarity
+- log1p absolute publication-date difference
+
+Classifier:
+L2-regularized logistic regression.
+
+C:
+0.0001.
+
+Operational probability threshold:
+0.5.
+
+A candidate is considered a VERIFIED_EVENT_NEIGHBOR if:
+
+P(SAME_EVENT) >= 0.5
+
+No threshold adjustment is permitted.
+
+No recalibration is permitted.
+
+No additional event-verifier training is permitted.
+
+Frozen event-verifier model SHA256:
+7c4e162234d48dfd40293116ca7af59de7e41a8d56982cb700643e1ccff9066a
+
+Event-verifier final closure SHA256:
+d19165aa7dfdbe62744504800ff34c2a6aa44851fc311ba010bc34bb467f984d
+
+--------------------------------------------------
+REPRESENTATION AT THIS STAGE
+--------------------------------------------------
+
+MPNet is used only for:
+
+1. BROAD candidate retrieval;
+2. frozen same-event verification.
+
+MPNet vectors are NOT yet used as the Stage-B event representation.
+
+No MPNet vector is directly subtracted from, multiplied by, or treated
+as geometrically interchangeable with an XLM-R representation.
+
+The Stage-B contextual encoder and fusion architecture will be frozen
+only after verified-context coverage has been characterized.
+
+--------------------------------------------------
+OUTPUTS
+--------------------------------------------------
+
+For every LegacyAux article report:
+
+- number of BROAD candidates
+- number of VERIFIED_EVENT_NEIGHBORS
+- maximum verifier SAME_EVENT probability
+- mean verifier SAME_EVENT probability among verified neighbors
+- median verifier SAME_EVENT probability among verified neighbors
+- number of unique verified source domains
+- number of unique verified countries
+- number of unique verified languages
+- number of verified cross-source neighbors
+- number of verified cross-country neighbors
+- number of verified cross-language neighbors
+
+For every BROAD candidate pair retain:
+
+- target LegacyAux doc_id
+- background doc_id
+- cosine similarity
+- absolute temporal distance
+- frozen verifier SAME_EVENT probability
+- frozen verifier binary decision
+
+Aggregate summaries report:
+
+- LegacyAux articles with >=1 verified neighbor
+- >=2 verified neighbors
+- >=3 verified neighbors
+- >=5 verified neighbors
+- fraction with NO_CONTEXT
+- candidate-to-verified acceptance rate
+- cross-source verified coverage
+- cross-country verified coverage
+- cross-language verified coverage
+- verified-neighbor-count distribution
+- verifier-probability distribution
+
+--------------------------------------------------
+NO_CONTEXT
+--------------------------------------------------
+
+A LegacyAux article with zero verified event neighbors is assigned:
+
+context_available = 0
+
+No substitute same-topic article is inserted.
+
+No nearest neighbor below the frozen verifier threshold is forced into
+the context.
+
+The later Stage-B architecture must provide an explicit NO_CONTEXT
+path for these articles.
+
+--------------------------------------------------
+ARCHITECTURE DECISION BOUNDARY
+--------------------------------------------------
+
+This audit does not select Stage-B performance hyperparameters.
+
+Main-task labels and predictive performance may not be consulted when
+deciding whether verified event context exists.
+
+The Stage-B architecture will be frozen only after this label-free
+coverage audit is complete.
+
+--------------------------------------------------
+EVENTGOLD
+--------------------------------------------------
+
+EventGold-35 remains SEALED.
+
+EventGold is not accessed for:
+- candidate generation
+- event verification
+- coverage analysis
+- architecture selection
+
+EventGold must remain sealed until the complete EVE-FRAME architecture,
+training rules, ablation plan, and main evaluation protocol are frozen.

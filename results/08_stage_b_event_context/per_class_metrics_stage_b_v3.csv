@@ -1,0 +1,55 @@
+system,task,class_id,class_label,support,precision,recall,f1
+STAGE_A_NO_EVENT,primary_frame,0,"access, inequality, and digital divide",5,0.0,0.0,0.0
+STAGE_A_NO_EVENT,primary_frame,1,clinical innovation and diagnostic benefit,36,0.625,0.6944444444444444,0.6578947368421053
+STAGE_A_NO_EVENT,primary_frame,2,health safety risk and medical harm,14,0.6111111111111112,0.7857142857142857,0.6875
+STAGE_A_NO_EVENT,primary_frame,3,labor automation and professional displacement,20,0.5,0.65,0.5652173913043478
+STAGE_A_NO_EVENT,primary_frame,4,mental health and therapy risk,15,0.5,0.13333333333333333,0.21052631578947367
+STAGE_A_NO_EVENT,primary_frame,5,"misinformation, deepfakes, and fraud",48,0.6964285714285714,0.8125,0.75
+STAGE_A_NO_EVENT,primary_frame,6,other / unclear,23,0.45454545454545453,0.6521739130434783,0.5357142857142857
+STAGE_A_NO_EVENT,primary_frame,7,public trust and accountability,4,0.0,0.0,0.0
+STAGE_A_NO_EVENT,primary_frame,8,"regulation, governance, and policy",34,0.8636363636363636,0.5588235294117647,0.6785714285714286
+STAGE_A_NO_EVENT,stance,0,cautious or mixed about ai in health,18,0.3181818181818182,0.7777777777777778,0.45161290322580644
+STAGE_A_NO_EVENT,stance,1,critical of ai risks in health,44,0.6078431372549019,0.7045454545454546,0.6526315789473685
+STAGE_A_NO_EVENT,stance,2,focused on regulation and governance,10,0.2,0.6,0.3
+STAGE_A_NO_EVENT,stance,3,optimistic about ai in health,40,0.5416666666666666,0.65,0.5909090909090909
+STAGE_A_NO_EVENT,stance,4,unclear / not applicable,87,0.7692307692307693,0.22988505747126436,0.35398230088495575
+STAGE_A_NO_EVENT,misinformation_relation,0,direct misinformation focus,60,0.7575757575757576,0.8333333333333334,0.7936507936507936
+STAGE_A_NO_EVENT,misinformation_relation,1,indirect misinformation concern,20,0.35714285714285715,0.25,0.29411764705882354
+STAGE_A_NO_EVENT,misinformation_relation,2,no clear misinformation relation,95,0.7916666666666666,0.6,0.6826347305389222
+STAGE_A_NO_EVENT,misinformation_relation,3,unclear / not applicable,24,0.3829787234042553,0.75,0.5070422535211268
+VERIFIED_CONTEXT,primary_frame,0,"access, inequality, and digital divide",5,0.0,0.0,0.0
+VERIFIED_CONTEXT,primary_frame,1,clinical innovation and diagnostic benefit,36,0.6046511627906976,0.7222222222222222,0.6582278481012658
+VERIFIED_CONTEXT,primary_frame,2,health safety risk and medical harm,14,0.5,0.6428571428571429,0.5625
+VERIFIED_CONTEXT,primary_frame,3,labor automation and professional displacement,20,0.5217391304347826,0.6,0.5581395348837209
+VERIFIED_CONTEXT,primary_frame,4,mental health and therapy risk,15,0.3333333333333333,0.06666666666666667,0.1111111111111111
+VERIFIED_CONTEXT,primary_frame,5,"misinformation, deepfakes, and fraud",48,0.6666666666666666,0.8333333333333334,0.7407407407407407
+VERIFIED_CONTEXT,primary_frame,6,other / unclear,23,0.5769230769230769,0.6521739130434783,0.6122448979591837
+VERIFIED_CONTEXT,primary_frame,7,public trust and accountability,4,0.0,0.0,0.0
+VERIFIED_CONTEXT,primary_frame,8,"regulation, governance, and policy",34,0.8,0.5882352941176471,0.6779661016949152
+VERIFIED_CONTEXT,stance,0,cautious or mixed about ai in health,18,0.3111111111111111,0.7777777777777778,0.4444444444444444
+VERIFIED_CONTEXT,stance,1,critical of ai risks in health,44,0.62,0.7045454545454546,0.6595744680851063
+VERIFIED_CONTEXT,stance,2,focused on regulation and governance,10,0.25,0.8,0.38095238095238093
+VERIFIED_CONTEXT,stance,3,optimistic about ai in health,40,0.5813953488372093,0.625,0.6024096385542169
+VERIFIED_CONTEXT,stance,4,unclear / not applicable,87,0.6896551724137931,0.22988505747126436,0.3448275862068966
+VERIFIED_CONTEXT,misinformation_relation,0,direct misinformation focus,60,0.7727272727272727,0.85,0.8095238095238095
+VERIFIED_CONTEXT,misinformation_relation,1,indirect misinformation concern,20,0.4444444444444444,0.4,0.42105263157894735
+VERIFIED_CONTEXT,misinformation_relation,2,no clear misinformation relation,95,0.8285714285714286,0.6105263157894737,0.703030303030303
+VERIFIED_CONTEXT,misinformation_relation,3,unclear / not applicable,24,0.4,0.75,0.5217391304347826
+PERMUTED_CONTEXT,primary_frame,0,"access, inequality, and digital divide",5,0.0,0.0,0.0
+PERMUTED_CONTEXT,primary_frame,1,clinical innovation and diagnostic benefit,36,0.5909090909090909,0.7222222222222222,0.65
+PERMUTED_CONTEXT,primary_frame,2,health safety risk and medical harm,14,0.5555555555555556,0.7142857142857143,0.625
+PERMUTED_CONTEXT,primary_frame,3,labor automation and professional displacement,20,0.52,0.65,0.5777777777777777
+PERMUTED_CONTEXT,primary_frame,4,mental health and therapy risk,15,0.3333333333333333,0.06666666666666667,0.1111111111111111
+PERMUTED_CONTEXT,primary_frame,5,"misinformation, deepfakes, and fraud",48,0.6896551724137931,0.8333333333333334,0.7547169811320755
+PERMUTED_CONTEXT,primary_frame,6,other / unclear,23,0.5185185185185185,0.6086956521739131,0.56
+PERMUTED_CONTEXT,primary_frame,7,public trust and accountability,4,0.0,0.0,0.0
+PERMUTED_CONTEXT,primary_frame,8,"regulation, governance, and policy",34,0.7916666666666666,0.5588235294117647,0.6551724137931034
+PERMUTED_CONTEXT,stance,0,cautious or mixed about ai in health,18,0.3181818181818182,0.7777777777777778,0.45161290322580644
+PERMUTED_CONTEXT,stance,1,critical of ai risks in health,44,0.6,0.6818181818181818,0.6382978723404256
+PERMUTED_CONTEXT,stance,2,focused on regulation and governance,10,0.25,0.8,0.38095238095238093
+PERMUTED_CONTEXT,stance,3,optimistic about ai in health,40,0.5909090909090909,0.65,0.6190476190476191
+PERMUTED_CONTEXT,stance,4,unclear / not applicable,87,0.6551724137931034,0.21839080459770116,0.3275862068965517
+PERMUTED_CONTEXT,misinformation_relation,0,direct misinformation focus,60,0.7727272727272727,0.85,0.8095238095238095
+PERMUTED_CONTEXT,misinformation_relation,1,indirect misinformation concern,20,0.4117647058823529,0.35,0.3783783783783784
+PERMUTED_CONTEXT,misinformation_relation,2,no clear misinformation relation,95,0.8142857142857143,0.6,0.6909090909090909
+PERMUTED_CONTEXT,misinformation_relation,3,unclear / not applicable,24,0.391304347826087,0.75,0.5142857142857142

@@ -1,0 +1,8 @@
+task,class_id,class_label,support,base_recall,stage_a_recall,delta_recall,base_f1,stage_a_f1,delta_f1,recovered_nonzero_recall
+primary_frame,0,"access, inequality, and digital divide",5,0.0,0.0,0.0,0.0,0.0,0.0,False
+primary_frame,2,health safety risk and medical harm,14,0.0,0.7857142857142857,0.7857142857142857,0.0,0.6875,0.6875,True
+primary_frame,4,mental health and therapy risk,15,0.0,0.13333333333333333,0.13333333333333333,0.0,0.21052631578947367,0.21052631578947367,True
+primary_frame,7,public trust and accountability,4,0.0,0.0,0.0,0.0,0.0,0.0,False
+stance,0,cautious or mixed about ai in health,18,0.0,0.7777777777777778,0.7777777777777778,0.0,0.45161290322580644,0.45161290322580644,True
+stance,2,focused on regulation and governance,10,0.0,0.6,0.6,0.0,0.3,0.3,True
+misinformation_relation,1,indirect misinformation concern,20,0.0,0.25,0.25,0.0,0.29411764705882354,0.29411764705882354,True

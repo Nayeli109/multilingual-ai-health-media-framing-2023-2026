@@ -1,0 +1,16 @@
+EVENTGOLD35 INTER-ANNOTATOR AGREEMENT AFTER EXACT-TEXT RECHECK v1
+================================================================
+
+Agreement was calculated before adjudication.
+The 8 corrective rechecks replaced only the corresponding
+independent labels for the mechanically identified affected rows.
+The remaining 27 annotations were retained unchanged.
+
+primary_frame: 32/35 (91.43%), Cohen_kappa=0.889006, disagreements=3
+stance: 33/35 (94.29%), Cohen_kappa=0.909209, disagreements=2
+misinformation_relation: 33/35 (94.29%), Cohen_kappa=0.896755, disagreements=2
+
+TOTAL_TASK_LEVEL_DISAGREEMENTS=7
+
+MODEL_PREDICTIONS_USED=NO
+EVENTGOLD_MODEL_PERFORMANCE_USED=NO

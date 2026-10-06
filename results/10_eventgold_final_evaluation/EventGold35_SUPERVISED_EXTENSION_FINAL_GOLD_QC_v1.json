@@ -1,0 +1,35 @@
+{
+  "adjudicated_task_decisions": 7,
+  "consensus_task_decisions": 98,
+  "dapt_text_complete": true,
+  "dapt_text_matches_frozen_annotation_excerpt_prefix": true,
+  "eventgold_performance_used_for_adjudication": false,
+  "final_label_distributions": {
+    "misinformation_relation": {
+      "direct misinformation focus": 4,
+      "indirect misinformation concern": 9,
+      "no clear misinformation relation": 21,
+      "unclear / not applicable": 1
+    },
+    "primary_frame": {
+      "clinical innovation and diagnostic benefit": 6,
+      "health safety risk and medical harm": 13,
+      "mental health and therapy risk": 2,
+      "misinformation, deepfakes, and fraud": 2,
+      "public trust and accountability": 7,
+      "regulation, governance, and policy": 5
+    },
+    "stance": {
+      "cautious or mixed about AI in health": 17,
+      "critical of AI risks in health": 11,
+      "focused on regulation and governance": 2,
+      "optimistic about AI in health": 4,
+      "unclear / not applicable": 1
+    }
+  },
+  "model_predictions_used_for_adjudication": false,
+  "required_labels_complete": true,
+  "rows": 35,
+  "total_task_decisions": 105,
+  "unique_annotation_ids": 35
+}

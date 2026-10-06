@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# OS/editor
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# HPC / SLURM runtime logs
+slurm-*.out
+*.err
+*.out
+
+# Large model/data artifacts
+*.pt
+*.pth
+*.ckpt
+*.bin
+*.safetensors
+*.tflite
+*.npy
+*.npz
+
+# Raw/private/intermediate data
+data/raw/
+data/private/
+data/intermediate/
+
+# Temporary files
+tmp/
+temp/
+*.tmp

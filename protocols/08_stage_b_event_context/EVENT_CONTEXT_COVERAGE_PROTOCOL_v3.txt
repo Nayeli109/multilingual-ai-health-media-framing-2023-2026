@@ -1,0 +1,113 @@
+EVE-FRAME STAGE B
+UNSUPERVISED EVENT-CONTEXT COVERAGE AUDIT v3
+==============================================
+
+STATUS
+Frozen before computing LegacyAux event-context coverage.
+
+PURPOSE
+Determine whether the clean unlabeled corpus provides sufficient
+temporally local and semantically similar context for a later
+event-conditioned EVE-FRAME branch.
+
+THIS IS NOT MODEL TRAINING.
+
+SUPERVISED DEVELOPMENT SET
+LegacyAux-199.
+
+UNLABELED CONTEXT UNIVERSE
+Corpus1502_document_holdout_v3.csv.
+
+LegacyAux documents are excluded from context construction.
+
+Exact title/text duplicates of LegacyAux documents are also excluded.
+
+Expected clean background:
+1254 documents.
+
+EVENTGOLD
+EventGold-35 remains sealed.
+
+The 1502-document corpus is the document-holdout corpus and therefore
+does not include the 35 held-out EventGold documents.
+
+EMBEDDINGS
+models/embeddings/
+full_paraphrase_multilingual_mpnet_embeddings_v1.npy
+
+Expected shape:
+1537 x 768.
+
+Embedding row order has been verified to match exactly:
+- data/processed/corpus_usable_full_v1.csv
+- results/tables/topics_full_v1/document_topics_full_v1.csv
+- 00_redesign_v2/01_manifest/document_manifest_v2_draft.csv
+
+No topic labels are used for retrieval.
+
+No supervised labels are used for retrieval.
+
+No language, country, region, source, frame, stance, or
+misinformation label is used as a retrieval gate.
+
+SIMILARITY
+Cosine similarity after explicit L2 normalization of embeddings.
+
+HISTORICAL COVERAGE REGIMES
+
+BROAD
+absolute publication-date difference <= 14 days
+AND cosine similarity >= 0.68
+
+STRICT
+absolute publication-date difference <= 7 days
+AND cosine similarity >= 0.75
+
+These regimes are evaluated because their temporal/semantic thresholds
+were specified in the historical event-matching workflow before the
+current Stage-A results.
+
+They are NOT selected according to LegacyAux labels or Stage-A
+performance.
+
+DIAGNOSTICS PER LEGACYAUX ARTICLE
+For each regime report:
+- number of qualifying neighbors
+- maximum cosine similarity
+- mean cosine similarity
+- median cosine similarity
+- minimum absolute temporal distance
+- median absolute temporal distance
+- number of unique source domains
+- number of unique countries
+- number of unique languages
+- number of cross-source neighbors
+- number of cross-country neighbors
+- number of cross-language neighbors
+
+Also retain top-neighbor records for later manual inspection.
+
+COVERAGE SUMMARIES
+Report:
+- articles with >=1 neighbor
+- articles with >=2 neighbors
+- articles with >=3 neighbors
+- articles with >=5 neighbors
+- articles with cross-source support
+- articles with cross-country support
+- articles with cross-language support
+- neighbor-count distribution
+- top-1 similarity distribution
+- temporal-distance distribution
+
+DECISION BOUNDARY
+This audit does not choose the final Stage-B architecture.
+
+No LegacyAux target label may be used to determine whether BROAD or
+STRICT is preferred.
+
+The next architectural decision will depend only on unsupervised
+coverage, contextual diversity, and scientific plausibility.
+
+EventGold-35 status:
+SEALED.

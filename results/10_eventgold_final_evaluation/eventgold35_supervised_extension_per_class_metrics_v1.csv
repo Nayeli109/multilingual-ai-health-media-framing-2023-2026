@@ -1,0 +1,19 @@
+task,class_id,class_label,support,precision,recall,f1
+primary_frame,0,"access, inequality, and digital divide",0,0.0,0.0,0.0
+primary_frame,1,clinical innovation and diagnostic benefit,6,0.45454545454545453,0.8333333333333334,0.5882352941176471
+primary_frame,2,health safety risk and medical harm,13,0.16666666666666666,0.07692307692307693,0.10526315789473684
+primary_frame,3,labor automation and professional displacement,0,0.0,0.0,0.0
+primary_frame,4,mental health and therapy risk,2,0.5,1.0,0.6666666666666666
+primary_frame,5,"misinformation, deepfakes, and fraud",2,0.5,0.5,0.5
+primary_frame,6,other / unclear,0,0.0,0.0,0.0
+primary_frame,7,public trust and accountability,7,0.0,0.0,0.0
+primary_frame,8,"regulation, governance, and policy",5,0.45454545454545453,1.0,0.625
+stance,0,cautious or mixed about ai in health,17,0.5,0.29411764705882354,0.37037037037037035
+stance,1,critical of ai risks in health,11,0.625,0.45454545454545453,0.5263157894736842
+stance,2,focused on regulation and governance,2,0.25,1.0,0.4
+stance,3,optimistic about ai in health,4,0.3333333333333333,0.5,0.4
+stance,4,unclear / not applicable,1,0.3333333333333333,1.0,0.5
+misinformation_relation,0,direct misinformation focus,4,1.0,1.0,1.0
+misinformation_relation,1,indirect misinformation concern,9,0.3076923076923077,0.4444444444444444,0.36363636363636365
+misinformation_relation,2,no clear misinformation relation,21,0.7222222222222222,0.6190476190476191,0.6666666666666666
+misinformation_relation,3,unclear / not applicable,1,0.0,0.0,0.0

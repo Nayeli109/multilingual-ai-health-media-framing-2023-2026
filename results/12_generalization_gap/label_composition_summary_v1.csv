@@ -1,0 +1,4 @@
+task,total_variation_distance,jensen_shannon_divergence_nats
+primary_frame,0.48097631012203884,0.21436993852429403
+stance,0.4953338119167265,0.1924022805255517
+misinformation_relation,0.2792534099066762,0.058364089811509846

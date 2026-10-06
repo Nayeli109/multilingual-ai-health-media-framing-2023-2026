@@ -1,0 +1,182 @@
+SUPERVISED TRANSFORMER STATISTICAL ANALYSIS PLAN v3
+===================================================
+
+STATUS
+Frozen after completion and numerical validation of all 120 supervised
+fine-tuning configurations, but before inspection of aggregate BASE-vs-DAPT
+OOF results.
+
+EXPERIMENT
+Data: LegacyAux-199
+Tasks:
+1. primary_frame
+2. stance
+3. misinformation_relation
+
+Initializations:
+1. XLMR_BASE
+2. XLMR_DAPT_INDUCTIVE
+
+Evaluation:
+4 frozen outer folds
+5 declared model seeds: 11, 29, 47, 83, 131
+
+All 120 configurations passed the frozen numerical audit.
+
+EventGold-35 remains sealed.
+
+------------------------------------------------------------
+UNIT OF ANALYSIS
+------------------------------------------------------------
+
+The article is the inferential unit.
+
+Seeds are repeated stochastic model fits and are NOT treated as
+independent observations for statistical inference.
+
+------------------------------------------------------------
+OOF ENSEMBLE CONSTRUCTION
+------------------------------------------------------------
+
+For each:
+- task
+- outer fold
+- initialization
+- held-out article
+
+the predicted class-probability vectors from the five declared seeds
+will be averaged arithmetically.
+
+The ensemble OOF prediction is:
+
+argmax(mean probability vector across the five seeds).
+
+Each article therefore contributes exactly one OOF prediction for BASE
+and exactly one OOF prediction for DAPT within each task.
+
+No article may appear more than once in a task-level OOF vector.
+
+------------------------------------------------------------
+PRIMARY PERFORMANCE ENDPOINT
+------------------------------------------------------------
+
+Macro-F1.
+
+Primary contrast for each task:
+
+Delta = MacroF1(DAPT) - MacroF1(BASE)
+
+Positive Delta favors DAPT numerically.
+Negative Delta favors BASE numerically.
+
+No interpretation will be based on individual folds or individual seeds.
+
+------------------------------------------------------------
+SECONDARY PERFORMANCE METRICS
+------------------------------------------------------------
+
+- Balanced accuracy
+- Accuracy
+- Weighted F1
+- Per-class precision
+- Per-class recall
+- Per-class F1
+- Confusion matrices
+
+Seed-level metric distributions will be reported as measures of
+optimization variability, not as independent inferential replicates.
+
+------------------------------------------------------------
+UNCERTAINTY FOR PRIMARY CONTRAST
+------------------------------------------------------------
+
+Paired stratified bootstrap at the ARTICLE level.
+
+Resampling is performed within true-label strata so that rare classes
+remain represented.
+
+Replicates: 10,000.
+
+For each bootstrap replicate:
+1. resample article indices with replacement within true-label strata;
+2. preserve the BASE/DAPT pairing for each sampled article;
+3. compute Macro-F1 for BASE;
+4. compute Macro-F1 for DAPT;
+5. record Delta = DAPT - BASE.
+
+Report:
+- observed Delta
+- bootstrap mean Delta
+- 95% percentile confidence interval
+- bootstrap probability Delta > 0
+
+------------------------------------------------------------
+PAIRED RANDOMIZATION TEST
+------------------------------------------------------------
+
+For each task, use an article-level paired randomization test.
+
+For each article independently, swap the entire BASE and DAPT ensemble
+probability vectors with probability 0.5 under the null of
+exchangeability.
+
+For every randomized replicate:
+- derive predicted classes by argmax;
+- recompute Macro-F1 for each initialization;
+- compute Delta.
+
+Replicates: 10,000.
+
+Primary p-value:
+two-sided empirical randomization p-value using the finite-sample
+plus-one correction:
+
+p = (1 + number(|Delta_null| >= |Delta_observed|)) / (B + 1)
+
+------------------------------------------------------------
+MULTIPLE COMPARISONS
+------------------------------------------------------------
+
+The three task-level primary Macro-F1 randomization p-values will be
+corrected using Benjamini-Hochberg FDR.
+
+Report both raw p and BH-adjusted q.
+
+Primary inferential claims are restricted to the predeclared
+task-level Macro-F1 contrasts.
+
+Secondary metric inference, if computed, will be clearly labeled
+secondary/exploratory.
+
+------------------------------------------------------------
+SEED STABILITY
+------------------------------------------------------------
+
+For descriptive robustness only, report performance across the five
+seeds for every task, fold, and initialization.
+
+Seed variability does not replace article-level paired inference.
+
+------------------------------------------------------------
+INTERPRETATION RULE
+------------------------------------------------------------
+
+A numerically positive or negative Delta alone will not be interpreted
+as evidence of superiority.
+
+Interpretation will jointly consider:
+- effect magnitude
+- 95% paired bootstrap CI
+- randomization p-value
+- BH-adjusted q-value
+- class-level error structure
+- cross-fold/seed stability
+
+------------------------------------------------------------
+DATA SEPARATION
+------------------------------------------------------------
+
+EventGold-35 remains sealed throughout this analysis.
+
+No LegacyAux result from this analysis will be used to modify the
+already completed 120-run supervised experiment.

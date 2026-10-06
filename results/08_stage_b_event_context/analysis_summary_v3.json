@@ -1,0 +1,105 @@
+{
+  "status": "STAGE_B_COMPARISON_ANALYSIS_COMPLETE",
+  "analysis_design": {
+    "primary_family": "VERIFIED_CONTEXT_vs_STAGE_A_NO_EVENT",
+    "context_specificity_family": "VERIFIED_CONTEXT_vs_PERMUTED_CONTEXT",
+    "primary_metric": "five-seed probability-ensemble OOF Macro-F1",
+    "inferential_unit": "article",
+    "n_articles_per_task": 199,
+    "training_seeds": [
+      11,
+      29,
+      47,
+      83,
+      131
+    ],
+    "bootstrap_replicates": 10000,
+    "randomization_replicates": 10000,
+    "multiple_testing": "Benjamini-Hochberg separately across 3 tasks within each family"
+  },
+  "frozen_inputs": {
+    "analysis_plan_sha256": "2c0dd392647994298d8888e17d8ad85303612987ce0a694f302d202ebba400e5",
+    "statistical_implementation_lock_sha256": "92c734c2b63a06b5b34cb9f20ca917004c868c9b4a9d6e8404f0f766f87beadb",
+    "prediction_input_manifest_sha256": "298760125cf13293db0ebf9330f82cfef0448cfcef84806be950696680407c9c",
+    "analysis_script_sha256": "76bf72bafc71c5140845270cbe527d91506dc265232813fd6d0c7bc4a2d34b3a"
+  },
+  "primary_family": {
+    "primary_frame": {
+      "macro_f1_verified_context": 0.4356589149434375,
+      "macro_f1_stage_a_no_event": 0.4539360175801823,
+      "delta_macro_f1": -0.018277102636744813,
+      "bootstrap_ci95": [
+        -0.054501228979153174,
+        0.012679028541810149
+      ],
+      "randomization_p_two_sided": 0.35706429357064295,
+      "bh_q_within_family": 0.3817618238176183
+    },
+    "stance": {
+      "macro_f1_verified_context": 0.486441703648609,
+      "macro_f1_stage_a_no_event": 0.4698271747934443,
+      "delta_macro_f1": 0.01661452885516468,
+      "bootstrap_ci95": [
+        -0.018628864108428907,
+        0.0557498212411574
+      ],
+      "randomization_p_two_sided": 0.38176182381761825,
+      "bh_q_within_family": 0.3817618238176183
+    },
+    "misinformation_relation": {
+      "macro_f1_verified_context": 0.6138364686419606,
+      "macro_f1_stage_a_no_event": 0.5693613561924165,
+      "delta_macro_f1": 0.04447511244954416,
+      "bootstrap_ci95": [
+        0.004095029884291563,
+        0.09166486172459523
+      ],
+      "randomization_p_two_sided": 0.07589241075892411,
+      "bh_q_within_family": 0.22767723227677233
+    }
+  },
+  "context_specificity_family": {
+    "primary_frame": {
+      "macro_f1_verified_context": 0.4356589149434375,
+      "macro_f1_permuted_context": 0.43708647597934086,
+      "delta_macro_f1": -0.0014275610359033575,
+      "bootstrap_ci95": [
+        -0.020023432613986668,
+        0.01571591726062844
+      ],
+      "randomization_p_two_sided": 0.8387161283871613,
+      "bh_q_within_family": 1.0
+    },
+    "stance": {
+      "macro_f1_verified_context": 0.486441703648609,
+      "macro_f1_permuted_context": 0.4834993964925568,
+      "delta_macro_f1": 0.002942307156052204,
+      "bootstrap_ci95": [
+        -0.01103503471089318,
+        0.017249072299677325
+      ],
+      "randomization_p_two_sided": 1.0,
+      "bh_q_within_family": 1.0
+    },
+    "misinformation_relation": {
+      "macro_f1_verified_context": 0.6138364686419606,
+      "macro_f1_permuted_context": 0.5982742482742482,
+      "delta_macro_f1": 0.015562220367712376,
+      "bootstrap_ci95": [
+        0.0,
+        0.04395218775263281
+      ],
+      "randomization_p_two_sided": 0.5004499550044995,
+      "bh_q_within_family": 1.0
+    }
+  },
+  "interpretation_constraints": {
+    "legacyaux_status": "DEVELOPMENTAL_EVIDENCE",
+    "null_result_is_equivalence": false,
+    "bootstrap_fraction_is_bayesian_posterior": false,
+    "seeds_are_inferential_observations": false,
+    "folds_are_inferential_observations": false,
+    "causal_claim_from_permuted_control": false,
+    "eventgold_status": "SEALED_NOT_ACCESSED"
+  }
+}

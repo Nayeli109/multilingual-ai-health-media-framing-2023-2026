@@ -1,0 +1,160 @@
+EVE-FRAME STAGE B
+CONTEXT TEXT SOURCE FREEZE v3
+=============================
+
+STATUS
+Frozen before contextual XLM-R embedding extraction.
+
+==================================================
+CANONICAL CONTEXT CORPUS
+==================================================
+
+File:
+01_event_aware_v3/01_data_audit/Corpus1502_document_holdout_v3.csv
+
+SHA256:
+8998f17cdb16550fb581f9dc21dbae8e064839cb6dbfcffc1445f2b433bc49f7
+
+Rows:
+1502
+
+Unique doc_id:
+1502
+
+Canonical text field:
+dapt_text
+
+dapt_text provenance:
+document_for_modeling
+
+dapt_text_source:
+document_for_modeling for all 1502 documents.
+
+==================================================
+TEXT EQUIVALENCE AUDIT
+==================================================
+
+LegacyAux file SHA256:
+81523ab0ada98c4ef3f8b2adeed03f888dd94c8a746dc9c80661cf4ceb16f583
+
+Corpus1502_DAPT_text_v3.csv SHA256:
+994e9f5dc1e784190a37c05d39b3ea8b4b4edb53927942c33f6475175b7e6bf7
+
+LegacyAux versus canonical holdout:
+
+199 / 199 LegacyAux documents matched exactly on dapt_text.
+
+Mismatches:
+0.
+
+Canonical holdout versus Corpus1502_DAPT_text_v3:
+
+1502 / 1502 documents matched exactly on dapt_text.
+
+Left/right-only documents:
+0.
+
+Mismatches:
+0.
+
+Within canonical holdout:
+
+dapt_text == document_for_modeling:
+1502 / 1502.
+
+Differences:
+0.
+
+==================================================
+VERIFIED BACKGROUND COVERAGE
+==================================================
+
+Verified event-neighbor pairs:
+112.
+
+Unique verified background documents:
+81.
+
+Verified background IDs recovered from canonical corpus:
+81 / 81.
+
+Missing:
+0.
+
+Verified background documents with non-empty dapt_text:
+81 / 81.
+
+Observed dapt_text character lengths:
+
+minimum:
+482
+
+median:
+4163
+
+maximum:
+13614
+
+==================================================
+STAGE-A COMPATIBILITY
+==================================================
+
+Stage-A trainer SHA256:
+62f5f55fcdeaf4e5c947313bcc326daa8ceb225e2ab954ffa7b24430e1e760b9
+
+Stage-A supervised input field:
+dapt_text.
+
+Stage-A model:
+FacebookAI/xlm-roberta-base.
+
+Context representations must use the same:
+
+max_length = 256
+stride = 32
+max_chunks = 8
+
+and the same overlap-aware document pooling implementation.
+
+The overlap-aware pooling procedure:
+
+1. encode all retained chunks;
+2. exclude special tokens;
+3. identify repeated overlapping token instances by
+   (character_start, character_end, token_id);
+4. average hidden representations across duplicate overlapping
+   instances of the same token key;
+5. average the resulting unique-token representations to produce
+   one 768-dimensional document vector.
+
+==================================================
+EXCLUSIONS
+==================================================
+
+The 1537-document full corpus is NOT used as the Stage-B context-text
+source.
+
+Only the frozen Clean1502 canonical corpus above is permitted.
+
+EventGold-35 remains SEALED and is not accessed.
+
+No main-task label is used for contextual embedding extraction.
+
+No topic, language, country, region, source-domain, or outlet variable
+is used to construct the contextual representation.
+
+==================================================
+FROZEN DECISION
+==================================================
+
+All Stage-B verified background contextual representations must be
+generated from:
+
+Corpus1502_document_holdout_v3.csv
+
+using:
+
+dapt_text
+
+No alternate text field or alternate corpus version may replace this
+source after Stage-B supervised results are observed.

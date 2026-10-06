@@ -1,0 +1,47 @@
+{
+  "status": "COMPLETE",
+  "evaluation": "EVENTGOLD35_SUPERVISED_EXTENSION_FINAL",
+  "architecture": "STAGE_A_NO_EVENT",
+  "n_articles": 35,
+  "tasks": [
+    "primary_frame",
+    "stance",
+    "misinformation_relation"
+  ],
+  "seeds": [
+    11,
+    29,
+    47,
+    83,
+    131
+  ],
+  "ensemble": "equal_mean_probability_5_seeds_per_task",
+  "primary_metric": "macro_f1",
+  "secondary_metrics": [
+    "balanced_accuracy",
+    "accuracy",
+    "weighted_f1"
+  ],
+  "additional_descriptive_outputs": [
+    "per_class_precision_recall_f1_support",
+    "full_label_universe_confusion_matrix"
+  ],
+  "bootstrap": {
+    "replicates": 10000,
+    "stratified_by": "gold_label_within_task",
+    "ci": "percentile_2.5_97.5",
+    "quantile_method": "linear",
+    "rng_seeds": {
+      "primary_frame": 2026092701,
+      "stance": 2026092702,
+      "misinformation_relation": 2026092703
+    }
+  },
+  "hypothesis_testing": "NONE",
+  "final_gold_sha256": "4b2f271386a1b092e7d0b31ed382a234252ae649ff2580c75774a7276708fd6d",
+  "checkpoint_manifest_sha256": "05d8cbfb7aba539d149af8925dda435de58cdfa4f5cd28e6d8b6344671da860a",
+  "checkpoint_freeze_sha256": "946413f086bdb70aca8e905d5e95e646f54fd91e28929a6fbe2e4dfd2fb17cb2",
+  "evaluation_protocol_sha256": "7dd54e5fe8ac6ccadeb21f882c446f0fd7e4860a38e06ecd34e57c5c6ca3c405",
+  "evaluation_rng_sha256": "4c15cd3357629e5a0e9fc48c08e80ec7dcbf2a81e4800ad5308b64ea1b82405d",
+  "final_gold_status": "ACCESSED_SUPERVISED_EXTENSION_FINAL"
+}

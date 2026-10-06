@@ -1,0 +1,4 @@
+task,previously_zero_recall_classes,recovered_nonzero_recall_classes,recovery_fraction
+misinformation_relation,1,1,1.0
+primary_frame,4,2,0.5
+stance,2,2,1.0

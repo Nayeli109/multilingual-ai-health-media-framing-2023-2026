@@ -1,0 +1,365 @@
+EVE-FRAME STAGE B
+VERIFIED EVENT PROTOTYPE CONSTRUCTION PROTOCOL v3
+==================================================
+
+STATUS
+Frozen before event-prototype construction and before any Stage-B
+supervised training.
+
+This stage performs deterministic aggregation only.
+
+No supervised model is trained here.
+
+==================================================
+1. SCIENTIFIC PURPOSE
+==================================================
+
+For each LegacyAux target article with independently verified
+same-event background neighbors, construct one frozen event-context
+prototype.
+
+The prototype represents the verified external event context and is
+kept separate from the trainable Stage-B target-document encoder.
+
+==================================================
+2. FROZEN INPUT RELATIONS
+==================================================
+
+Verified event-neighbor table:
+
+verified_context_v3/verified_event_neighbor_pairs_v3.csv
+
+SHA256:
+
+43f4585b9c2114ef7f06f5f10aaf8cf1c35f3211f8a459301278b4e823d58cc6
+
+Verified pairs:
+
+112.
+
+Each retained pair has:
+
+verified_event_neighbor = 1.
+
+Unique LegacyAux targets with verified context:
+
+51.
+
+LegacyAux targets with NO_CONTEXT:
+
+148.
+
+Total LegacyAux targets:
+
+199.
+
+No unverified pair may enter prototype construction.
+
+==================================================
+3. FROZEN BACKGROUND REPRESENTATIONS
+==================================================
+
+Embedding matrix:
+
+context_embeddings_v3/
+context_background_embeddings_xlmr_v3.npy
+
+SHA256:
+
+3cf6e72a6da04a49fa032cb97984d4e851111cd306f0e28d65141212cb0d15d4
+
+Shape:
+
+81 x 768.
+
+dtype:
+
+float32.
+
+Embedding manifest:
+
+context_embeddings_v3/
+context_background_embedding_manifest_v3.csv
+
+SHA256:
+
+6dcd4722cc3354a56d678eb8b46eac71adec8ef4705e35eb01221a645d2534a2
+
+Unique encoded background documents:
+
+81.
+
+Context-embedding final closure SHA256:
+
+ce1d26936cee5ca201f6c97740b658771105a886ca5621ae37e1f3541dce8e73
+
+==================================================
+4. CONTEXT-AVAILABILITY RESOURCE
+==================================================
+
+Article-level verified-context table:
+
+verified_context_v3/
+verified_context_by_legacyaux_doc_v3.csv
+
+SHA256:
+
+c0102a3e0c02ec042b3eb4e4f4cd01c155227042148e3559f79d0f31e24007fa
+
+Expected rows:
+
+199.
+
+Expected context_available = 1:
+
+51.
+
+Expected context_available = 0:
+
+148.
+
+This resource contains no primary-frame, stance, or
+misinformation-relation target labels.
+
+==================================================
+5. PROTOTYPE DEFINITION
+==================================================
+
+For target article i, let R_i be the set of all background documents
+accepted by the frozen event verifier.
+
+For every context-available article:
+
+e_i = (1 / |R_i|) * sum_{j in R_i} h_j
+
+where:
+
+h_j =
+the frozen 768-dimensional XLM-R background representation.
+
+Every verified neighbor receives exactly equal weight.
+
+No verifier probability is used as a weight.
+
+No cosine similarity is used as a weight.
+
+No temporal-distance weighting is used.
+
+No learned attention is used.
+
+No top-k truncation is used.
+
+All verified neighbors are retained.
+
+==================================================
+6. NUMERICAL AGGREGATION
+==================================================
+
+Input vectors are stored as float32.
+
+For deterministic numerical aggregation:
+
+1. load each selected background vector;
+2. convert selected vectors to float64;
+3. compute the arithmetic mean in float64;
+4. verify all values are finite;
+5. convert the final prototype to float32 for storage.
+
+Stored prototype dtype:
+
+float32.
+
+Expected prototype dimension:
+
+768.
+
+==================================================
+7. PROTOTYPE ORDERING
+==================================================
+
+Only the 51 context-available LegacyAux targets receive prototype rows.
+
+Prototype rows are stored in deterministic lexicographic
+legacy_doc_id order.
+
+Expected prototype matrix shape:
+
+51 x 768.
+
+Expected prototype manifest rows:
+
+51.
+
+Expected unique prototype legacy_doc_id:
+
+51.
+
+==================================================
+8. NO_CONTEXT REPRESENTATION
+==================================================
+
+The 148 LegacyAux articles with no verified event neighbor do NOT
+receive an event prototype.
+
+For these articles:
+
+context_available = 0
+
+prototype_row_index = missing
+
+No nearest-neighbor fallback is used.
+
+No same-topic fallback is used.
+
+No zero vector is declared to be an event prototype.
+
+The later Stage-B trainer implements the exact NO_CONTEXT invariant
+through the separate context-availability mask.
+
+==================================================
+9. REQUIRED CROSS-CHECKS
+==================================================
+
+Before constructing prototypes, verify:
+
+- pair-table SHA256;
+- embedding-matrix SHA256;
+- embedding-manifest SHA256;
+- context-availability table SHA256;
+- context-embedding closure SHA256;
+
+and:
+
+- exactly 112 verified pairs;
+- exactly 81 unique background IDs in the pair table;
+- exactly 81 embedding-manifest IDs;
+- all pair-table background IDs exist in the embedding manifest;
+- no duplicate target/background pair exists;
+- exactly 51 unique context-available target IDs;
+- exactly 199 article-level availability rows;
+- exactly 51 context_available = 1;
+- exactly 148 context_available = 0;
+- pair-derived neighbor counts exactly match article-level frozen
+  n_verified_event_neighbors.
+
+==================================================
+10. REQUIRED OUTPUTS
+==================================================
+
+1. verified_event_prototypes_xlmr_v3.npy
+
+Expected shape:
+51 x 768.
+
+Expected dtype:
+float32.
+
+2. verified_event_prototype_manifest_v3.csv
+
+Required fields:
+- row_index
+- legacy_doc_id
+- n_verified_neighbors
+- prototype_norm
+
+3. verified_event_prototype_membership_v3.csv
+
+One row per verified target/background relation.
+
+Expected rows:
+112.
+
+Required fields:
+- legacy_doc_id
+- background_doc_id
+- prototype_row_index
+- background_embedding_row_index
+
+4. context_availability_legacyaux199_v3.csv
+
+Expected rows:
+199.
+
+Required fields:
+- legacy_doc_id
+- context_available
+- n_verified_event_neighbors
+- prototype_row_index
+
+For NO_CONTEXT rows:
+prototype_row_index is missing.
+
+5. EVE_FRAME_STAGE_B_EVENT_PROTOTYPE_RESULTS_v3.json
+
+6. EVE_FRAME_STAGE_B_EVENT_PROTOTYPE_SHA256SUMS_v3.txt
+
+==================================================
+11. OUTPUT INTEGRITY
+==================================================
+
+After construction verify:
+
+- prototype matrix shape == (51, 768);
+- prototype dtype == float32;
+- all prototype values finite;
+- all prototype norms finite and > 0;
+- exactly 51 manifest rows;
+- no duplicate target IDs;
+- prototype row ordering equals manifest row ordering;
+- exactly 112 membership rows;
+- exactly 199 availability rows;
+- 51 context_available rows map to exactly one valid prototype row;
+- 148 NO_CONTEXT rows have no prototype row;
+- no background document outside the frozen verified pair table is
+  used.
+
+==================================================
+12. ARCHITECTURAL COMPATIBILITY
+==================================================
+
+Frozen Stage-B architecture protocol SHA256:
+
+076ca9b3a99997b83d1ce43ca75fa59cc151f968d6c34c9fae92ef1ddf96c93f
+
+The resulting event prototype e_i is the frozen input to the
+predeclared Stage-B context projection:
+
+c_i =
+m_i * LayerNorm(W_c e_i + b_c)
+
+and scalar gate:
+
+g_i =
+m_i * sigmoid(w_g^T [z_i ; c_i] + b_g)
+
+No projection or gate is trained during prototype construction.
+
+==================================================
+13. EXCLUSIONS
+==================================================
+
+No primary_frame label is used.
+
+No stance label is used.
+
+No misinformation_relation label is used.
+
+No topic label is used.
+
+No language, country, region, source-domain, or outlet variable is
+used in prototype aggregation.
+
+No verifier probability weighting is used.
+
+No Stage-B supervised result is consulted.
+
+EventGold-35 remains SEALED.
+
+==================================================
+14. FREEZE RULE
+==================================================
+
+Once this protocol is hashed, prototype membership, aggregation rule,
+numerical accumulation precision, output ordering, NO_CONTEXT handling,
+and required integrity checks may not be changed in response to
+Stage-B supervised performance.

@@ -1,0 +1,729 @@
+EVE-FRAME STAGE B
+STATISTICAL IMPLEMENTATION LOCK v3
+============================================================
+
+STATUS
+FROZEN BEFORE STAGE-B AGGREGATED PERFORMANCE ANALYSIS.
+
+This file fixes implementation details that are not intended to vary
+after inspection of Stage-B aggregate performance results.
+
+============================================================
+1. ANALYSIS PLAN
+============================================================
+
+Frozen Stage-B comparison analysis plan SHA256:
+
+2c0dd392647994298d8888e17d8ad85303612987ce0a694f302d202ebba400e5
+
+The implementation must conform to that plan.
+
+============================================================
+2. INPUT SYSTEMS
+============================================================
+
+SYSTEM A
+VERIFIED_CONTEXT
+
+Source root:
+
+01_event_aware_v3/08_eve_frame_stage_b_event_context/
+stage_b_runs_v3/verified_context
+
+Expected prediction files:
+60
+
+Expected architecture field:
+
+EVE_FRAME_STAGE_B_VERIFIED_CONTEXT
+
+
+SYSTEM B
+PERMUTED_CONTEXT
+
+Source root:
+
+01_event_aware_v3/08_eve_frame_stage_b_event_context/
+stage_b_runs_v3/permuted_context
+
+Expected prediction files:
+60
+
+Expected architecture field:
+
+EVE_FRAME_STAGE_B_PERMUTED_CONTEXT
+
+
+SYSTEM C
+STAGE_A_NO_EVENT
+
+Source root:
+
+01_event_aware_v3/07_eve_frame_stage_a_no_event/runs_v3
+
+Expected prediction files:
+60
+
+Expected architecture field:
+
+EVE_FRAME_STAGE_A_NO_EVENT
+
+
+Every run-level prediction artifact must be named:
+
+outer_test_predictions_v3.csv
+
+============================================================
+3. TASKS
+============================================================
+
+Task order is fixed as:
+
+1. primary_frame
+2. stance
+3. misinformation_relation
+
+This task order is used for:
+
+- output tables;
+- seed assignment;
+- BH multiplicity correction.
+
+============================================================
+4. MODEL SEEDS
+============================================================
+
+Expected training seeds:
+
+11
+29
+47
+83
+131
+
+For every task/system/article, exactly five probability vectors must
+contribute to the final ensemble OOF probability vector.
+
+Seeds are not inferential observations.
+
+============================================================
+5. PREDICTION FILE SCHEMA
+============================================================
+
+Required non-probability columns:
+
+doc_id
+task
+outer_fold
+architecture
+initialization
+seed
+gold_id
+gold_label
+prediction_id
+prediction_label
+
+Probability columns are detected ONLY by the exact regular expression:
+
+^prob_class_[0-9]+$
+
+Logit columns are not used for primary inference.
+
+Class probability columns are ordered by the integer suffix.
+
+Example:
+
+prob_class_0
+prob_class_1
+prob_class_2
+prob_class_3
+
+must map to class IDs:
+
+0
+1
+2
+3
+
+No lexical ordering that could place class 10 before class 2 is
+permitted.
+
+The detected probability-column set must be identical across all five
+seeds of a task/system and identical across paired systems for a task.
+
+============================================================
+6. CLASS SPACE
+============================================================
+
+For each task, K is determined from the frozen probability-column
+schema after verifying contiguous class IDs:
+
+0, 1, ..., K-1.
+
+gold_id must be integer-valued and must belong to:
+
+{0, 1, ..., K-1}.
+
+Macro-F1 is computed with:
+
+sklearn.metrics.f1_score(
+    y_true,
+    y_pred,
+    labels=list(range(K)),
+    average="macro",
+    zero_division=0
+)
+
+The complete declared class space is therefore retained even if one
+class receives no predictions.
+
+============================================================
+7. PROBABILITY VALIDATION
+============================================================
+
+For every prediction row:
+
+- all probabilities must be finite;
+- every probability must lie within [0,1] up to numerical tolerance;
+- row sum must equal 1 within absolute tolerance 1e-5.
+
+If a probability vector violates these checks, analysis must stop.
+
+No probability renormalization is permitted.
+
+No clipping is permitted.
+
+No temperature scaling is permitted.
+
+No threshold optimization is permitted.
+
+============================================================
+8. FIVE-SEED ENSEMBLE
+============================================================
+
+For a fixed:
+
+task
+system
+doc_id
+
+the five seed-level probability vectors are averaged elementwise using
+float64 arithmetic.
+
+For article i and class k:
+
+p_bar_ik =
+mean_s p_isk
+
+where s spans exactly:
+
+11, 29, 47, 83, 131.
+
+Final class prediction:
+
+argmax_k p_bar_ik
+
+NumPy argmax behavior is retained for exact ties:
+the lowest class index is selected.
+
+No majority vote over seed-level class predictions is permitted.
+
+No fold metric averaging is permitted.
+
+No seed metric averaging is permitted for the primary endpoint.
+
+============================================================
+9. OOF ARTICLE ASSEMBLY
+============================================================
+
+Each system/task must produce exactly:
+
+199 unique OOF article predictions.
+
+Each doc_id must occur in exactly one frozen outer fold.
+
+For each article/system/task:
+
+- exactly five rows are expected;
+- the five rows must have one identical outer_fold;
+- the five rows must have identical gold_id;
+- the five rows must have identical gold_label;
+- the five rows must contain the exact five training seeds.
+
+No article may be duplicated in the final OOF ensemble.
+
+No article may be missing.
+
+============================================================
+10. PAIRING REQUIREMENTS
+============================================================
+
+Before any contrast is calculated, paired systems must have:
+
+- exactly 199 articles each;
+- identical doc_id sets;
+- identical gold_id per doc_id;
+- identical gold_label per doc_id;
+- identical class-probability ordering.
+
+Pairing is performed by doc_id, never by row position alone.
+
+Final paired tables are sorted lexicographically by doc_id before
+statistical inference.
+
+============================================================
+11. PRIMARY POINT ESTIMAND
+============================================================
+
+For each task:
+
+Delta_primary =
+MacroF1(VERIFIED_CONTEXT)
+-
+MacroF1(STAGE_A_NO_EVENT)
+
+For the context-specificity control:
+
+Delta_context =
+MacroF1(VERIFIED_CONTEXT)
+-
+MacroF1(PERMUTED_CONTEXT)
+
+Positive Delta therefore always indicates numerically higher Macro-F1
+for VERIFIED_CONTEXT.
+
+============================================================
+12. BOOTSTRAP
+============================================================
+
+Replicates:
+10,000.
+
+Bootstrap type:
+paired stratified article-level bootstrap.
+
+Stratification variable:
+gold_id.
+
+For each task:
+
+1. Partition the 199 articles by gold_id.
+
+2. Within each class stratum independently, sample article indices with
+   replacement.
+
+3. Draw exactly the original number of articles in that stratum.
+
+4. Concatenate sampled strata in ascending gold_id order.
+
+5. Apply the identical sampled article indices to both systems in the
+   paired contrast.
+
+6. Recompute both systems' Macro-F1 from their ensemble probabilities
+   and sampled gold labels.
+
+7. Record:
+
+   Delta_boot =
+   MacroF1(system_A_boot)
+   -
+   MacroF1(system_B_boot)
+
+Confidence interval:
+
+numpy.quantile(
+    bootstrap_deltas,
+    [0.025, 0.975]
+)
+
+No BCa correction.
+
+No studentization.
+
+No fold-level bootstrap.
+
+No seed-level bootstrap.
+
+The descriptive quantity:
+
+mean(Delta_boot > 0)
+
+is saved but must not be interpreted as a Bayesian posterior
+probability.
+
+============================================================
+13. BOOTSTRAP RNG SEEDS
+============================================================
+
+NumPy generator:
+
+numpy.random.default_rng(seed)
+
+Fixed seeds:
+
+PRIMARY FAMILY
+VERIFIED_CONTEXT vs STAGE_A_NO_EVENT
+
+primary_frame:
+2026092401
+
+stance:
+2026092402
+
+misinformation_relation:
+2026092403
+
+
+CONTEXT-SPECIFICITY FAMILY
+VERIFIED_CONTEXT vs PERMUTED_CONTEXT
+
+primary_frame:
+2026092421
+
+stance:
+2026092422
+
+misinformation_relation:
+2026092423
+
+Each task/family receives its own independently initialized RNG stream.
+
+The bootstrap RNG is not shared with the randomization test.
+
+============================================================
+14. PAIRED PROBABILITY-VECTOR RANDOMIZATION
+============================================================
+
+Replicates:
+10,000.
+
+Randomization unit:
+article.
+
+For each article and replicate, independently draw one Bernoulli(0.5)
+swap indicator.
+
+If swap = 0:
+
+system-A probability vector remains assigned to A;
+system-B probability vector remains assigned to B.
+
+If swap = 1:
+
+the entire K-dimensional probability vector from A and B is exchanged
+for that article.
+
+All K class probabilities move together.
+
+Class coordinates may never be independently permuted.
+
+After swaps:
+
+1. take argmax of randomized probability vectors;
+2. compute Macro-F1 for randomized A;
+3. compute Macro-F1 for randomized B;
+4. compute:
+
+   Delta_perm =
+   MacroF1(A_perm)
+   -
+   MacroF1(B_perm)
+
+The observed test statistic is:
+
+Delta_observed =
+MacroF1(A_observed)
+-
+MacroF1(B_observed)
+
+Two-sided p-value:
+
+p =
+(
+    1
+    +
+    sum(
+        abs(Delta_perm)
+        >=
+        abs(Delta_observed)
+    )
+)
+/
+(10000 + 1)
+
+The comparison uses >=, not >.
+
+The +1 correction is mandatory.
+
+============================================================
+15. RANDOMIZATION RNG SEEDS
+============================================================
+
+NumPy generator:
+
+numpy.random.default_rng(seed)
+
+Fixed seeds:
+
+PRIMARY FAMILY
+VERIFIED_CONTEXT vs STAGE_A_NO_EVENT
+
+primary_frame:
+2026092411
+
+stance:
+2026092412
+
+misinformation_relation:
+2026092413
+
+
+CONTEXT-SPECIFICITY FAMILY
+VERIFIED_CONTEXT vs PERMUTED_CONTEXT
+
+primary_frame:
+2026092431
+
+stance:
+2026092432
+
+misinformation_relation:
+2026092433
+
+Each task/family receives its own independently initialized RNG stream.
+
+============================================================
+16. BENJAMINI-HOCHBERG PROCEDURE
+============================================================
+
+BH is implemented separately for exactly two families.
+
+FAMILY 1:
+
+VERIFIED_CONTEXT
+vs
+STAGE_A_NO_EVENT
+
+Three p-values:
+
+primary_frame
+stance
+misinformation_relation
+
+
+FAMILY 2:
+
+VERIFIED_CONTEXT
+vs
+PERMUTED_CONTEXT
+
+Three p-values:
+
+primary_frame
+stance
+misinformation_relation
+
+
+Implementation:
+
+Given m = 3 p-values:
+
+1. sort p-values ascending;
+
+2. for sorted rank i in 1..m compute:
+
+   raw_q_i =
+   p_i * m / i
+
+3. enforce monotonicity from largest rank to smallest:
+
+   q_i =
+   min(
+       raw_q_i,
+       q_{i+1}
+   )
+
+4. cap adjusted values at 1.0;
+
+5. restore original task order.
+
+No p-values are pooled across the two families.
+
+No descriptive secondary metric enters BH correction.
+
+============================================================
+17. SECONDARY DESCRIPTIVE METRICS
+============================================================
+
+For each final 199-article OOF ensemble:
+
+accuracy:
+
+sklearn.metrics.accuracy_score
+
+balanced accuracy:
+
+sklearn.metrics.balanced_accuracy_score
+
+weighted F1:
+
+sklearn.metrics.f1_score(
+    labels=list(range(K)),
+    average="weighted",
+    zero_division=0
+)
+
+per-class precision / recall / F1:
+
+sklearn.metrics.precision_recall_fscore_support(
+    labels=list(range(K)),
+    zero_division=0
+)
+
+confusion matrix:
+
+sklearn.metrics.confusion_matrix(
+    labels=list(range(K))
+)
+
+These outputs are descriptive.
+
+============================================================
+18. SEED STABILITY
+============================================================
+
+Seed-level performance summaries may be generated descriptively.
+
+They must not be used as independent observations in hypothesis tests.
+
+No t-test, ANOVA, rank test, or confidence interval treating the five
+training seeds as n=5 inferential replicates is permitted.
+
+============================================================
+19. CONTEXT SUBGROUPS
+============================================================
+
+Context-available and NO_CONTEXT subgroup analyses are descriptive.
+
+The frozen context availability table is:
+
+01_event_aware_v3/08_eve_frame_stage_b_event_context/
+event_prototypes_v3/context_availability_legacyaux199_v3.csv
+
+Expected totals:
+
+context_available = 51
+
+NO_CONTEXT = 148
+
+No subgroup threshold may be chosen from observed Stage-B performance.
+
+No subgroup inferential p-value belongs to either confirmatory family.
+
+============================================================
+20. OUTPUT PRECISION
+============================================================
+
+Computations use float64 after CSV ingestion.
+
+Saved CSV/JSON outputs retain Python/NumPy full floating-point
+precision sufficient for reproducibility.
+
+Displayed manuscript values may later be rounded, but inferential
+calculations must always use unrounded values.
+
+============================================================
+21. SOFTWARE
+============================================================
+
+Primary numerical/statistical implementation:
+
+Python 3.11.x
+NumPy
+pandas
+scikit-learn
+
+No stochastic library other than NumPy default_rng is used for the
+bootstrap or paired randomization procedures.
+
+============================================================
+22. FAIL-CLOSED REQUIREMENTS
+============================================================
+
+The analysis script must terminate before inference if any of the
+following occurs:
+
+- missing prediction file;
+- unexpected prediction-file count;
+- unexpected architecture label;
+- unexpected task;
+- unexpected outer fold;
+- unexpected seed;
+- duplicate doc_id/seed combination;
+- non-contiguous probability classes;
+- inconsistent probability-column ordering;
+- non-finite probability;
+- probability outside allowed numerical tolerance;
+- probability row sum outside tolerance;
+- inconsistent gold label across seeds;
+- incomplete five-seed ensemble;
+- final OOF article count other than 199;
+- paired doc_id mismatch;
+- paired gold-label mismatch;
+- frozen input hash mismatch.
+
+============================================================
+23. RESULT INTERPRETATION
+============================================================
+
+Confirmatory inferential support is governed by:
+
+two-sided paired probability-vector randomization p-value
+
+together with:
+
+within-family BH-adjusted q-value.
+
+Bootstrap percentile intervals quantify uncertainty.
+
+The descriptive bootstrap fraction Delta > 0 is not a Bayesian
+posterior.
+
+A non-significant result is not equivalence.
+
+No equivalence claim is permitted.
+
+No independent-validation claim is permitted from LegacyAux-199.
+
+============================================================
+24. EVENTGOLD
+============================================================
+
+EventGold-35 remains:
+
+SEALED_NOT_ACCESSED.
+
+The Stage-B analysis script must not read any EventGold file.
+
+============================================================
+25. IMMUTABILITY
+============================================================
+
+After this implementation lock is hashed:
+
+- RNG seeds must not change;
+- replicate counts must not change;
+- parsing rules must not change;
+- probability tolerance must not change;
+- class ordering must not change;
+- bootstrap design must not change;
+- randomization design must not change;
+- BH families must not change;
+- primary metric must not change.
+
+Any later alternative must be explicitly versioned and labeled
+exploratory.
+
+============================================================
+END OF STATISTICAL IMPLEMENTATION LOCK
+============================================================

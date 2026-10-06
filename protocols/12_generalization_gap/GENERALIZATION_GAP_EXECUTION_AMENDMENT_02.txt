@@ -1,0 +1,91 @@
+Q1 Media Discourse 2026
+GENERALIZATION GAP — EXECUTION AMENDMENT 02
+============================================
+
+STATUS
+------
+DOCUMENTED AFTER FAILED PRE-RESULT JOB 28745
+AND BEFORE CORRECTED v1_2 RESUBMISSION.
+
+FAILED JOB
+----------
+SLURM job: 28745
+State: FAILED
+Exit code: 1:0
+
+FAILURE
+-------
+The v1_1 script correctly located all frozen input artifacts
+but stopped during fail-closed metric reconstruction.
+
+For EventGold primary_frame:
+
+recomputed balanced accuracy:
+0.378917378917379
+
+frozen authoritative balanced accuracy:
+0.5683760683760685
+
+ROOT CAUSE
+----------
+The post-hoc implementation computed balanced accuracy as the
+mean class recall across the full frozen label universe.
+
+The authoritative frozen Stage-A trainer defines metrics using:
+
+balanced_accuracy_score(y_true, y_pred)
+
+without an explicit labels argument.
+
+Therefore balanced accuracy averages recall over classes present
+in y_true rather than assigning zero recall to classes absent from
+the evaluated sample.
+
+The authoritative implementation is:
+
+01_event_aware_v3/07_eve_frame_stage_a_no_event/
+37_train_eve_frame_stage_a_v3.py
+
+SHA-256:
+62f5f55fcdeaf4e5c947313bcc326daa8ceb225e2ab954ffa7b24430e1e760b9
+
+SCIENTIFIC IMPACT
+-----------------
+NONE.
+
+The failed job stopped before writing analysis results.
+
+No result files or result manifest were produced.
+
+No model, prediction, probability, human label, protocol,
+architecture, threshold, or inferential rule was changed.
+
+CORRECTION
+----------
+Create immutable execution script v1_2 from v1_1.
+
+The only intended analytical-code change is:
+
+balanced_accuracy = mean recall over full frozen label universe
+
+to
+
+balanced_accuracy = mean recall over classes with support > 0
+
+This reproduces sklearn.metrics.balanced_accuracy_score for the
+frozen evaluation design.
+
+Macro-F1 remains defined over the complete frozen label universe,
+consistent with:
+
+f1_score(
+    y_true,
+    y_pred,
+    labels=labels,
+    average="macro",
+    zero_division=0
+)
+
+Weighted-F1 and accuracy definitions are unchanged.
+
+The frozen post-hoc protocol remains unchanged.

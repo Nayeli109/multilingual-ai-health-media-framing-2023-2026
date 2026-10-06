@@ -1,0 +1,556 @@
+EVE-FRAME — EVENTGOLD35 PROSPECTIVE SUPERVISED EXTENSION PROTOCOL v1
+===================================================================
+
+STATUS
+------
+FROZEN BEFORE CREATION OF ANY NEW EVENTGOLD SUPERVISED LABEL.
+
+This protocol defines a separately versioned prospective supervised
+extension of the original EventGold35 benchmark.
+
+It does NOT retroactively redefine the original EventGold35 annotation
+schema.
+
+The original attempted supervised EventGold evaluation was formally
+closed because the original CSV did not contain the three Stage-A
+supervised targets.
+
+At the time this protocol is frozen:
+
+- no EventGold model prediction exists;
+- no EventGold performance metric exists;
+- no new EventGold Stage-A label exists;
+- the final Stage-A architecture remains unchanged;
+- the 15 final Stage-A checkpoints remain frozen.
+
+
+1. SOURCE DOCUMENT SET
+----------------------
+Source benchmark:
+
+01_event_aware_v3/00_frozen_benchmark/EventGold35_FINAL.csv
+
+Expected documents:
+35
+
+The original 35 doc_id values define the supervised extension.
+
+No document may be added, removed, replaced, resampled, or selected
+according to model behavior.
+
+The original EventGold semantic annotation fields must NOT be used to
+derive the new Stage-A target labels.
+
+
+2. PURPOSE
+----------
+The extension provides independent human labels for the three already
+frozen Stage-A tasks:
+
+1. primary_frame
+2. stance
+3. misinformation_relation
+
+The taxonomies are inherited from the historical human annotation
+codebook and from the final Stage-A training label spaces.
+
+No taxonomy may be changed after annotation begins.
+
+
+3. MODEL-TEXT CONSTRUCTION
+--------------------------
+The original EventGold file does not contain the historical dapt_text
+field.
+
+Therefore a prospective deterministic compatibility rule is defined
+before supervised annotation.
+
+For each document:
+
+Step 1:
+Normalize article_excerpt_3500 by replacing line breaks with spaces,
+stripping leading/trailing whitespace, and collapsing repeated
+whitespace.
+
+Step 2:
+If normalized article_excerpt_3500 is non-empty, use it as dapt_text.
+
+Step 3:
+Otherwise apply the same normalization to article_excerpt_1800.
+If non-empty, use article_excerpt_1800 as dapt_text.
+
+Step 4:
+Otherwise apply the same normalization to title and use title as
+dapt_text.
+
+No other EventGold field may contribute to dapt_text.
+
+In particular, the following fields are prohibited as model-text
+inputs:
+
+problem_definition
+problem_definition_span
+causal_actor
+causal_actor_type
+consequence_type
+consequence_description
+evaluation_tone
+remedy_present
+remedy_description
+remedy_actor
+responsibility_actor
+responsibility_actor_type
+epistemic_certainty
+epistemic_cues
+evidence_source_type
+evidence_source_actor
+evidence_span
+health_claim_present
+health_claim_text
+ai_system_or_company
+coder_confidence
+coder_notes
+
+
+4. HUMAN ANNOTATION TEXT
+------------------------
+The historical human-validation pipeline annotated each document using
+its title and a text excerpt.
+
+The historical choose_excerpt() implementation normalized whitespace
+and truncated the selected article text to the first 1400 characters.
+
+To preserve that annotation precedent:
+
+Human annotators will see:
+
+- title;
+- the first 1400 characters of normalized dapt_text.
+
+The displayed human excerpt is therefore:
+
+annotation_excerpt = dapt_text[:1400]
+
+The original EventGold semantic annotations must remain hidden from the
+annotators.
+
+
+5. UNIT OF ANALYSIS
+-------------------
+One news/media article.
+
+
+6. TASK 1 — PRIMARY FRAME
+--------------------------
+Exactly one label must be selected.
+
+Allowed labels:
+
+1. clinical innovation and diagnostic benefit
+
+Use when the article frames AI as improving diagnosis, medical imaging,
+clinical workflows, screening, treatment support, or healthcare
+efficiency.
+
+2. health safety risk and medical harm
+
+Use when the article emphasizes risks to patients, incorrect medical
+advice, unsafe deployment, bias, hallucinations, harm, or clinical
+unreliability.
+
+3. misinformation, deepfakes, and fraud
+
+Use when the article focuses on false information, synthetic media,
+scams, fake ads, deepfakes, manipulated content, or misleading health
+claims.
+
+4. regulation, governance, and policy
+
+Use when the article focuses on laws, AI Act, government regulation,
+institutional governance, standards, enforcement, or policy debates.
+
+5. public trust and accountability
+
+Use when the article focuses on trust, transparency, responsibility,
+accountability, institutional credibility, or public confidence.
+
+6. access, inequality, and digital divide
+
+Use when the article focuses on unequal access, Global South/Global
+North gaps, rural/urban disparities, cost barriers, language barriers,
+or technological dependence.
+
+7. labor automation and professional displacement
+
+Use when the article focuses on job replacement, professional roles,
+productivity, workers, lawyers, clinicians, students, or automation of
+labor.
+
+8. mental health and therapy risk
+
+Use when the article focuses on AI therapy, chatbots for mental health,
+suicide, psychosis, emotional dependence, psychological risk, or
+psychiatric concerns.
+
+9. other / unclear
+
+Use only when none of the above labels clearly applies.
+
+
+7. TASK 2 — STANCE TOWARD AI IN HEALTH
+---------------------------------------
+Exactly one label must be selected.
+
+Allowed labels:
+
+1. optimistic about AI in health
+
+The article mainly emphasizes benefits, promise, innovation, progress,
+or positive transformation.
+
+2. cautious or mixed about AI in health
+
+The article presents both benefits and risks, or uses a balanced or
+uncertain tone.
+
+3. critical of AI risks in health
+
+The article mainly emphasizes danger, harm, misinformation, fraud,
+bias, or negative consequences.
+
+4. focused on regulation and governance
+
+The article is mainly about rules, regulation, policy, governance, or
+institutional oversight rather than clearly positive or negative
+evaluation.
+
+5. unclear / not applicable
+
+Use when the stance cannot be inferred.
+
+
+8. TASK 3 — RELATION TO MISINFORMATION
+---------------------------------------
+Exactly one label must be selected.
+
+Allowed labels:
+
+1. direct misinformation focus
+
+The article is mainly about misinformation, deepfakes, fake ads,
+scams, false health claims, or propaganda.
+
+2. indirect misinformation concern
+
+Misinformation is mentioned as a risk or background concern, but is not
+the main focus.
+
+3. no clear misinformation relation
+
+The article does not meaningfully discuss misinformation.
+
+4. unclear / not applicable
+
+Use only when the available title/excerpt does not support a reliable
+classification.
+
+
+9. EXCLUDED HUMAN TASKS
+-----------------------
+Secondary frame is not part of the external evaluation.
+
+Main actor is not part of the external evaluation.
+
+Neither will be annotated for the supervised extension.
+
+
+10. BLIND INDEPENDENT ANNOTATION
+--------------------------------
+Two human annotators are required:
+
+Annotator A
+Annotator B
+
+Each annotator must independently annotate all 35 documents.
+
+Before both independent annotation passes are frozen, neither annotator
+may see:
+
+- the other annotator's labels;
+- Stage-A predictions;
+- probabilities or logits;
+- zero-shot predictions;
+- historical machine labels;
+- final Stage-A development results;
+- EventGold model predictions;
+- EventGold performance;
+- original EventGold semantic annotation fields.
+
+Annotation order must be deterministic and frozen before annotation.
+
+The two annotators may use only:
+
+- document title;
+- frozen 1400-character annotation excerpt;
+- this frozen codebook.
+
+
+11. ANNOTATION NOTES
+--------------------
+Each annotator may optionally record a free-text note describing:
+
+- ambiguity;
+- insufficient context;
+- mixed framing;
+- translation uncertainty;
+- reason for choosing an unclear category.
+
+Notes must never contain model predictions.
+
+
+12. FREEZE OF INDEPENDENT ANNOTATIONS
+-------------------------------------
+Annotator A's complete file must be frozen and SHA256-hashed.
+
+Annotator B's complete file must be frozen and SHA256-hashed.
+
+No agreement statistic may be used to alter an annotator's completed
+independent labels.
+
+Both independent files must be frozen before adjudication begins.
+
+
+13. INTER-ANNOTATOR AGREEMENT
+-----------------------------
+Agreement is calculated before adjudication.
+
+For each of the three tasks report:
+
+- exact raw agreement;
+- Cohen's kappa;
+- number of agreements;
+- number of disagreements.
+
+Agreement is descriptive and does not determine whether a task is
+retained or removed.
+
+
+14. ADJUDICATION
+----------------
+Only task-level disagreements are adjudicated.
+
+For a task where Annotator A and Annotator B agree:
+
+final label = agreed label.
+
+For a task where Annotator A and Annotator B disagree:
+
+the discrepant labels and the same frozen title/excerpt are reviewed
+during adjudication and one final label from the frozen taxonomy is
+selected.
+
+No model prediction, probability, zero-shot output, or original
+EventGold semantic annotation may be shown during adjudication.
+
+
+15. FINAL SUPERVISED LABELS
+---------------------------
+The final output columns will be:
+
+final_primary_frame_validated
+final_stance_validated
+final_misinformation_relation_validated
+
+For agreement cases:
+the shared independent human label is used.
+
+For disagreement cases:
+the adjudicated label is used.
+
+All 35 documents must contain exactly one valid label for each of the
+three tasks before the supervised extension is frozen.
+
+
+16. SUPERVISED EXTENSION FREEZE
+-------------------------------
+Before model inference, the following must be frozen and SHA256-hashed:
+
+- protocol;
+- deterministic text-construction implementation;
+- blind annotation packet;
+- Annotator A completed labels;
+- Annotator B completed labels;
+- agreement report;
+- adjudication file;
+- final 35-document supervised extension;
+- label-space manifest.
+
+After this freeze, target labels cannot be modified.
+
+
+17. FINAL MODEL
+--------------
+Selected architecture:
+
+STAGE_A_NO_EVENT
+
+No retraining is permitted.
+
+No hyperparameter change is permitted.
+
+No architecture change is permitted.
+
+Exactly the already frozen 15 final checkpoints will be used:
+
+3 tasks × 5 seeds.
+
+
+18. FINAL INFERENCE
+-------------------
+Each task is evaluated using its five already frozen task-specific
+checkpoints.
+
+For each document and checkpoint:
+
+- tokenize frozen dapt_text using the frozen Stage-A tokenizer and
+  preprocessing;
+- compute class probabilities;
+- retain the complete probability vector.
+
+For each task:
+
+- take the elementwise arithmetic mean of the five seed probability
+  vectors;
+- select argmax of the mean probability vector.
+
+No threshold tuning is permitted.
+
+No calibration is permitted.
+
+No checkpoint removal is permitted.
+
+No seed reweighting is permitted.
+
+No majority voting is permitted.
+
+
+19. PRIMARY EXTERNAL METRIC
+---------------------------
+Primary metric for each task:
+
+Macro-F1.
+
+The three tasks are reported separately.
+
+No pooled three-task success criterion is defined.
+
+
+20. SECONDARY METRICS
+---------------------
+For each task report:
+
+- balanced accuracy;
+- accuracy;
+- weighted-F1.
+
+
+21. UNCERTAINTY
+---------------
+For Macro-F1 only:
+
+95% percentile bootstrap confidence interval.
+
+Resampling unit:
+article.
+
+Resampling:
+stratified within the observed final gold classes of that task.
+
+Replicates:
+10,000.
+
+The original frozen EventGold bootstrap RNG seeds are retained:
+
+primary_frame:
+2026092701
+
+stance:
+2026092702
+
+misinformation_relation:
+2026092703
+
+Quantiles:
+
+2.5%
+97.5%
+
+The intervals are descriptive.
+
+No p-values are computed.
+
+No randomization tests are computed.
+
+No BH correction is applied.
+
+
+22. PROHIBITED POST-ANNOTATION CHANGES
+--------------------------------------
+After annotation begins, the following are prohibited:
+
+- changing a taxonomy;
+- merging classes;
+- dropping classes because they are rare;
+- relabeling classes based on model behavior;
+- modifying dapt_text construction;
+- changing annotation excerpt length;
+- changing checkpoints;
+- changing seeds;
+- retraining;
+- changing metrics;
+- selecting documents based on predictions;
+- inspecting performance and then changing the evaluation procedure.
+
+
+23. INTERPRETATION
+------------------
+This benchmark must be described as:
+
+"a prospectively human-annotated supervised extension of the previously
+held-out EventGold35 document set."
+
+It must NOT be described as though the three Stage-A target labels were
+part of the original EventGold35 annotation schema.
+
+The original failed evaluation remains permanently documented as a
+schema/target incompatibility event with no performance result.
+
+
+24. CURRENT FREEZE STATE
+------------------------
+At protocol freeze:
+
+EventGold original schema accessed:
+YES, for schema validation.
+
+Original EventGold model predictions:
+NONE.
+
+Original EventGold performance:
+NONE.
+
+New supervised labels:
+NONE.
+
+Model modified after EventGold schema access:
+NO.
+
+Final architecture:
+STAGE_A_NO_EVENT.
+
+Final checkpoints:
+FROZEN.
+
+NEXT ALLOWED PHASE:
+
+BUILD BLIND SUPERVISED ANNOTATION PACKET.

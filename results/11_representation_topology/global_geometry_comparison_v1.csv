@@ -1,0 +1,2 @@
+comparison,linear_cka,pairwise_distance_spearman_rho,pairwise_distance_spearman_p,neighbor_retention_k5,neighbor_retention_k10,neighbor_retention_k20
+XLMR_DAPT_INDUCTIVE_vs_XLMR_BASE,0.9996295882234512,0.9971816129391574,0.0,0.8904522613065327,0.906030150753769,0.9238693467336685

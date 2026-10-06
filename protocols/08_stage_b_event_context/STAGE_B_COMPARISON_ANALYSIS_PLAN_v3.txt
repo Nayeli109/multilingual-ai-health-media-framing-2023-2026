@@ -1,0 +1,363 @@
+EVE-FRAME STAGE B
+COMPARISON ANALYSIS PLAN v3
+==============================================
+
+STATUS
+FROZEN BEFORE STAGE-B AGGREGATED PERFORMANCE ANALYSIS.
+
+No Stage-B aggregate task-level comparison has been computed under
+this analysis plan before this file is frozen.
+
+==================================================
+1. FROZEN INPUT STATUS
+==================================================
+
+Stage-B structural audit results SHA256:
+99bb8b413d01de83f11126e6d1d9e99c0884baa45690df5da0d36533b0c42015
+
+Stage-B structural audit table SHA256:
+ffc824a4bc1003fae71ca761d7bcdfd46f9fad4e7d1ee94742d8c7ba21a5faeb
+
+Stage-B architecture protocol SHA256:
+076ca9b3a99997b83d1ce43ca75fa59cc151f968d6c34c9fae92ef1ddf96c93f
+
+Frozen Stage-A final closure SHA256:
+e127f23bcd6696833cb8d3d2b3c244f45307b198ef3607ddf28baa3b617745df
+
+Stage-B valid supervised runs:
+120 / 120
+
+Stage-B arms:
+- VERIFIED_CONTEXT
+- PERMUTED_CONTEXT
+
+Tasks:
+- primary_frame
+- stance
+- misinformation_relation
+
+Outer folds:
+4
+
+Model seeds:
+5
+11, 29, 47, 83, 131
+
+EventGold-35:
+SEALED_NOT_ACCESSED
+
+==================================================
+2. OOF ENSEMBLE CONSTRUCTION
+==================================================
+
+For each architecture arm and each target task:
+
+1. Use only frozen OUTER_TEST predictions.
+
+2. For each article, collect predictions from the five model seeds
+   corresponding to that article's frozen outer fold.
+
+3. Ensemble at probability level.
+
+4. For each class k:
+
+   p_bar_ik =
+   (1 / 5) * sum_s p_isk
+
+5. Final predicted class:
+
+   argmax_k p_bar_ik
+
+6. Argmax is applied only AFTER probability averaging.
+
+7. Expected final OOF articles per task and arm:
+   199.
+
+8. Each LegacyAux article contributes exactly once to the final
+   five-seed ensemble OOF prediction for a given task/arm.
+
+Seeds are stochastic model fits and are NOT treated as independent
+inferential observations.
+
+Outer folds are partition machinery and are NOT treated as
+independent inferential observations.
+
+Inferential unit:
+article.
+
+==================================================
+3. PRIMARY SCIENTIFIC FAMILY
+==================================================
+
+Comparison:
+
+VERIFIED_CONTEXT
+versus
+frozen STAGE_A_NO_EVENT.
+
+For each of the three tasks:
+
+Delta_primary =
+MacroF1(VERIFIED_CONTEXT)
+-
+MacroF1(STAGE_A_NO_EVENT)
+
+Primary endpoint:
+five-seed probability-ensemble OOF Macro-F1.
+
+Direction of the observed delta is reported descriptively.
+
+Primary hypothesis test:
+two-sided paired article-level probability-vector randomization test.
+
+Randomization replicates:
+10,000.
+
+Randomization unit:
+article.
+
+For each replicate, the paired probability vectors from the two
+systems are exchangeable within article under the null.
+
+The complete probability vector must move together when an article's
+system assignment is swapped.
+
+No class-wise independent swapping is permitted.
+
+Test statistic:
+difference in OOF Macro-F1.
+
+Two-sided p-value:
+computed from the absolute randomized delta relative to the absolute
+observed delta, using a +1 finite-simulation correction:
+
+p =
+(1 + number of |Delta_perm| >= |Delta_observed|)
+/
+(1 + 10,000)
+
+Multiplicity:
+Benjamini-Hochberg FDR correction across EXACTLY the three task-level
+p-values in this primary family.
+
+Adjusted values are reported as q-values.
+
+No pooling with the context-specificity family is permitted.
+
+==================================================
+4. PRIMARY UNCERTAINTY
+==================================================
+
+For each task-level primary contrast:
+
+10,000 paired stratified bootstrap replicates.
+
+Resampling unit:
+article.
+
+Stratification:
+true target-task class label.
+
+Within each true-label stratum, sample articles with replacement until
+the original stratum size is recovered.
+
+The same sampled article indices are applied to both compared systems.
+
+For each bootstrap replicate:
+
+Delta_boot =
+MacroF1(VERIFIED_CONTEXT_boot)
+-
+MacroF1(STAGE_A_NO_EVENT_boot)
+
+Report:
+- observed Delta;
+- 2.5th percentile of bootstrap deltas;
+- 97.5th percentile of bootstrap deltas;
+- descriptive bootstrap fraction Delta_boot > 0.
+
+The bootstrap fraction is NOT a Bayesian posterior probability and is
+NOT the primary hypothesis test.
+
+==================================================
+5. CONTEXT-SPECIFICITY FAMILY
+==================================================
+
+Separate predeclared comparison:
+
+VERIFIED_CONTEXT
+versus
+PERMUTED_CONTEXT.
+
+For each task:
+
+Delta_context =
+MacroF1(VERIFIED_CONTEXT)
+-
+MacroF1(PERMUTED_CONTEXT)
+
+Primary control endpoint:
+five-seed probability-ensemble OOF Macro-F1.
+
+Use the same:
+
+- article-level OOF construction;
+- five-seed probability averaging;
+- argmax-after-averaging rule;
+- 10,000 paired stratified bootstrap replicates;
+- 10,000 paired probability-vector randomization replicates;
+- two-sided randomization test;
+- +1 finite-simulation p-value correction.
+
+Multiplicity:
+Benjamini-Hochberg FDR correction across EXACTLY the three task-level
+p-values in this context-specificity family.
+
+This is a SEPARATE multiplicity family from the primary Stage-B versus
+Stage-A comparison.
+
+No p-values from the two families are pooled into one BH procedure.
+
+Interpretation:
+this control assesses whether performance differences depend on
+preserving verified event identity rather than only sharing the same
+parameterized context pathway and context-availability mask.
+
+No causal-mechanism claim is permitted from this comparison alone.
+
+==================================================
+6. SECONDARY DESCRIPTIVE METRICS
+==================================================
+
+The following are descriptive and are not part of the confirmatory
+multiplicity families:
+
+- balanced accuracy;
+- accuracy;
+- weighted F1;
+- per-class precision;
+- per-class recall;
+- per-class F1;
+- confusion matrices;
+- seed-level stability;
+- selected-epoch distributions;
+- context-available subgroup performance;
+- NO_CONTEXT subgroup performance;
+- error analysis.
+
+Any subgroup with small sample size must be explicitly described as
+descriptive.
+
+No additional significance testing may be promoted to a primary
+result after inspection.
+
+==================================================
+7. LABEL AND CLASS HANDLING
+==================================================
+
+Macro-F1 must use the full declared class set for the corresponding
+task.
+
+Classes absent from a particular prediction subset are not silently
+removed from the declared task class space.
+
+Final OOF metrics must be computed from article-level ensemble
+predictions, not by averaging fold-level Macro-F1 values.
+
+No seed-level Macro-F1 averaging is used as the primary endpoint.
+
+==================================================
+8. COMPARABILITY REQUIREMENTS
+==================================================
+
+Before inference, every paired task-level comparison must verify:
+
+- identical article IDs;
+- identical article count;
+- identical true labels;
+- one OOF article prediction per system;
+- no duplicated article IDs;
+- no missing probability vectors;
+- finite probabilities;
+- probability rows numerically sum to approximately 1;
+- identical declared class ordering after explicit alignment.
+
+If any of these fail, inference must stop.
+
+==================================================
+9. RANDOMNESS
+==================================================
+
+All bootstrap and randomization procedures must use fixed,
+predeclared pseudorandom seeds in the statistical implementation lock.
+
+The implementation lock must be frozen and hashed BEFORE the analysis
+script is executed.
+
+No seed may be chosen or changed after inspecting inferential results.
+
+==================================================
+10. INTERPRETATION RULES
+==================================================
+
+A numerical improvement alone is not called statistically supported.
+
+For task-level confirmatory interpretation, the paired randomization
+p-value and its within-family BH-adjusted q-value govern inferential
+support.
+
+Bootstrap confidence intervals quantify uncertainty but do not replace
+the predeclared randomization/FDR decision rule.
+
+A non-significant result is NOT evidence of equivalence.
+
+No equivalence or non-inferiority claim is permitted because no
+equivalence/non-inferiority margin or test is predeclared.
+
+No claim of independent external validation is permitted from
+LegacyAux-199.
+
+LegacyAux results remain developmental evidence.
+
+==================================================
+11. NO REACTIVE MODIFICATION
+==================================================
+
+After this plan is frozen, observed Stage-B results must not alter:
+
+- ensemble rule;
+- primary endpoint;
+- inferential unit;
+- bootstrap design;
+- bootstrap replicate count;
+- randomization design;
+- randomization replicate count;
+- multiplicity families;
+- BH procedure;
+- class handling;
+- interpretation rule.
+
+Any later alternative analysis must be explicitly labeled exploratory
+and cannot replace this predeclared analysis.
+
+==================================================
+12. EVENTGOLD
+==================================================
+
+EventGold-35 remains SEALED.
+
+It must not be accessed for:
+
+- Stage-B OOF aggregation;
+- Stage-B statistical inference;
+- statistical-method selection;
+- architecture selection;
+- threshold tuning;
+- subgroup selection.
+
+Independent external evaluation remains deferred until the complete
+Stage-B development analysis and decision rules are closed.
+
+==================================================
+END OF FROZEN ANALYSIS PLAN
+==================================================

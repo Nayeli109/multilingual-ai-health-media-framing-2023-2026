@@ -1,0 +1,63 @@
+{
+  "status": "V4_CONFIRMATORY_ANALYSIS_COMPLETE",
+  "analysis_design": {
+    "primary_metric": "five-seed probability-ensemble OOF Macro-F1",
+    "inferential_unit": "article",
+    "n_articles_per_task": 199,
+    "training_seeds": [
+      11,
+      29,
+      47,
+      83,
+      131
+    ],
+    "bootstrap_replicates": 10000,
+    "randomization_replicates": 10000,
+    "incremental_family_tests": 6,
+    "context_specificity_family_tests": 6,
+    "multiple_testing": "Benjamini-Hochberg separately across 6 predeclared contrasts within each of two families"
+  },
+  "frozen_inputs": {
+    "protocol_sha256": "39459e4d72bfc14a2ee1cd02d2414f32989788a2de32a431c68d16f7913c6dbe",
+    "statistical_lock_sha256": "1a0432d770438a2698166bda7e66d6a22a3b6684c67b4af2f6d8e9242a873ba8",
+    "rng_sha256": "ec71f0a3cb06e83c3f4ef2516e60f3212b652e1e403c65d8cd0128fa1a6c915e",
+    "input_manifest_sha256": "491834fc5ca1d3ba8c9ef20e5535dc12f8549f0547a32894b88eb992d168e250",
+    "stage_b_analysis_sha256": "76bf72bafc71c5140845270cbe527d91506dc265232813fd6d0c7bc4a2d34b3a",
+    "analysis_script_sha256": "7c7bbc7e64436a5c96551968923124693b4b9ce1e487c6246893a80e9ac3ffc2"
+  },
+  "selection": {
+    "selected_architecture": "STAGE_A_NO_EVENT",
+    "selected_system": "STAGE_A_NO_EVENT",
+    "selection_reason": "NO_V4_ARCHITECTURE_ELIGIBLE",
+    "eligibility": {
+      "V4_FILM_R32": {
+        "eligible": false,
+        "same_task_confirmatory_hits": []
+      },
+      "V4_LR_BILINEAR_R32": {
+        "eligible": false,
+        "same_task_confirmatory_hits": []
+      }
+    },
+    "verified_equal_weight_mean_macro_f1": {
+      "V4_FILM_R32": 0.507093629965967,
+      "V4_LR_BILINEAR_R32": 0.4995480783599317
+    },
+    "tie_precision_decimal_places": 12,
+    "tie_precedence": [
+      "V4_FILM_R32",
+      "V4_LR_BILINEAR_R32"
+    ],
+    "eventgold_status": "SEALED_NOT_ACCESSED"
+  },
+  "interpretation_constraints": {
+    "legacyaux_status": "DEVELOPMENTAL_EVIDENCE",
+    "null_result_is_equivalence": false,
+    "bootstrap_fraction_is_bayesian_posterior": false,
+    "seeds_are_inferential_observations": false,
+    "folds_are_inferential_observations": false,
+    "bootstrap_can_override_selection": false,
+    "descriptive_metrics_can_override_selection": false,
+    "eventgold_status": "SEALED_NOT_ACCESSED"
+  }
+}

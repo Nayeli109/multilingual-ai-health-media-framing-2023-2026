@@ -1,0 +1,102 @@
+EVE-FRAME V4 — FINAL ARCHITECTURE DECISION
+==========================================
+
+STATUS
+------
+FINAL AND FROZEN.
+
+DEVELOPMENTAL DATA
+------------------
+LegacyAux-199.
+
+EventGold-35 was SEALED_NOT_ACCESSED throughout architecture
+development and V4 confirmatory analysis.
+
+CANDIDATE ARCHITECTURES
+-----------------------
+1. V4_FILM_R32
+2. V4_LR_BILINEAR_R32
+
+DEFAULT ARCHITECTURE
+--------------------
+STAGE_A_NO_EVENT
+
+PREDECLARED ELIGIBILITY RULE
+----------------------------
+A V4 architecture was eligible only if at least one SAME task
+simultaneously satisfied:
+
+A. INCREMENTAL
+   VERIFIED_CONTEXT vs STAGE_A_NO_EVENT
+   delta Macro-F1 > 0
+   AND BH q < 0.05.
+
+B. CONTEXT_SPECIFICITY
+   VERIFIED_CONTEXT vs same-architecture PERMUTED_CONTEXT
+   delta Macro-F1 > 0
+   AND BH q < 0.05.
+
+RESULT
+------
+V4_FILM_R32:
+Eligible tasks = NONE.
+
+V4_LR_BILINEAR_R32:
+Eligible tasks = NONE.
+
+Therefore, according to the frozen selection rule:
+
+SELECTED_ARCHITECTURE = STAGE_A_NO_EVENT
+SELECTED_SYSTEM       = STAGE_A_NO_EVENT
+SELECTION_REASON      = NO_V4_ARCHITECTURE_ELIGIBLE
+
+IMPORTANT INTERPRETATION
+------------------------
+The three-task VERIFIED mean Macro-F1 values were:
+
+V4_FILM_R32
+0.507093629965967
+
+V4_LR_BILINEAR_R32
+0.4995480783599317
+
+These means do NOT participate in selection because the frozen
+three-task mean tie-break rule was activated only if BOTH V4
+architectures were eligible.
+
+No V4 architecture was eligible.
+
+A positive bootstrap interval or descriptive metric cannot
+override the frozen randomization-test plus BH rule.
+
+In particular, the positive FiLM misinformation-relation
+increment is not confirmatory under the predeclared inferential
+criterion.
+
+SCIENTIFIC INTERPRETATION CONSTRAINTS
+-------------------------------------
+1. V4 does not provide confirmatory evidence of incremental
+   benefit over STAGE_A_NO_EVENT.
+
+2. V4 does not provide confirmatory evidence of context
+   specificity relative to the same-architecture permuted
+   controls.
+
+3. Failure to reject is NOT evidence of equivalence.
+
+4. These results do NOT establish that event context is
+   intrinsically uninformative.
+
+5. The results show that the Stage-B null conclusion was not
+   rescued by either of the two predeclared V4 fusion operators
+   under the frozen developmental design.
+
+6. No causal claim follows from the permuted-context comparison.
+
+DEVELOPMENT STOPPING RULE
+-------------------------
+No V5 architecture or reactive architecture modification is
+permitted before EventGold-35 evaluation.
+
+EventGold-35 remains SEALED_NOT_ACCESSED at the moment of this
+decision.

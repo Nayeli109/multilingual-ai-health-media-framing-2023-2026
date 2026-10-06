@@ -1,0 +1,78 @@
+EVE-FRAME V4 — CONFIRMATORY EXECUTION LOCK
+==========================================
+
+STATUS
+------
+FROZEN BEFORE EXECUTION OF V4 CONFIRMATORY INFERENCE.
+
+SCIENTIFIC STATE
+----------------
+- V4 protocol frozen.
+- V4 trainer frozen.
+- 240/240 V4 runs completed successfully.
+- 300/300 analysis inputs frozen by SHA256.
+- Statistical implementation lock frozen.
+- Bootstrap/randomization RNG seeds frozen.
+- Analysis script frozen.
+- Full data preflight passed.
+- No confirmatory V4 performance metric had been computed
+  before this execution wrapper was frozen.
+- No V4 architecture had been selected.
+- EventGold-35 remained SEALED_NOT_ACCESSED.
+
+EXECUTION
+---------
+Partition:
+cpu
+
+CPUs requested:
+8
+
+Memory:
+16G
+
+Wall time:
+04:00:00
+
+GPU:
+none requested
+
+Python environment:
+$HOME/media_q1_env/bin/python
+
+Thread environment:
+OMP_NUM_THREADS=1
+MKL_NUM_THREADS=1
+OPENBLAS_NUM_THREADS=1
+NUMEXPR_NUM_THREADS=1
+
+PURPOSE
+-------
+Execute exactly:
+
+73_analyze_eve_frame_v4.py
+
+with no command-line option, thereby performing the already
+frozen confirmatory V4 analysis.
+
+No statistical parameter, architecture, contrast, threshold,
+RNG seed, multiple-testing family, or selection rule is changed
+by this execution wrapper.
+
+OUTPUT POLICY
+-------------
+The frozen analysis script refuses overwrite.
+
+Expected final directory:
+
+v4_confirmatory_analysis_v4
+
+Temporary directory must not remain after successful atomic
+finalization:
+
+v4_confirmatory_analysis_v4_tmp
+
+EVENTGOLD
+---------
+EventGold-35 remains SEALED_NOT_ACCESSED throughout this
+developmental architecture-selection analysis.

@@ -1,0 +1,3 @@
+representation,mean_heldout_axis_cohens_d_signed,mean_heldout_axis_cohens_d_abs,min_heldout_axis_cohens_d_abs,max_heldout_axis_cohens_d_abs,mean_axis_centroid_difference_norm
+XLMR_BASE,29.042436951311455,29.042436951311455,23.31570273390625,33.83658267494949,1.0755387246608734
+XLMR_DAPT_INDUCTIVE,29.115933758574247,29.115933758574247,23.99044847309427,32.854033583247904,1.154922902584076

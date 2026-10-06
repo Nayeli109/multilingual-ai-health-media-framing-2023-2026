@@ -1,0 +1,55 @@
+task,model,class,precision,recall,f1,support
+primary_frame,TFIDF_Word_LogReg,"access, inequality, and digital divide",0.0,0.0,0.0,5
+primary_frame,TFIDF_Word_LogReg,clinical innovation and diagnostic benefit,0.75,0.25,0.375,36
+primary_frame,TFIDF_Word_LogReg,health safety risk and medical harm,0.625,0.35714285714285715,0.45454545454545453,14
+primary_frame,TFIDF_Word_LogReg,labor automation and professional displacement,0.16666666666666666,0.05,0.07692307692307693,20
+primary_frame,TFIDF_Word_LogReg,mental health and therapy risk,0.5714285714285714,0.26666666666666666,0.36363636363636365,15
+primary_frame,TFIDF_Word_LogReg,"misinformation, deepfakes, and fraud",0.75,0.625,0.6818181818181818,48
+primary_frame,TFIDF_Word_LogReg,other / unclear,0.2375,0.8260869565217391,0.36893203883495146,23
+primary_frame,TFIDF_Word_LogReg,public trust and accountability,0.0,0.0,0.0,4
+primary_frame,TFIDF_Word_LogReg,"regulation, governance, and policy",0.45454545454545453,0.5882352941176471,0.5128205128205128,34
+primary_frame,TFIDF_Word_LinearSVM,"access, inequality, and digital divide",0.0,0.0,0.0,5
+primary_frame,TFIDF_Word_LinearSVM,clinical innovation and diagnostic benefit,0.5714285714285714,0.6666666666666666,0.6153846153846154,36
+primary_frame,TFIDF_Word_LinearSVM,health safety risk and medical harm,0.6153846153846154,0.5714285714285714,0.5925925925925926,14
+primary_frame,TFIDF_Word_LinearSVM,labor automation and professional displacement,0.3333333333333333,0.2,0.25,20
+primary_frame,TFIDF_Word_LinearSVM,mental health and therapy risk,0.875,0.4666666666666667,0.6086956521739131,15
+primary_frame,TFIDF_Word_LinearSVM,"misinformation, deepfakes, and fraud",0.711864406779661,0.875,0.7850467289719626,48
+primary_frame,TFIDF_Word_LinearSVM,other / unclear,0.5172413793103449,0.6521739130434783,0.5769230769230769,23
+primary_frame,TFIDF_Word_LinearSVM,public trust and accountability,0.0,0.0,0.0,4
+primary_frame,TFIDF_Word_LinearSVM,"regulation, governance, and policy",0.7142857142857143,0.7352941176470589,0.7246376811594203,34
+primary_frame,TFIDF_WordChar_LinearSVM,"access, inequality, and digital divide",0.0,0.0,0.0,5
+primary_frame,TFIDF_WordChar_LinearSVM,clinical innovation and diagnostic benefit,0.5681818181818182,0.6944444444444444,0.625,36
+primary_frame,TFIDF_WordChar_LinearSVM,health safety risk and medical harm,0.6923076923076923,0.6428571428571429,0.6666666666666666,14
+primary_frame,TFIDF_WordChar_LinearSVM,labor automation and professional displacement,0.5,0.4,0.4444444444444444,20
+primary_frame,TFIDF_WordChar_LinearSVM,mental health and therapy risk,0.875,0.4666666666666667,0.6086956521739131,15
+primary_frame,TFIDF_WordChar_LinearSVM,"misinformation, deepfakes, and fraud",0.7413793103448276,0.8958333333333334,0.8113207547169812,48
+primary_frame,TFIDF_WordChar_LinearSVM,other / unclear,0.4583333333333333,0.4782608695652174,0.46808510638297873,23
+primary_frame,TFIDF_WordChar_LinearSVM,public trust and accountability,0.0,0.0,0.0,4
+primary_frame,TFIDF_WordChar_LinearSVM,"regulation, governance, and policy",0.7428571428571429,0.7647058823529411,0.7536231884057971,34
+stance,TFIDF_Word_LogReg,cautious or mixed about ai in health,0.30952380952380953,0.7222222222222222,0.43333333333333335,18
+stance,TFIDF_Word_LogReg,critical of ai risks in health,0.7142857142857143,0.5681818181818182,0.6329113924050633,44
+stance,TFIDF_Word_LogReg,focused on regulation and governance,0.0,0.0,0.0,10
+stance,TFIDF_Word_LogReg,optimistic about ai in health,0.631578947368421,0.6,0.6153846153846154,40
+stance,TFIDF_Word_LogReg,unclear / not applicable,0.6506024096385542,0.6206896551724138,0.6352941176470588,87
+stance,TFIDF_Word_LinearSVM,cautious or mixed about ai in health,0.5454545454545454,0.6666666666666666,0.6,18
+stance,TFIDF_Word_LinearSVM,critical of ai risks in health,0.7692307692307693,0.45454545454545453,0.5714285714285714,44
+stance,TFIDF_Word_LinearSVM,focused on regulation and governance,0.5,0.1,0.16666666666666666,10
+stance,TFIDF_Word_LinearSVM,optimistic about ai in health,0.75,0.45,0.5625,40
+stance,TFIDF_Word_LinearSVM,unclear / not applicable,0.6,0.8620689655172413,0.7075471698113207,87
+stance,TFIDF_WordChar_LinearSVM,cautious or mixed about ai in health,0.5294117647058824,0.5,0.5142857142857142,18
+stance,TFIDF_WordChar_LinearSVM,critical of ai risks in health,0.78125,0.5681818181818182,0.6578947368421053,44
+stance,TFIDF_WordChar_LinearSVM,focused on regulation and governance,0.5,0.1,0.16666666666666666,10
+stance,TFIDF_WordChar_LinearSVM,optimistic about ai in health,0.6129032258064516,0.475,0.5352112676056338,40
+stance,TFIDF_WordChar_LinearSVM,unclear / not applicable,0.6239316239316239,0.8390804597701149,0.7156862745098039,87
+misinformation_relation,TFIDF_Word_LogReg,direct misinformation focus,0.94,0.7833333333333333,0.8545454545454545,60
+misinformation_relation,TFIDF_Word_LogReg,indirect misinformation concern,0.6666666666666666,0.1,0.17391304347826086,20
+misinformation_relation,TFIDF_Word_LogReg,no clear misinformation relation,0.7142857142857143,0.7894736842105263,0.75,95
+misinformation_relation,TFIDF_Word_LogReg,unclear / not applicable,0.34146341463414637,0.5833333333333334,0.4307692307692308,24
+misinformation_relation,TFIDF_Word_LinearSVM,direct misinformation focus,0.9230769230769231,0.8,0.8571428571428571,60
+misinformation_relation,TFIDF_Word_LinearSVM,indirect misinformation concern,0.5,0.1,0.16666666666666666,20
+misinformation_relation,TFIDF_Word_LinearSVM,no clear misinformation relation,0.6814814814814815,0.968421052631579,0.8,95
+misinformation_relation,TFIDF_Word_LinearSVM,unclear / not applicable,0.5,0.16666666666666666,0.25,24
+misinformation_relation,TFIDF_WordChar_LinearSVM,direct misinformation focus,0.9056603773584906,0.8,0.8495575221238938,60
+misinformation_relation,TFIDF_WordChar_LinearSVM,indirect misinformation concern,0.75,0.15,0.25,20
+misinformation_relation,TFIDF_WordChar_LinearSVM,no clear misinformation relation,0.6992481203007519,0.9789473684210527,0.8157894736842105,95
+misinformation_relation,TFIDF_WordChar_LinearSVM,unclear / not applicable,0.7777777777777778,0.2916666666666667,0.42424242424242425,24

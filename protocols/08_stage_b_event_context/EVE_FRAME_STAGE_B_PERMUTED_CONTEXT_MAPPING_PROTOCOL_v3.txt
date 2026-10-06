@@ -1,0 +1,72 @@
+EVE-FRAME STAGE B
+PERMUTED-CONTEXT MAPPING PROTOCOL v3
+====================================
+
+STATUS
+Frozen before Stage-B supervised training.
+
+PURPOSE
+Construct a parameter-matched negative control preserving the exact
+context-availability mask while disrupting event identity.
+
+Architecture protocol SHA256:
+076ca9b3a99997b83d1ce43ca75fa59cc151f968d6c34c9fae92ef1ddf96c93f
+
+Frozen nested-split SHA256:
+3aa88ac76bf63dd2e39f3a2943ba46bca6b528a427678b49ef1174f4f8cd0584
+
+Context availability SHA256:
+b2c976c5d2ab5c578774ae5203c5006328618a8ed6d4f4a6aef6d1bb8833bf74
+
+Prototype matrix SHA256:
+0f7e9956210c7dbaf460867ce2a71164403a429ed44b600dfc10b43425ecaa4f
+
+Prototype manifest SHA256:
+50e868bf6e007272a07e7c97ffe277a9f6406f9167e48950ca18b2eaf2f556e8
+
+Event-prototype final closure SHA256:
+32afbc814bf2e7fc5b1e18df6725d623cbee2ab58452942105272b9fcc850fe3
+
+MAPPING RULE
+
+For each target task and outer fold independently:
+
+INNER_TRAIN
+- consider only context-available INNER_TRAIN documents;
+- sort legacy_doc_id lexicographically;
+- assign each document the next document's prototype in a cyclic
+  one-position rotation;
+- therefore no fixed point is permitted.
+
+INNER_DEV
+- context availability remains unchanged;
+- each context-available INNER_DEV document receives one prototype
+  from the INNER_TRAIN context-available pool;
+- source index is:
+  SHA256(task|fold|inner_dev|doc_id) mod pool_size;
+- no INNER_DEV prototype enters INNER_TRAIN.
+
+OUTER_TRAIN
+- consider context-available OUTER_TRAIN documents;
+- sort legacy_doc_id lexicographically;
+- assign prototypes by the same one-position cyclic derangement.
+
+OUTER_TEST
+- context availability remains unchanged;
+- each context-available OUTER_TEST document receives one prototype
+  from the OUTER_TRAIN context-available pool;
+- source index is:
+  SHA256(task|fold|outer_test|doc_id) mod pool_size;
+- no OUTER_TEST prototype enters OUTER_TRAIN.
+
+NO_CONTEXT
+- remains context_available = 0;
+- receives no prototype;
+- receives no fallback.
+
+The mapping is independent of model seed.
+Therefore all five training seeds use exactly the same control mapping
+for a given task/fold/phase.
+
+No primary-frame, stance, misinformation-relation, topic, language,
+country, region, source, or EventGold information is used.

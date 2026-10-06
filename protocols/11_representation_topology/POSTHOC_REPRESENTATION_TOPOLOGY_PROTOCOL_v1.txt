@@ -1,0 +1,102 @@
+POST-HOC REPRESENTATION AND TOPOLOGY ANALYSIS v1
+=================================================
+
+STATUS
+------
+EXPLORATORY / MECHANISTIC SECONDARY ANALYSIS.
+
+This analysis is performed only after completion and freezing of the
+original model-development pipeline.
+
+NO model training, fine-tuning, model selection, architecture selection,
+threshold tuning, human relabeling, or EventGold-guided optimization is
+permitted in this analysis.
+
+PURPOSE
+-------
+Characterize the mathematical structure of already-frozen neural
+representations produced during development.
+
+PRIMARY REPRESENTATION PAIR
+---------------------------
+XLMR_BASE embeddings
+versus
+XLMR_DAPT_INDUCTIVE embeddings
+
+The two matrices represent the same 199 development articles in paired
+order and each has 768 dimensions.
+
+SECONDARY DESCRIPTIVE REPRESENTATIONS
+-------------------------------------
+Frozen Stage-B context-background embeddings.
+Frozen verified-event prototype embeddings.
+
+These secondary representations are described independently and are not
+treated as paired observations with the 199-article representation set.
+
+GEOMETRIC ANALYSES
+------------------
+1. Linear centered kernel alignment (linear CKA).
+2. Spearman correlation of all pairwise representation distances.
+3. k-nearest-neighbor retention for k = 5, 10, 20.
+4. Effective rank from spectral entropy.
+5. Participation ratio of the centered representation spectrum.
+6. PCA eigenspectrum and fixed joint PCA coordinates for visualization.
+
+Distance geometry uses row-wise L2-normalized vectors and Euclidean
+distance in the normalized space. Therefore distance is monotonically
+related to cosine similarity.
+
+TOPOLOGICAL ANALYSES
+--------------------
+Vietoris-Rips persistent homology is computed from the precomputed
+normalized-distance matrix using Ripser.
+
+Homology dimensions:
+H0 and H1.
+
+For each representation and homology dimension:
+- number of finite persistence intervals
+- total persistence
+- maximum persistence
+- mean persistence
+- persistent entropy
+
+BASE vs DAPT persistence diagrams are additionally compared using
+bottleneck distance.
+
+TOPOLOGICAL STABILITY
+---------------------
+A paired subsampling analysis is performed.
+
+Number of replicates: 1000
+Subsample fraction: 0.80
+Sampling: without replacement
+Pairing: identical article indices in BASE and DAPT
+RNG seed: 20261005
+
+For every replicate, H0/H1 persistence summaries are recomputed.
+DAPT-minus-BASE distributions and percentile 95% intervals are reported.
+
+These intervals are exploratory stability summaries and are not treated
+as preregistered confirmatory hypothesis tests.
+
+EXISTING STATISTICAL DISTRIBUTIONS
+----------------------------------
+Previously frozen 10,000-replicate bootstrap/randomization distributions
+from supervised representation probes and fold-safe axis ablations are
+summarized without alteration.
+
+INTERPRETATION CONSTRAINTS
+--------------------------
+1. LegacyAux-199 remains DEVELOPMENTAL evidence.
+2. EventGold results are not used for model or representation selection.
+3. This post-hoc analysis cannot convert developmental findings into
+   independent validation.
+4. Null topological/geometric contrasts are not evidence of equivalence.
+5. Topological findings are exploratory and mechanistic.
+6. No causal interpretation is permitted.
+7. Seeds and folds are not treated as independent inferential subjects.
+8. No additional human annotation is required or performed.
+9. No model parameters are updated.
+

@@ -1,0 +1,66 @@
+EVE-FRAME — FINAL STAGE-A REFIT EPOCH RULE
+==========================================
+
+STATUS
+------
+FROZEN BEFORE FINAL MODEL REFITTING AND BEFORE ACCESS TO
+EVENTGOLD-35 CONTENT.
+
+FINAL DEVELOPMENTAL ARCHITECTURE
+--------------------------------
+STAGE_A_NO_EVENT
+
+SOURCE OF EPOCH INFORMATION
+---------------------------
+Only the 60 frozen Stage-A developmental run summaries from
+LegacyAux-199 are used.
+
+For each target task and each original training seed:
+
+1. Obtain the four `selected_epoch` values corresponding to
+   outer folds 1, 2, 3, and 4.
+
+2. Compute the ordinary median of those four integers.
+
+3. If the median lies exactly at x.5, convert it to the next
+   larger integer (ROUND_HALF_UP).
+
+4. Use the resulting integer as the number of optimization
+   epochs for the final refit on the complete LegacyAux-199
+   developmental set.
+
+The learning-rate scheduler horizon remains 8 epochs, matching
+the frozen Stage-A refit implementation.
+
+TASKS
+-----
+primary_frame
+stance
+misinformation_relation
+
+SEEDS
+-----
+11
+29
+47
+83
+131
+
+FINAL NUMBER OF MODELS
+----------------------
+3 tasks x 5 seeds = 15 models.
+
+NO PERFORMANCE-BASED RESELECTION
+--------------------------------
+The final epoch values are a deterministic aggregation of the
+already completed Stage-A inner-selection decisions.
+
+No outer-test metric is used to choose the final refit epoch.
+
+No V4 metric is used to choose the final refit epoch.
+
+No EventGold-35 content or performance is used.
+
+EVENTGOLD STATUS
+----------------
+SEALED_NOT_ACCESSED.

@@ -1,0 +1,716 @@
+EVE-FRAME V4
+ARCHITECTURE-SENSITIVITY STUDY
+======================================================================
+
+STATUS
+------
+PRE-SPECIFIED BEFORE V4 TRAINING AND BEFORE V4 PERFORMANCE RESULTS.
+
+EventGold-35:
+SEALED_NOT_ACCESSED.
+
+Stage B:
+CLOSED AND IMMUTABLE.
+
+No Stage-B run, prediction, result, interpretation, or statistical
+analysis may be retrospectively modified as part of V4.
+
+
+======================================================================
+1. SCIENTIFIC QUESTION
+======================================================================
+
+Stage B tested a gated residual fusion operator and did not establish
+confirmatory context-specific benefit.
+
+V4 addresses one restricted developmental question:
+
+Does the absence of context-specific benefit under Stage B reflect:
+
+A) insufficient useful signal in the verified event context,
+
+or
+
+B) sensitivity to the particular gated residual fusion operator?
+
+V4 therefore changes ONLY the context-fusion operator.
+
+The verifier, context retrieval, verified neighbors, context
+availability mask, context embeddings, context prototypes, control
+mappings, supervised tasks, folds, training seeds, target labels,
+tokenization, document encoder, optimization procedure, model-selection
+procedure, and evaluation population remain fixed.
+
+
+======================================================================
+2. DEVELOPMENTAL DATA ONLY
+======================================================================
+
+Development population:
+LegacyAux-199.
+
+Number of articles:
+199.
+
+Verified-context availability:
+51 / 199.
+
+No-context articles:
+148 / 199.
+
+EventGold-35 remains sealed throughout:
+
+- architecture implementation,
+- V4 training,
+- V4 analysis,
+- statistical inference,
+- architecture selection,
+- and final developmental closure.
+
+
+======================================================================
+3. FROZEN REFERENCE SYSTEMS
+======================================================================
+
+Reference 1:
+STAGE_A_NO_EVENT
+
+Purpose:
+No-event multi-task comparator.
+
+Reference 2:
+STAGE_B_VERIFIED_CONTEXT
+
+Fusion:
+Previously frozen gated residual operator.
+
+Purpose:
+Historical architecture-sensitivity reference only.
+
+Reference 3:
+STAGE_B_PERMUTED_CONTEXT
+
+Purpose:
+Historical context-specificity control.
+
+Stage B is NOT retrained in V4.
+
+
+======================================================================
+4. V4 ARCHITECTURES
+======================================================================
+
+Shared dimensions:
+
+document representation:
+z in R^768
+
+frozen context prototype:
+e in R^768
+
+context-availability mask:
+m in {0,1}
+
+bottleneck / interaction rank:
+r = 32
+
+All normalization below is parameter-free LayerNorm.
+
+No new attention mechanism, retrieval operation, neighbor weighting,
+top-k selection, threshold, or context source is introduced.
+
+
+----------------------------------------------------------------------
+4.1 V4_FILM_R32
+----------------------------------------------------------------------
+
+Architecture:
+Feature-wise Linear Modulation.
+
+Define:
+
+e_n = LayerNorm_no_affine(e)
+
+h = GELU(W_e e_n + b_e)
+
+where:
+
+W_e : R^768 -> R^32
+
+Then:
+
+gamma = W_gamma h + b_gamma
+beta  = W_beta  h + b_beta
+
+where:
+
+W_gamma : R^32 -> R^768
+W_beta  : R^32 -> R^768
+
+Fusion:
+
+z_fused =
+    z * (1 + m * tanh(gamma))
+    + m * beta
+
+Therefore:
+
+if m = 0:
+
+z_fused = z
+
+exactly.
+
+Approximate additional trainable parameters:
+
+W_e + b_e:
+24,608
+
+W_gamma + b_gamma:
+25,344
+
+W_beta + b_beta:
+25,344
+
+Total:
+75,296 trainable fusion parameters.
+
+No additional learned scalar gate is permitted.
+
+
+----------------------------------------------------------------------
+4.2 V4_LR_BILINEAR_R32
+----------------------------------------------------------------------
+
+Architecture:
+Low-rank multiplicative bilinear fusion.
+
+Define:
+
+z_n = LayerNorm_no_affine(z)
+e_n = LayerNorm_no_affine(e)
+
+u = U_z z_n + b_z
+v = U_e e_n + b_e
+
+where:
+
+U_z : R^768 -> R^32
+U_e : R^768 -> R^32
+
+Low-rank multiplicative interaction:
+
+q = u * v
+
+where * is element-wise multiplication.
+
+Project back to document space:
+
+delta = W_o q + b_o
+
+where:
+
+W_o : R^32 -> R^768
+
+Fusion:
+
+z_fused = z + m * delta
+
+Therefore:
+
+if m = 0:
+
+z_fused = z
+
+exactly.
+
+Approximate additional trainable parameters:
+
+U_z + b_z:
+24,608
+
+U_e + b_e:
+24,608
+
+W_o + b_o:
+25,344
+
+Total:
+74,560 trainable fusion parameters.
+
+No additional learned scalar gate is permitted.
+
+
+----------------------------------------------------------------------
+4.3 CAPACITY CONTROL
+----------------------------------------------------------------------
+
+FiLM additional parameters:
+75,296
+
+Low-rank bilinear additional parameters:
+74,560
+
+Absolute difference:
+736 parameters.
+
+Relative difference:
+less than 1 percent.
+
+The two V4 operators are therefore intentionally near-matched in
+additional trainable capacity.
+
+
+======================================================================
+5. CONTEXT ARMS
+======================================================================
+
+Each V4 architecture has exactly two arms:
+
+A) VERIFIED_CONTEXT
+B) PERMUTED_CONTEXT
+
+VERIFIED_CONTEXT uses the already-frozen verified event-context
+prototype assigned to the article.
+
+PERMUTED_CONTEXT uses the already-frozen Stage-B leakage-safe
+phase-specific permuted mappings.
+
+No new permutation is generated.
+
+The context-availability mask is identical between verified and
+permuted arms.
+
+For m = 0, both V4 architectures must reproduce the Stage-A
+representation exactly before the task heads.
+
+
+======================================================================
+6. FROZEN TRAINING DESIGN
+======================================================================
+
+Tasks, in fixed order:
+
+1. primary_frame
+2. stance
+3. misinformation_relation
+
+Outer folds:
+4
+
+Training seeds:
+
+11
+29
+47
+83
+131
+
+V4 architectures:
+2
+
+Context arms:
+2
+
+Tasks:
+3
+
+Outer folds:
+4
+
+Seeds:
+5
+
+Total expected V4 training configurations:
+
+2 x 2 x 3 x 4 x 5 = 240.
+
+
+======================================================================
+7. TRAINING PROCEDURE
+======================================================================
+
+Except for the fusion module, V4 inherits the frozen Stage-B /
+Stage-A training procedure.
+
+This includes:
+
+- XLM-R base document encoder,
+- same tokenization,
+- same overlap-aware chunk pooling,
+- MAX_LENGTH = 256,
+- STRIDE = 32,
+- MAX_CHUNKS = 8,
+- same three task heads,
+- dropout = 0.10,
+- learning rate = 1e-5,
+- weight decay = 0.01,
+- warmup fraction = 0.10,
+- gradient clipping = 1.0,
+- gradient accumulation = 8,
+- maximum epochs = 8,
+- same class-weight computation,
+- same inner-development epoch selection,
+- same selected-epoch outer refit,
+- same deterministic CUDA settings,
+- same BF16 policy,
+- same scheduler semantics,
+- same task-specific Macro-F1 selection criterion,
+- same target-task development-loss tie-break.
+
+New fusion layers use the same deterministic training seed as their
+corresponding run.
+
+No additional architecture-specific hyperparameter search is allowed.
+
+Rank r = 32 is fixed for both V4 architectures.
+
+
+======================================================================
+8. STRUCTURAL VALIDATION
+======================================================================
+
+Before any V4 performance aggregation, all 240 expected runs must pass
+a structural audit.
+
+The audit must verify at minimum:
+
+- exact architecture x arm x task x fold x seed grid,
+- COMPLETE status,
+- expected document count,
+- expected fold identity,
+- expected seed,
+- expected task,
+- expected architecture,
+- expected context arm,
+- exact frozen training-code hashes,
+- exact frozen context-artifact hashes,
+- exact outer-test article IDs,
+- finite predictions,
+- exact declared class dimensionality,
+- context availability = 51 / 199,
+- no-context = 148 / 199,
+- no EventGold access.
+
+Performance aggregation is prohibited before this structural audit
+passes.
+
+
+======================================================================
+9. OOF ENSEMBLE CONSTRUCTION
+======================================================================
+
+For each architecture, arm, and task:
+
+- reconstruct exactly 199 OOF articles,
+- require all five seeds per article,
+- average class probabilities across the five seeds in float64,
+- obtain prediction by argmax after averaging,
+- use the complete declared class set for Macro-F1.
+
+Seeds and folds are NOT treated as independent inferential units.
+
+Inferential unit:
+article.
+
+
+======================================================================
+10. CONFIRMATORY V4 INFERENCE
+======================================================================
+
+Two confirmatory hypothesis families are pre-specified.
+
+
+----------------------------------------------------------------------
+10.1 INCREMENTAL-CONTEXT FAMILY
+----------------------------------------------------------------------
+
+For each V4 architecture and each task:
+
+VERIFIED_CONTEXT
+minus
+STAGE_A_NO_EVENT
+
+Number of tests:
+
+2 architectures x 3 tasks = 6.
+
+All six randomization p-values belong to ONE Benjamini-Hochberg
+family.
+
+Therefore BH correction is performed across six tests, not separately
+per architecture.
+
+
+----------------------------------------------------------------------
+10.2 CONTEXT-SPECIFICITY FAMILY
+----------------------------------------------------------------------
+
+For each V4 architecture and each task:
+
+VERIFIED_CONTEXT
+minus
+the same architecture's PERMUTED_CONTEXT arm.
+
+Number of tests:
+
+2 architectures x 3 tasks = 6.
+
+All six randomization p-values belong to ONE separate
+Benjamini-Hochberg family.
+
+
+======================================================================
+11. INFERENTIAL PROCEDURE
+======================================================================
+
+Primary metric:
+five-seed probability-ensemble OOF Macro-F1.
+
+For every contrast:
+
+- paired by article,
+- exactly 199 articles,
+- full class set,
+- delta = Macro-F1(system A) - Macro-F1(system B).
+
+Paired stratified bootstrap:
+
+10,000 replicates.
+
+Sampling is stratified by gold label.
+
+The same sampled article indices are applied to both systems.
+
+95 percent percentile interval:
+
+quantile 0.025
+quantile 0.975
+
+No BCa interval.
+No studentization.
+
+Paired probability-vector randomization:
+
+10,000 replicates.
+
+For every replicate and article:
+
+swap the entire class-probability vector between systems with
+probability 0.5.
+
+Two-sided p-value:
+
+p =
+(1 + number of null absolute deltas >= observed absolute delta)
+/
+(10,000 + 1)
+
+No threshold tuning.
+No calibration.
+No clipping.
+No probability renormalization.
+
+
+======================================================================
+12. MULTIPLE-TESTING RULE
+======================================================================
+
+Family 1:
+INCREMENTAL-CONTEXT
+
+m = 6.
+
+Family 2:
+CONTEXT-SPECIFICITY
+
+m = 6.
+
+Benjamini-Hochberg is performed separately for the two six-test
+families.
+
+Confirmatory threshold:
+
+q < 0.05.
+
+Nominal p-values or bootstrap intervals alone are not sufficient for
+a confirmatory claim.
+
+
+======================================================================
+13. SECONDARY / DESCRIPTIVE ANALYSES
+======================================================================
+
+The following are descriptive unless explicitly frozen otherwise:
+
+- balanced accuracy,
+- accuracy,
+- weighted F1,
+- per-class precision,
+- per-class recall,
+- per-class F1,
+- confusion matrices,
+- seed stability,
+- context-available subset,
+- no-context subset,
+- direct FiLM versus bilinear comparison,
+- direct V4 versus frozen Stage-B gated-residual comparison.
+
+These analyses cannot override the confirmatory selection rule.
+
+
+======================================================================
+14. FINAL ARCHITECTURE SELECTION RULE
+======================================================================
+
+Default final architecture:
+
+STAGE_A_NO_EVENT.
+
+A V4 context-aware architecture becomes ELIGIBLE to replace Stage A
+only if, for at least one SAME task, BOTH of the following are true:
+
+A) INCREMENTAL BENEFIT
+
+VERIFIED_CONTEXT minus STAGE_A_NO_EVENT:
+
+delta Macro-F1 > 0
+
+AND
+
+BH-adjusted q < 0.05
+within the six-test INCREMENTAL-CONTEXT family.
+
+AND
+
+B) CONTEXT SPECIFICITY
+
+VERIFIED_CONTEXT minus its own PERMUTED_CONTEXT:
+
+delta Macro-F1 > 0
+
+AND
+
+BH-adjusted q < 0.05
+within the six-test CONTEXT-SPECIFICITY family.
+
+Both conditions must occur for the SAME task.
+
+A positive bootstrap interval alone does not satisfy this rule.
+
+A nominal uncorrected p-value alone does not satisfy this rule.
+
+
+----------------------------------------------------------------------
+14.1 IF ZERO V4 ARCHITECTURES ARE ELIGIBLE
+----------------------------------------------------------------------
+
+Final architecture:
+
+STAGE_A_NO_EVENT.
+
+
+----------------------------------------------------------------------
+14.2 IF EXACTLY ONE V4 ARCHITECTURE IS ELIGIBLE
+----------------------------------------------------------------------
+
+That architecture becomes the final architecture.
+
+
+----------------------------------------------------------------------
+14.3 IF BOTH V4 ARCHITECTURES ARE ELIGIBLE
+----------------------------------------------------------------------
+
+Compute the equal-weight mean of VERIFIED_CONTEXT Macro-F1 across:
+
+primary_frame
+stance
+misinformation_relation
+
+for each eligible architecture.
+
+Select the architecture with the larger three-task mean.
+
+If the means are exactly equal to 12 decimal places:
+
+fixed tie-break priority:
+
+1. V4_FILM_R32
+2. V4_LR_BILINEAR_R32
+
+
+======================================================================
+15. INTERPRETATION RULE
+======================================================================
+
+If neither V4 operator satisfies the eligibility rule:
+
+the developmental evidence will support the conclusion that the
+failure to establish context-specific gain is not confined to the
+original Stage-B gated residual operator under the tested fusion
+family.
+
+This will NOT be interpreted as proof that event context contains no
+signal.
+
+It will be interpreted as failure to demonstrate a robust,
+architecture-sensitive context-specific benefit under the tested
+developmental conditions.
+
+If a V4 architecture satisfies both confirmatory conditions:
+
+the result will support the narrower conclusion that useful
+context-specific signal can be extracted under at least one alternative
+pre-specified fusion operator.
+
+No causal claim about the underlying mechanism is permitted.
+
+
+======================================================================
+16. EVENTGOLD FIREWALL
+======================================================================
+
+EventGold-35 remains sealed until:
+
+1. all V4 runs complete,
+2. structural audit passes,
+3. V4 statistical analysis is frozen,
+4. V4 results are closed,
+5. the final architecture is selected using Section 14,
+6. the selected architecture identity and evaluation procedure are
+   frozen.
+
+EventGold will then be opened ONCE for final independent evaluation.
+
+No architecture modification, retraining rule change, threshold
+change, calibration change, task redefinition, or model-selection
+change is permitted after EventGold is opened.
+
+
+======================================================================
+17. STOPPING RULE
+======================================================================
+
+V4 is the FINAL developmental architecture-sensitivity family.
+
+No V5 architecture search will be initiated in response to V4
+performance results before EventGold evaluation.
+
+This stopping rule is frozen before V4 training.
+
+
+======================================================================
+18. SCIENTIFIC STATUS
+======================================================================
+
+Stage A:
+frozen developmental comparator.
+
+Stage B:
+closed developmental evidence.
+
+V4:
+final pre-specified developmental architecture-sensitivity experiment.
+
+EventGold-35:
+SEALED_NOT_ACCESSED.

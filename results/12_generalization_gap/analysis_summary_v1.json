@@ -1,0 +1,42 @@
+{
+  "status": "POSTHOC_GENERALIZATION_GAP_COMPLETE",
+  "analysis_type": "EXPLORATORY_POSTHOC_GENERALIZATION_DIAGNOSTIC",
+  "model_training_performed": false,
+  "model_selection_performed": false,
+  "human_annotation_performed": false,
+  "legacyaux_articles_per_task": 199,
+  "eventgold_articles_per_task": 35,
+  "tasks": [
+    "primary_frame",
+    "stance",
+    "misinformation_relation"
+  ],
+  "primary_metric": "macro_f1",
+  "secondary_metrics": [
+    "balanced_accuracy",
+    "accuracy",
+    "weighted_f1"
+  ],
+  "bootstrap_replicates": 10000,
+  "bootstrap_design": "independent stratified article-level resampling within each dataset and task",
+  "bootstrap_seeds": {
+    "primary_frame": 2026100601,
+    "stance": 2026100602,
+    "misinformation_relation": 2026100603
+  },
+  "hypothesis_testing": "NONE",
+  "jensen_shannon_log_base": "natural",
+  "interpretation": {
+    "performance_gap_is_distribution_shift_proof": false,
+    "label_composition_is_full_shift_proof": false,
+    "seeds_or_folds_are_inferential_observations": false,
+    "results_may_modify_final_model": false
+  },
+  "input_sha256": {
+    "01_event_aware_v3/12_posthoc_generalization_gap_v1/POSTHOC_GENERALIZATION_GAP_PROTOCOL_v1.txt": "ac8457cd9d206299140c613dfe92d736d672965f87e08686daca67f6c2135fe7",
+    "01_event_aware_v3/07_eve_frame_stage_a_no_event/comparison_results_v3/stage_a_oof_ensemble_predictions_v3.csv": "175cb807fba03fc29a36dddd4ec3b574112f7265c7ee51ee03a3e29f5ef0dae6",
+    "01_event_aware_v3/10_eventgold_final_evaluation/eventgold35_supervised_extension_final_results_v1/eventgold35_supervised_extension_ensemble_predictions_v1.csv": "ad89e8c5f8a822d6a8234fee39689a659605f500b6f3f09591057ec326c57615",
+    "01_event_aware_v3/07_eve_frame_stage_a_no_event/comparison_results_v3/task_metrics_comparison_v3.csv": "7134b37654c899852dfe6f222749d5f16bc26401fad80509c398d16f479443bb",
+    "01_event_aware_v3/10_eventgold_final_evaluation/eventgold35_supervised_extension_final_results_v1/eventgold35_supervised_extension_metrics_v1.csv": "e6df089edec08a94b92f86d3d44a6679b80173cbc656816a8eeb55b32e02475c"
+  }
+}

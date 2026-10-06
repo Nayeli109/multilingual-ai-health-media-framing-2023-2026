@@ -1,0 +1,123 @@
+task,true_class_id,true_class_label,predicted_class_id,predicted_class_label,count
+primary_frame,0,"access, inequality, and digital divide",0,"access, inequality, and digital divide",0
+primary_frame,0,"access, inequality, and digital divide",1,clinical innovation and diagnostic benefit,0
+primary_frame,0,"access, inequality, and digital divide",2,health safety risk and medical harm,0
+primary_frame,0,"access, inequality, and digital divide",3,labor automation and professional displacement,0
+primary_frame,0,"access, inequality, and digital divide",4,mental health and therapy risk,0
+primary_frame,0,"access, inequality, and digital divide",5,"misinformation, deepfakes, and fraud",0
+primary_frame,0,"access, inequality, and digital divide",6,other / unclear,0
+primary_frame,0,"access, inequality, and digital divide",7,public trust and accountability,0
+primary_frame,0,"access, inequality, and digital divide",8,"regulation, governance, and policy",0
+primary_frame,1,clinical innovation and diagnostic benefit,0,"access, inequality, and digital divide",0
+primary_frame,1,clinical innovation and diagnostic benefit,1,clinical innovation and diagnostic benefit,5
+primary_frame,1,clinical innovation and diagnostic benefit,2,health safety risk and medical harm,1
+primary_frame,1,clinical innovation and diagnostic benefit,3,labor automation and professional displacement,0
+primary_frame,1,clinical innovation and diagnostic benefit,4,mental health and therapy risk,0
+primary_frame,1,clinical innovation and diagnostic benefit,5,"misinformation, deepfakes, and fraud",0
+primary_frame,1,clinical innovation and diagnostic benefit,6,other / unclear,0
+primary_frame,1,clinical innovation and diagnostic benefit,7,public trust and accountability,0
+primary_frame,1,clinical innovation and diagnostic benefit,8,"regulation, governance, and policy",0
+primary_frame,2,health safety risk and medical harm,0,"access, inequality, and digital divide",0
+primary_frame,2,health safety risk and medical harm,1,clinical innovation and diagnostic benefit,5
+primary_frame,2,health safety risk and medical harm,2,health safety risk and medical harm,1
+primary_frame,2,health safety risk and medical harm,3,labor automation and professional displacement,0
+primary_frame,2,health safety risk and medical harm,4,mental health and therapy risk,1
+primary_frame,2,health safety risk and medical harm,5,"misinformation, deepfakes, and fraud",1
+primary_frame,2,health safety risk and medical harm,6,other / unclear,0
+primary_frame,2,health safety risk and medical harm,7,public trust and accountability,0
+primary_frame,2,health safety risk and medical harm,8,"regulation, governance, and policy",5
+primary_frame,3,labor automation and professional displacement,0,"access, inequality, and digital divide",0
+primary_frame,3,labor automation and professional displacement,1,clinical innovation and diagnostic benefit,0
+primary_frame,3,labor automation and professional displacement,2,health safety risk and medical harm,0
+primary_frame,3,labor automation and professional displacement,3,labor automation and professional displacement,0
+primary_frame,3,labor automation and professional displacement,4,mental health and therapy risk,0
+primary_frame,3,labor automation and professional displacement,5,"misinformation, deepfakes, and fraud",0
+primary_frame,3,labor automation and professional displacement,6,other / unclear,0
+primary_frame,3,labor automation and professional displacement,7,public trust and accountability,0
+primary_frame,3,labor automation and professional displacement,8,"regulation, governance, and policy",0
+primary_frame,4,mental health and therapy risk,0,"access, inequality, and digital divide",0
+primary_frame,4,mental health and therapy risk,1,clinical innovation and diagnostic benefit,0
+primary_frame,4,mental health and therapy risk,2,health safety risk and medical harm,0
+primary_frame,4,mental health and therapy risk,3,labor automation and professional displacement,0
+primary_frame,4,mental health and therapy risk,4,mental health and therapy risk,2
+primary_frame,4,mental health and therapy risk,5,"misinformation, deepfakes, and fraud",0
+primary_frame,4,mental health and therapy risk,6,other / unclear,0
+primary_frame,4,mental health and therapy risk,7,public trust and accountability,0
+primary_frame,4,mental health and therapy risk,8,"regulation, governance, and policy",0
+primary_frame,5,"misinformation, deepfakes, and fraud",0,"access, inequality, and digital divide",0
+primary_frame,5,"misinformation, deepfakes, and fraud",1,clinical innovation and diagnostic benefit,0
+primary_frame,5,"misinformation, deepfakes, and fraud",2,health safety risk and medical harm,1
+primary_frame,5,"misinformation, deepfakes, and fraud",3,labor automation and professional displacement,0
+primary_frame,5,"misinformation, deepfakes, and fraud",4,mental health and therapy risk,0
+primary_frame,5,"misinformation, deepfakes, and fraud",5,"misinformation, deepfakes, and fraud",1
+primary_frame,5,"misinformation, deepfakes, and fraud",6,other / unclear,0
+primary_frame,5,"misinformation, deepfakes, and fraud",7,public trust and accountability,0
+primary_frame,5,"misinformation, deepfakes, and fraud",8,"regulation, governance, and policy",0
+primary_frame,6,other / unclear,0,"access, inequality, and digital divide",0
+primary_frame,6,other / unclear,1,clinical innovation and diagnostic benefit,0
+primary_frame,6,other / unclear,2,health safety risk and medical harm,0
+primary_frame,6,other / unclear,3,labor automation and professional displacement,0
+primary_frame,6,other / unclear,4,mental health and therapy risk,0
+primary_frame,6,other / unclear,5,"misinformation, deepfakes, and fraud",0
+primary_frame,6,other / unclear,6,other / unclear,0
+primary_frame,6,other / unclear,7,public trust and accountability,0
+primary_frame,6,other / unclear,8,"regulation, governance, and policy",0
+primary_frame,7,public trust and accountability,0,"access, inequality, and digital divide",0
+primary_frame,7,public trust and accountability,1,clinical innovation and diagnostic benefit,1
+primary_frame,7,public trust and accountability,2,health safety risk and medical harm,3
+primary_frame,7,public trust and accountability,3,labor automation and professional displacement,1
+primary_frame,7,public trust and accountability,4,mental health and therapy risk,1
+primary_frame,7,public trust and accountability,5,"misinformation, deepfakes, and fraud",0
+primary_frame,7,public trust and accountability,6,other / unclear,0
+primary_frame,7,public trust and accountability,7,public trust and accountability,0
+primary_frame,7,public trust and accountability,8,"regulation, governance, and policy",1
+primary_frame,8,"regulation, governance, and policy",0,"access, inequality, and digital divide",0
+primary_frame,8,"regulation, governance, and policy",1,clinical innovation and diagnostic benefit,0
+primary_frame,8,"regulation, governance, and policy",2,health safety risk and medical harm,0
+primary_frame,8,"regulation, governance, and policy",3,labor automation and professional displacement,0
+primary_frame,8,"regulation, governance, and policy",4,mental health and therapy risk,0
+primary_frame,8,"regulation, governance, and policy",5,"misinformation, deepfakes, and fraud",0
+primary_frame,8,"regulation, governance, and policy",6,other / unclear,0
+primary_frame,8,"regulation, governance, and policy",7,public trust and accountability,0
+primary_frame,8,"regulation, governance, and policy",8,"regulation, governance, and policy",5
+stance,0,cautious or mixed about ai in health,0,cautious or mixed about ai in health,5
+stance,0,cautious or mixed about ai in health,1,critical of ai risks in health,2
+stance,0,cautious or mixed about ai in health,2,focused on regulation and governance,6
+stance,0,cautious or mixed about ai in health,3,optimistic about ai in health,2
+stance,0,cautious or mixed about ai in health,4,unclear / not applicable,2
+stance,1,critical of ai risks in health,0,cautious or mixed about ai in health,4
+stance,1,critical of ai risks in health,1,critical of ai risks in health,5
+stance,1,critical of ai risks in health,2,focused on regulation and governance,0
+stance,1,critical of ai risks in health,3,optimistic about ai in health,2
+stance,1,critical of ai risks in health,4,unclear / not applicable,0
+stance,2,focused on regulation and governance,0,cautious or mixed about ai in health,0
+stance,2,focused on regulation and governance,1,critical of ai risks in health,0
+stance,2,focused on regulation and governance,2,focused on regulation and governance,2
+stance,2,focused on regulation and governance,3,optimistic about ai in health,0
+stance,2,focused on regulation and governance,4,unclear / not applicable,0
+stance,3,optimistic about ai in health,0,cautious or mixed about ai in health,1
+stance,3,optimistic about ai in health,1,critical of ai risks in health,1
+stance,3,optimistic about ai in health,2,focused on regulation and governance,0
+stance,3,optimistic about ai in health,3,optimistic about ai in health,2
+stance,3,optimistic about ai in health,4,unclear / not applicable,0
+stance,4,unclear / not applicable,0,cautious or mixed about ai in health,0
+stance,4,unclear / not applicable,1,critical of ai risks in health,0
+stance,4,unclear / not applicable,2,focused on regulation and governance,0
+stance,4,unclear / not applicable,3,optimistic about ai in health,0
+stance,4,unclear / not applicable,4,unclear / not applicable,1
+misinformation_relation,0,direct misinformation focus,0,direct misinformation focus,4
+misinformation_relation,0,direct misinformation focus,1,indirect misinformation concern,0
+misinformation_relation,0,direct misinformation focus,2,no clear misinformation relation,0
+misinformation_relation,0,direct misinformation focus,3,unclear / not applicable,0
+misinformation_relation,1,indirect misinformation concern,0,direct misinformation focus,0
+misinformation_relation,1,indirect misinformation concern,1,indirect misinformation concern,4
+misinformation_relation,1,indirect misinformation concern,2,no clear misinformation relation,5
+misinformation_relation,1,indirect misinformation concern,3,unclear / not applicable,0
+misinformation_relation,2,no clear misinformation relation,0,direct misinformation focus,0
+misinformation_relation,2,no clear misinformation relation,1,indirect misinformation concern,8
+misinformation_relation,2,no clear misinformation relation,2,no clear misinformation relation,13
+misinformation_relation,2,no clear misinformation relation,3,unclear / not applicable,0
+misinformation_relation,3,unclear / not applicable,0,direct misinformation focus,0
+misinformation_relation,3,unclear / not applicable,1,indirect misinformation concern,1
+misinformation_relation,3,unclear / not applicable,2,no clear misinformation relation,0
+misinformation_relation,3,unclear / not applicable,3,unclear / not applicable,0

@@ -1,0 +1,70 @@
+EVE-FRAME v3 — STAGE B SCIENTIFIC CLOSURE
+========================================================================
+
+STATUS
+------
+STAGE_B_DEVELOPMENTAL_ANALYSIS_CLOSED
+
+EventGold-35 status: SEALED_NOT_ACCESSED
+Final architecture selection: NOT YET PERFORMED
+Post-Stage-B architecture sensitivity study: PERMITTED ONLY AS A
+SEPARATELY PRE-SPECIFIED DEVELOPMENTAL EXPERIMENT BEFORE EVENTGOLD.
+
+FROZEN ANALYSIS IDENTITIES
+--------------------------
+Analysis plan SHA256: 2c0dd392647994298d8888e17d8ad85303612987ce0a694f302d202ebba400e5
+Implementation lock SHA256: 92c734c2b63a06b5b34cb9f20ca917004c868c9b4a9d6e8404f0f766f87beadb
+Prediction input manifest SHA256: 298760125cf13293db0ebf9330f82cfef0448cfcef84806be950696680407c9c
+Analysis script SHA256: 76bf72bafc71c5140845270cbe527d91506dc265232813fd6d0c7bc4a2d34b3a
+Statistical freeze SHA256: 66a03a1e63d5ae264fb545ed43b0f8a94724119ebbf9e999209befb0e83b8b04
+Final result freeze SHA256: 01b2032bd26026cd57ad24df1a75423de1acbe375e075b6d3a1e2b7e2836a2b1
+
+PRIMARY FAMILY
+--------------
+VERIFIED_CONTEXT minus STAGE_A_NO_EVENT
+
+primary_frame: Macro-F1=0.435658915 vs 0.453936018; delta=-0.018277103; bootstrap95=[-0.054501229, +0.012679029]; randomization_p=0.357064294; BH_q=0.381761824
+stance: Macro-F1=0.486441704 vs 0.469827175; delta=+0.016614529; bootstrap95=[-0.018628864, +0.055749821]; randomization_p=0.381761824; BH_q=0.381761824
+misinformation_relation: Macro-F1=0.613836469 vs 0.569361356; delta=+0.044475112; bootstrap95=[+0.004095030, +0.091664862]; randomization_p=0.075892411; BH_q=0.227677232
+
+CONTEXT-SPECIFICITY FAMILY
+--------------------------
+VERIFIED_CONTEXT minus PERMUTED_CONTEXT
+
+primary_frame: Macro-F1=0.435658915 vs 0.437086476; delta=-0.001427561; bootstrap95=[-0.020023433, +0.015715917]; randomization_p=0.838716128; BH_q=1.000000000
+stance: Macro-F1=0.486441704 vs 0.483499396; delta=+0.002942307; bootstrap95=[-0.011035035, +0.017249072]; randomization_p=1.000000000; BH_q=1.000000000
+misinformation_relation: Macro-F1=0.613836469 vs 0.598274248; delta=+0.015562220; bootstrap95=[+0.000000000, +0.043952188]; randomization_p=0.500449955; BH_q=1.000000000
+
+PRE-SPECIFIED INTERPRETATION
+----------------------------
+
+1. No PRIMARY contrast survives the pre-specified
+   within-family Benjamini-Hochberg correction.
+
+2. misinformation_relation shows a positive nominal
+   VERIFIED_CONTEXT minus STAGE_A_NO_EVENT delta and a
+   bootstrap interval above zero, but the pre-specified
+   randomization test and BH-adjusted q-value do not provide
+   confirmatory support.
+
+3. No CONTEXT_SPECIFICITY contrast provides confirmatory
+   evidence that verified context outperforms permuted context.
+
+4. Therefore Stage B does not establish a confirmatory
+   incremental benefit of verified event context over Stage A,
+   nor a context-identity-specific benefit under the tested
+   gated residual fusion architecture.
+
+5. These null findings are NOT interpreted as equivalence.
+
+6. LegacyAux-199 remains DEVELOPMENTAL evidence.
+
+7. EventGold-35 remains sealed and has played no role in model
+   development, architecture selection, threshold selection,
+   statistical planning, or interpretation of Stage B.
+
+8. Any subsequent V4 architecture experiment must be frozen
+   before training/results and must remain confined to
+   developmental data. Stage B itself will not be retrospectively
+   retuned or rewritten.
+

@@ -1,0 +1,105 @@
+EVE-FRAME V4 — ARCHITECTURE-SENSITIVITY CLOSURE
+===============================================
+
+STATUS
+------
+CLOSED.
+
+The V4 architecture-sensitivity stage is complete.
+
+EXECUTION
+---------
+240 / 240 V4 training configurations completed with exit code 0.
+
+Confirmatory analysis job:
+27775
+
+Job state:
+COMPLETED
+
+Exit code:
+0:0
+
+Elapsed:
+00:09:29
+
+INPUTS
+------
+Frozen analysis prediction inputs:
+300
+
+STAGE_A_NO_EVENT:
+60
+
+V4:
+240
+
+Systems:
+5
+
+Tasks:
+3
+
+Outer folds:
+4
+
+Training seeds:
+5
+
+OOF articles per system/task:
+199
+
+INFERENCE
+---------
+Primary metric:
+Five-seed probability-ensemble OOF Macro-F1.
+
+Inferential unit:
+Article.
+
+Bootstrap:
+10,000 paired stratified replicates.
+
+Randomization:
+10,000 paired whole-probability-vector swaps.
+
+Confirmatory families:
+2.
+
+Tests per family:
+6.
+
+Multiple testing:
+Benjamini-Hochberg separately within each six-test family.
+
+CONFIRMATORY CONCLUSION
+-----------------------
+Neither V4_FILM_R32 nor V4_LR_BILINEAR_R32 satisfied the
+predeclared same-task joint eligibility criterion.
+
+FINAL DEVELOPMENTAL ARCHITECTURE
+--------------------------------
+STAGE_A_NO_EVENT
+
+DEVELOPMENTAL INTERPRETATION
+----------------------------
+No confirmatory incremental benefit was established for either
+V4 contextual fusion architecture.
+
+No confirmatory context-specific benefit was established against
+the corresponding permuted-context controls.
+
+Null findings are not interpreted as equivalence.
+
+The V4 sensitivity study does not support attributing the
+Stage-B null solely to the original gated-residual operator.
+
+FREEZE
+------
+No further architecture search, V5 development, reactive tuning,
+threshold adjustment, family redefinition, or result-dependent
+model modification is permitted before EventGold-35.
+
+EVENTGOLD
+---------
+SEALED_NOT_ACCESSED at V4 closure.

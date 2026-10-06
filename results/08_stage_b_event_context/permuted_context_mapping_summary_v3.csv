@@ -1,0 +1,13 @@
+target_task,outer_fold,n_inner_train,n_inner_dev,n_outer_train,n_outer_test,context_inner_train,context_inner_dev,context_outer_train,context_outer_test
+primary_frame,1,115,34,149,50,29,7,36,15
+primary_frame,2,115,34,149,50,28,13,41,10
+primary_frame,3,115,34,149,50,32,4,36,15
+primary_frame,4,116,34,150,49,28,12,40,11
+stance,1,118,31,149,50,30,9,39,12
+stance,2,118,31,149,50,29,7,36,15
+stance,3,118,31,149,50,30,8,38,13
+stance,4,118,32,150,49,28,12,40,11
+misinformation_relation,1,118,31,149,50,25,13,38,13
+misinformation_relation,2,118,31,149,50,33,7,40,11
+misinformation_relation,3,118,31,149,50,29,9,38,13
+misinformation_relation,4,119,31,150,49,23,14,37,14

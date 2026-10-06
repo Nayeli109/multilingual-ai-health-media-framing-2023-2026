@@ -1,0 +1,3 @@
+# Preserve repository artifacts byte-for-byte.
+# Frozen scientific files must not undergo automatic EOL conversion.
+* -text

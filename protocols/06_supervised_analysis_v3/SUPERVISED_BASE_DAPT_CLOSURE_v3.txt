@@ -1,0 +1,298 @@
+SUPERVISED BASE-vs-DAPT EXPERIMENT — FINAL CLOSURE v3
+=====================================================
+
+STATUS
+CLOSED.
+
+This document freezes the interpretation of the completed supervised
+BASE-vs-DAPT experiment after validation of all 120 configurations and
+completion of the predeclared OOF statistical analysis.
+
+No further hyperparameter tuning, initialization selection, or
+reinterpretation of this experiment will be performed.
+
+DATA
+LegacyAux-199.
+
+SEALED BENCHMARK
+EventGold-35 remained sealed and was not accessed during training,
+model selection, aggregate OOF analysis, bootstrap inference, or
+randomization inference.
+
+EXPERIMENTAL DESIGN
+Tasks:
+1. primary_frame
+2. stance
+3. misinformation_relation
+
+Initializations:
+1. XLMR_BASE
+2. XLMR_DAPT_INDUCTIVE
+
+Outer folds: 4
+Model seeds: 11, 29, 47, 83, 131
+
+Total configurations:
+3 tasks x 4 folds x 2 initializations x 5 seeds = 120.
+
+FINAL TRAINING AUDIT
+expected_runs: 120
+summaries_found: 120
+valid_runs: 120
+missing_runs: 0
+invalid_runs: 0
+all_120_valid: true
+
+Total recorded GPU time:
+15.828083335293664 hours
+
+Maximum recorded GPU memory:
+5.773475646972656 GB
+
+PRIMARY ESTIMAND
+Five-seed probability-ensemble OOF Macro-F1 on all 199 articles.
+
+Primary contrast:
+Delta = MacroF1(DAPT) - MacroF1(BASE)
+
+=====================================================
+FINAL TASK-LEVEL RESULTS
+=====================================================
+
+PRIMARY_FRAME
+BASE Macro-F1:
+0.3394240669052978
+
+DAPT Macro-F1:
+0.3226745795505860
+
+Delta DAPT-BASE:
+-0.016749487354711823
+
+95% paired stratified bootstrap CI:
+[-0.04988325718429002, 0.012804544016134806]
+
+P(Delta > 0):
+0.146
+
+Two-sided paired randomization p:
+0.34226577342265774
+
+BH-adjusted q:
+0.5133986601339866
+
+Interpretation:
+DAPT was numerically lower than BASE, but the predeclared paired
+inference does not support a reliable difference.
+
+-----------------------------------------------------
+
+STANCE
+BASE Macro-F1:
+0.41719951442344794
+
+DAPT Macro-F1:
+0.43527531367377925
+
+Delta DAPT-BASE:
++0.018075799250331315
+
+95% paired stratified bootstrap CI:
+[-0.006204214965023154, 0.04386887305892221]
+
+P(Delta > 0):
+0.928
+
+Two-sided paired randomization p:
+0.16928307169283072
+
+BH-adjusted q:
+0.5078492150784921
+
+Interpretation:
+DAPT showed a modest positive numerical shift, but the confidence
+interval crossed zero and the predeclared paired inference did not
+support a reliable difference.
+
+-----------------------------------------------------
+
+MISINFORMATION_RELATION
+BASE Macro-F1:
+0.4673419728783902
+
+DAPT Macro-F1:
+0.4680952380952381
+
+Delta DAPT-BASE:
++0.0007532652168479315
+
+95% paired stratified bootstrap CI:
+[-0.001690486802816618, 0.0034060138597091253]
+
+P(Delta > 0):
+0.6133
+
+Two-sided paired randomization p:
+1.0
+
+BH-adjusted q:
+1.0
+
+Interpretation:
+Five-seed ensemble performance was essentially unchanged.
+
+=====================================================
+SECONDARY ENSEMBLE METRICS
+=====================================================
+
+PRIMARY_FRAME
+BASE:
+balanced_accuracy = 0.3675160241230147
+accuracy = 0.5829145728643216
+weighted_f1 = 0.5124364198986547
+
+DAPT:
+balanced_accuracy = 0.35414456442802567
+accuracy = 0.5778894472361809
+weighted_f1 = 0.4997993852119553
+
+STANCE
+BASE:
+balanced_accuracy = 0.4419853709508882
+accuracy = 0.6633165829145728
+weighted_f1 = 0.6105780638144515
+
+DAPT:
+balanced_accuracy = 0.4668808777429467
+accuracy = 0.6783919597989950
+weighted_f1 = 0.6261724991938032
+
+MISINFORMATION_RELATION
+BASE:
+balanced_accuracy = 0.4915570175438596
+accuracy = 0.7386934673366834
+weighted_f1 = 0.6663295150292142
+
+DAPT:
+balanced_accuracy = 0.4915570175438596
+accuracy = 0.7386934673366834
+weighted_f1 = 0.6666028555475791
+
+=====================================================
+SEED-LEVEL DESCRIPTIVE FINDINGS
+=====================================================
+
+Mean Macro-F1 across five seed-specific OOF predictions:
+
+primary_frame
+BASE = 0.311933
+DAPT = 0.307061
+
+stance
+BASE = 0.430229
+DAPT = 0.445440
+
+misinformation_relation
+BASE = 0.468987
+DAPT = 0.489956
+
+These seed-level summaries are descriptive only.
+Seeds are NOT independent inferential units.
+
+The predeclared primary estimand remains the five-seed
+probability-ensemble OOF result.
+
+=====================================================
+CLASS-LEVEL ERROR STRUCTURE
+=====================================================
+
+PRIMARY_FRAME
+
+Classes with zero ensemble F1 under both initializations:
+- access, inequality, and digital divide
+- health safety risk and medical harm
+- mental health and therapy risk
+- public trust and accountability
+
+Largest notable DAPT deterioration:
+labor automation and professional displacement
+BASE F1 = 0.516129
+DAPT F1 = 0.320000
+BASE recall = 0.400000
+DAPT recall = 0.200000
+
+STANCE
+
+Classes with zero ensemble F1 under both initializations:
+- cautious or mixed about AI in health
+- focused on regulation and governance
+
+Largest notable DAPT improvement:
+optimistic about AI in health
+BASE F1 = 0.658824
+DAPT F1 = 0.767442
+BASE recall = 0.700000
+DAPT recall = 0.825000
+
+MISINFORMATION_RELATION
+
+Class with zero ensemble F1 under both initializations:
+- indirect misinformation concern
+
+BASE and DAPT achieved identical ensemble accuracy and balanced
+accuracy, with only minimal class-level differences.
+
+=====================================================
+SCIENTIFIC CONCLUSION
+=====================================================
+
+Full supervised fine-tuning did not provide evidence that inductive
+domain-adaptive pretraining yields a general downstream advantage over
+the original multilingual initialization.
+
+Effects were task-dependent:
+- negative numerical shift for primary_frame;
+- modest positive numerical shift for stance;
+- essentially unchanged ensemble performance for
+  misinformation_relation.
+
+None of the three predeclared task-level Macro-F1 contrasts was
+supported after paired uncertainty estimation and BH-FDR correction.
+
+The dominant downstream limitation was not overall accuracy alone.
+Multiple minority classes remained completely unrecovered under both
+initializations, producing substantial divergence between overall
+accuracy and Macro-F1.
+
+Accordingly, no additional post-hoc attempt will be made to optimize
+or rescue DAPT on LegacyAux-199.
+
+The BASE-vs-DAPT block is retained as a frozen benchmark for subsequent
+architectural experiments.
+
+NEXT PHASE
+EVE-FRAME architectural development, ablation, and generalization
+analysis.
+
+LegacyAux results may be used for architecture development, but
+EventGold-35 must remain sealed until the EVE-FRAME architecture and
+its model-selection rules are frozen.
+
+=====================================================
+FROZEN PROTOCOL HASHES
+=====================================================
+
+Statistical analysis plan:
+cdfa108fb753af10e1ce6aad096f1f1570282f5a75d247a4f391bf09f150407c
+
+Statistical implementation lock:
+609dbfd0a7c558d6fc54e54c496563678d591e906c1e6c1bdc6491d7fe81ccbd
+
+Fine-tuning run manifest:
+149089f3237ce36c34e917ed93cf05870c5396743355aa81850469dea7efe85f
+
+Full fine-tuning audit:
+85a7157e1de2aae97bc18d9592ebd72ec93fa727ada6cab1bb6f7d4ae3829b36
+
+EventGold-35 status:
+SEALED.

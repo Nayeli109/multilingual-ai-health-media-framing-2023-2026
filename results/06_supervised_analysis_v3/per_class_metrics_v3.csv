@@ -1,0 +1,37 @@
+task,initialization,class_id,class_label,precision,recall,f1,support
+primary_frame,XLMR_BASE,0,"access, inequality, and digital divide",0.0,0.0,0.0,5
+primary_frame,XLMR_BASE,1,clinical innovation and diagnostic benefit,0.48484848484848486,0.8888888888888888,0.6274509803921569,36
+primary_frame,XLMR_BASE,2,health safety risk and medical harm,0.0,0.0,0.0,14
+primary_frame,XLMR_BASE,3,labor automation and professional displacement,0.7272727272727273,0.4,0.5161290322580645,20
+primary_frame,XLMR_BASE,4,mental health and therapy risk,0.0,0.0,0.0,15
+primary_frame,XLMR_BASE,5,"misinformation, deepfakes, and fraud",0.5970149253731343,0.8333333333333334,0.6956521739130435,48
+primary_frame,XLMR_BASE,6,other / unclear,0.75,0.391304347826087,0.5142857142857142,23
+primary_frame,XLMR_BASE,7,public trust and accountability,0.0,0.0,0.0,4
+primary_frame,XLMR_BASE,8,"regulation, governance, and policy",0.627906976744186,0.7941176470588235,0.7012987012987013,34
+primary_frame,XLMR_DAPT_INDUCTIVE,0,"access, inequality, and digital divide",0.0,0.0,0.0,5
+primary_frame,XLMR_DAPT_INDUCTIVE,1,clinical innovation and diagnostic benefit,0.463768115942029,0.8888888888888888,0.6095238095238096,36
+primary_frame,XLMR_DAPT_INDUCTIVE,2,health safety risk and medical harm,0.0,0.0,0.0,14
+primary_frame,XLMR_DAPT_INDUCTIVE,3,labor automation and professional displacement,0.8,0.2,0.32,20
+primary_frame,XLMR_DAPT_INDUCTIVE,4,mental health and therapy risk,0.0,0.0,0.0,15
+primary_frame,XLMR_DAPT_INDUCTIVE,5,"misinformation, deepfakes, and fraud",0.6119402985074627,0.8541666666666666,0.7130434782608696,48
+primary_frame,XLMR_DAPT_INDUCTIVE,6,other / unclear,0.9,0.391304347826087,0.5454545454545454,23
+primary_frame,XLMR_DAPT_INDUCTIVE,7,public trust and accountability,0.0,0.0,0.0,4
+primary_frame,XLMR_DAPT_INDUCTIVE,8,"regulation, governance, and policy",0.6170212765957447,0.8529411764705882,0.7160493827160493,34
+stance,XLMR_BASE,0,cautious or mixed about ai in health,0.0,0.0,0.0,18
+stance,XLMR_BASE,1,critical of ai risks in health,0.717948717948718,0.6363636363636364,0.6746987951807228,44
+stance,XLMR_BASE,2,focused on regulation and governance,0.0,0.0,0.0,10
+stance,XLMR_BASE,3,optimistic about ai in health,0.6222222222222222,0.7,0.6588235294117647,40
+stance,XLMR_BASE,4,unclear / not applicable,0.6608695652173913,0.8735632183908046,0.7524752475247525,87
+stance,XLMR_DAPT_INDUCTIVE,0,cautious or mixed about ai in health,0.0,0.0,0.0,18
+stance,XLMR_DAPT_INDUCTIVE,1,critical of ai risks in health,0.6521739130434783,0.6818181818181818,0.6666666666666666,44
+stance,XLMR_DAPT_INDUCTIVE,2,focused on regulation and governance,0.0,0.0,0.0,10
+stance,XLMR_DAPT_INDUCTIVE,3,optimistic about ai in health,0.717391304347826,0.825,0.7674418604651163,40
+stance,XLMR_DAPT_INDUCTIVE,4,unclear / not applicable,0.6728971962616822,0.8275862068965517,0.7422680412371134,87
+misinformation_relation,XLMR_BASE,0,direct misinformation focus,0.7910447761194029,0.8833333333333333,0.8346456692913385,60
+misinformation_relation,XLMR_BASE,1,indirect misinformation concern,0.0,0.0,0.0,20
+misinformation_relation,XLMR_BASE,2,no clear misinformation relation,0.7054263565891473,0.9578947368421052,0.8125,95
+misinformation_relation,XLMR_BASE,3,unclear / not applicable,1.0,0.125,0.2222222222222222,24
+misinformation_relation,XLMR_DAPT_INDUCTIVE,0,direct misinformation focus,0.803030303030303,0.8833333333333333,0.8412698412698413,60
+misinformation_relation,XLMR_DAPT_INDUCTIVE,1,indirect misinformation concern,0.0,0.0,0.0,20
+misinformation_relation,XLMR_DAPT_INDUCTIVE,2,no clear misinformation relation,0.7,0.9578947368421052,0.8088888888888889,95
+misinformation_relation,XLMR_DAPT_INDUCTIVE,3,unclear / not applicable,1.0,0.125,0.2222222222222222,24

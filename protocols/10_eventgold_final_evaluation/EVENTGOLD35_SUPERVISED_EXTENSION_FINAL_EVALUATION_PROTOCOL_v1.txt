@@ -1,0 +1,435 @@
+EVE-FRAME — EVENTGOLD35 SUPERVISED EXTENSION FINAL EVALUATION PROTOCOL v1
+========================================================================
+
+STATUS
+------
+FROZEN AFTER FINAL HUMAN-GOLD CREATION AND BEFORE ANY MODEL INFERENCE
+ON THE PROSPECTIVE SUPERVISED EXTENSION.
+
+At protocol freeze:
+
+FINAL_HUMAN_GOLD_FROZEN=YES
+MODEL_PREDICTIONS_COMPUTED=NO
+EVENTGOLD_SUPERVISED_EXTENSION_PERFORMANCE_AVAILABLE=NO
+MODEL_MODIFIED_AFTER_EVENTGOLD_ACCESS=NO
+
+PURPOSE
+-------
+Perform the single final held-out supervised evaluation of the already
+frozen STAGE_A_NO_EVENT model package on the prospectively human-annotated
+supervised extension of the previously held-out EventGold35 document set.
+
+This protocol does not reopen model development, architecture selection,
+human annotation, adjudication, taxonomy definition, epoch selection,
+checkpoint selection, or preprocessing design.
+
+HISTORICAL PROTOCOL DEVIATION
+-----------------------------
+The original EventGold35 one-shot supervised evaluation was closed
+without predictions or performance because the original EventGold35
+annotation schema did not contain the three Stage-A supervised targets.
+
+That failed schema-incompatible attempt remains permanently documented.
+
+The present evaluation is a separately versioned prospective supervised
+extension. It must not be described as though the Stage-A target labels
+were part of the original EventGold35 annotation schema.
+
+FINAL HUMAN GOLD
+----------------
+Input:
+
+01_event_aware_v3/10_eventgold_final_evaluation/
+eventgold35_supervised_extension_v1/
+EventGold35_SUPERVISED_EXTENSION_FINAL_GOLD_v1.csv
+
+Expected SHA256:
+
+4b2f271386a1b092e7d0b31ed382a234252ae649ff2580c75774a7276708fd6d
+
+Expected rows:
+35
+
+Expected unique doc_id values:
+35
+
+Required modeling fields:
+
+doc_id
+dapt_text
+final_primary_frame_validated
+final_stance_validated
+final_misinformation_relation_validated
+
+The final-gold file is immutable.
+
+No label may be corrected, merged, relabeled, normalized, replaced,
+or selected according to model behavior.
+
+FINAL MODEL PACKAGE
+-------------------
+Architecture:
+
+STAGE_A_NO_EVENT
+
+Frozen Stage-A trainer:
+
+01_event_aware_v3/07_eve_frame_stage_a_no_event/
+37_train_eve_frame_stage_a_v3.py
+
+Expected trainer SHA256:
+
+62f5f55fcdeaf4e5c947313bcc326daa8ceb225e2ab954ffa7b24430e1e760b9
+
+Exactly 15 frozen logical checkpoints are eligible:
+
+3 tasks x 5 seeds
+
+Seeds:
+
+11
+29
+47
+83
+131
+
+All five seeds must be used for every task.
+
+No checkpoint or seed may be selected, discarded, substituted,
+retrained, weighted according to final-gold behavior, or modified.
+
+CHECKPOINT INTEGRITY
+--------------------
+Every checkpoint must match:
+
+FINAL_REFIT_CHECKPOINT_MANIFEST_v1.csv
+
+Expected manifest SHA256:
+
+05d8cbfb7aba539d149af8925dda435de58cdfa4f5cd28e6d8b6344671da860a
+
+The frozen checkpoint checksum package must match:
+
+FROZEN_FINAL_REFIT_CHECKPOINTS_SHA256SUMS_v1.txt
+
+Expected SHA256:
+
+946413f086bdb70aca8e905d5e95e646f54fd
+
+INHERITED EVALUATION MACHINERY
+------------------------------
+The scientific inference and primary 
+UNCHANGED from the pre-performance EventGold one-shot implementation lock.
+
+The inherited rules were frozen before EventGold model perfor
+existed.
+
+Inherited model inference:
+
+- reuse the frozen Stage-A tokenizer and document encoder;
+- model.eval();
+- torch.inference_mode();
+- strict
+- target-task logits;
+- softmax probabilities;
+- no gradients;
+- no calibration;
+- no threshold tuning.
+
+TASK ENSEMBLE
+-----------
+For every task and article, obtain one probability vector from each of
+the five frozen seed-specific logical models.
+
+Ensemble probability:
+
+p_bar
+
+Final prediction:
+
+argmax over the element-wise mean probability vector.
+
+Explicitly prohibited:
+
+- majority vote over seed argmax pred
+- best-seed selection;
+- seed weighting using final-gold performance;
+- threshold optimization;
+- final-gold calibration.
+
+LABEL UNIVERSE
+---------
+All reported metrics use the COMPLETE frozen task label universe encoded
+in the checkpoints.
+
+No sample-observed class subset may replace the frozen label universe.
+
+This is particularly important when one or more frozen classes have
+zero support in the 35-document final gold.
+
+PRIMARY METRIC
+--------------
+Macro-F1.
+
+The exact frozen Stage-A metric_dict implementation must be reused.
+
+SECONDARY GLOBAL METRICS
+------------------------
+Descriptive only:
+
+- balanced accuracy;
+- accuracy;
+- weighted F1.
+
+The exact frozen Stage-A metric_dict implementation must be reused.
+
+No pooled three-task score may be introduced.
+
+ADDITIONAL DESCRIPTIVE CLASS-LEVEL OUTPUTS
+------------------------------------------
+To support transparent interpretation of the small and imbalanced final
+benchmark, the final evaluator will additionally report, separately for
+each task and every class in the COMPLETE frozen label universe:
+
+- support;
+- precision;
+- recall;
+- F1.
+
+These class-level statistics are DESCRIPTIVE ONLY.
+
+They do not replace, modify, select, tune, or redefine the primary or
+secondary frozen metrics.
+
+They must use the complete frozen class list and zero_division=0.
+
+CONFUSION MATRICES
+------------------
+A confusion matrix will be reported separately for each task using the
+complete frozen label universe for both true and predicted axes.
+
+Confusion matrices are descriptive only.
+
+No class merging or post-hoc category collapsing is permitted.
+
+BOOTSTRAP UNCERTAINTY
+---------------------
+Primary uncertainty analysis:
+
+10,000 bootstrap replicates per task.
+
+Resampling unit:
+ARTICLE.
+
+Stratification:
+observed final-gold true label within task.
+
+For every observed gold class, sample with replacement the same number
+of article indices originally belonging to that class.
+
+For each replicate, Macro-F1 is computed using the COMPLETE frozen task
+label universe.
+
+95% interval:
+
+NumPy quantile at 0.025 and 0.975
+with method="linear".
+
+The bootstrap interval is descriptive.
+
+No bootstrap-based model selection is permitted.
+
+FROZEN RNG
+----------
+Reuse exactly the RNG configuration frozen before any EventGold
+performance existed:
+
+EVENTGOLD_BOOTSTRAP_RNG_v1.json
+
+Expected SHA256:
+
+4c15cd3357629e5a0e9fc48c08e80ec7dcbf2a81e4800ad5308b64ea1b82405d
+
+Method:
+
+numpy.random.default_rng
+
+Seeds:
+
+primary_frame:
+2026092701
+
+stance:
+2026092702
+
+misinformation_relation:
+2026092703
+
+No new RNG seed may be selected after performance access.
+
+HYPOTHESIS TESTING
+------------------
+NONE for the final EventGold supervised extension evaluation.
+
+No p-values.
+
+No final-gold randomization test.
+
+No multiple-testing procedure.
+
+No claim of equivalence from a null or imprecise result.
+
+EXPECTED OUTPUT NAMESPACE
+-------------------------
+Final directory:
+
+eventgold35_supervised_extension_final_results_v1
+
+Temporary directory:
+
+eventgold35_supervised_extension_final_results_v1_tmp
+
+Both directories must be absent before final execution.
+
+The evaluator must refuse overwrite.
+
+EXPECTED MACHINE-READABLE OUTPUTS
+---------------------------------
+At minimum:
+
+eventgold35_supervised_extension_seed_predictions_v1.csv
+eventgold35_supervised_extension_ensemble_predictions_v1.csv
+eventgold35_supervised_extension_metrics_v1.csv
+eventgold35_supervised_extension_per_class_metrics_v1.csv
+eventgold35_supervised_extension_confusion_matrix_long_v1.csv
+eventgold35_supervised_extension_bootstrap_macro_f1_v1.csv
+eventgold35_supervised_extension_input_hash_audit_v1.csv
+eventgold35_supervised_extension_label_maps_v1.json
+eventgold35_supervised_extension_document_chunking_v1.csv
+eventgold35_supervised_extension_summary_v1.json
+EVENTGOLD35_SUPERVISED_EXTENSION_RESULTS_SHA256SUMS_v1.txt
+
+EXPECTED STRUCTURAL COUNTS
+--------------------------
+Seed-specific prediction rows:
+
+35 x 3 x 5 = 525
+
+Ensemble prediction rows:
+
+35 x 3 = 105
+
+Global metric rows:
+
+3
+
+Bootstrap rows:
+
+3 x 10,000 = 30,000
+
+Per-class metric rows:
+
+9 + 5 + 4 = 18
+
+Long-form confusion-matrix rows:
+
+9^2 + 5^2 + 4^2 = 122
+
+ATOMIC OUTPUT POLICY
+--------------------
+All outputs must first be written to the temporary result directory.
+
+Only after every validation and checksum succeeds may the temporary
+directory be atomically renamed to the final result directory.
+
+No partial final directory is acceptable.
+
+PREFLIGHT
+---------
+Before final inference, a non-performance implementation preflight must
+verify, at minimum:
+
+- evaluator syntax/importability;
+- frozen predecessor hashes;
+- final-gold byte-level SHA;
+- checkpoint manifest integrity;
+- existence and checksum of all 15 checkpoints;
+- Stage-A API compatibility;
+- label-map consistency;
+- task order;
+- seed set;
+- RNG configuration;
+- output namespace absence.
+
+The preflight must not compute final-gold model predictions or
+performance metrics.
+
+FINAL EXECUTION ENVIRONMENT
+---------------------------
+Use the known-good CEDIA GPU resource shape:
+
+partition:
+gpu
+
+cpus-per-task:
+8
+
+memory:
+12G
+
+GPU:
+1 x a100-sxm4-40gb
+
+Environment must preserve the frozen Stage-A deterministic settings.
+
+ONE-SHOT CONSEQUENCE
+--------------------
+After successful final-gold prediction and metric computation, the
+result package becomes the final held-out supervised evaluation.
+
+No unfavorable or favorable result may trigger:
+
+- retraining;
+- architecture changes;
+- epoch changes;
+- seed removal;
+- seed selection;
+- seed weighting;
+- checkpoint replacement;
+- calibration;
+- threshold tuning;
+- preprocessing changes;
+- metric substitution;
+- class merging;
+- taxonomy modification;
+- a second confirmatory model evaluation on the same final gold.
+
+Infrastructure/software failure may be diagnosed only as necessary to
+complete the already frozen analysis, and any such failure must be
+documented.
+
+INTERPRETATION CONSTRAINTS
+--------------------------
+The final benchmark contains only 35 articles.
+
+Results support a carefully framed held-out benchmark assessment and
+must not be represented as population-representative performance.
+
+Seeds are stochastic fits and are not independent inferential units.
+
+The EventGold supervised extension must be described as:
+
+"a prospectively human-annotated supervised extension of the previously
+held-out EventGold35 document set."
+
+CURRENT STATUS AT FREEZE
+------------------------
+FINAL_HUMAN_GOLD_FROZEN=YES
+FINAL_STAGE_A_CHECKPOINTS_FROZEN=YES
+FINAL_ARCHITECTURE=STAGE_A_NO_EVENT
+MODEL_PREDICTIONS_COMPUTED=NO
+EVENTGOLD_SUPERVISED_EXTENSION_PERFORMANCE_AVAILABLE=NO
+
+NEXT_ALLOWED_PHASE
+------------------
+CREATE_AND_FREEZE_SUPERVISED_EXTENSION_FINAL_EVALUATOR

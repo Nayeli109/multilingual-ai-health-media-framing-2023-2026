@@ -1,0 +1,82 @@
+EVE-FRAME — FINAL STAGE-A REFIT EXECUTION LOCK v1
+=================================================
+
+STATUS
+------
+FROZEN BEFORE FINAL REFIT TRAINING AND BEFORE ACCESS TO
+EVENTGOLD-35 CONTENT.
+
+SCIENTIFIC IMPLEMENTATION
+-------------------------
+Final architecture:
+STAGE_A_NO_EVENT
+
+Final configurations:
+15
+
+Tasks:
+3
+
+Seeds:
+5
+
+Training set:
+LegacyAux-199 only.
+
+Final epochs:
+Taken exclusively from frozen FINAL_REFIT_EPOCHS_v1.csv.
+
+No validation, model selection, seed weighting, threshold
+optimization, architecture search, or EventGold access occurs
+during final refit.
+
+EXECUTION RESOURCES
+-------------------
+Execution settings follow the original frozen Stage-A SLURM
+configuration:
+
+partition = gpu
+cpus-per-task = 8
+memory = 12G
+GPU = 1 x A100-SXM4-40GB
+walltime = 01:00:00 per array task
+
+Array:
+0-14
+
+Concurrency:
+1
+
+Therefore all 15 final refits execute serially with one GPU job
+active at a time.
+
+DETERMINISTIC ENVIRONMENT
+-------------------------
+OMP_NUM_THREADS=1
+MKL_NUM_THREADS=1
+OPENBLAS_NUM_THREADS=1
+NUMEXPR_NUM_THREADS=1
+
+PYTHONHASHSEED=42
+HF_HUB_OFFLINE=1
+TRANSFORMERS_OFFLINE=1
+TOKENIZERS_PARALLELISM=false
+CUBLAS_WORKSPACE_CONFIG=:4096:8
+
+OUTPUT POLICY
+-------------
+The frozen trainer uses atomic temporary-to-final directory
+renaming.
+
+Existing non-valid run outputs are not overwritten.
+
+A valid completed run may be skipped only through the trainer's
+frozen --skip-if-valid integrity checks.
+
+EVENTGOLD
+---------
+EventGold-35 remains SEALED_NOT_ACCESSED during all 15 final
+refit jobs.
+
+EventGold may not be opened until the complete final checkpoint
+package has been audited and frozen.

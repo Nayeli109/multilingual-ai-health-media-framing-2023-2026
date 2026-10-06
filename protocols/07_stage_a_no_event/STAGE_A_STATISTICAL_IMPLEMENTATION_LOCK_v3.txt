@@ -1,0 +1,128 @@
+EVE-FRAME STAGE A vs FROZEN BASE
+STATISTICAL IMPLEMENTATION LOCK v3
+==================================
+
+Frozen before computation or inspection of aggregate Stage-A OOF
+performance.
+
+COMPARISON
+EVE_FRAME_STAGE_A_NO_EVENT vs frozen XLMR_BASE supervised benchmark.
+
+DATA
+LegacyAux-199.
+
+INFERENTIAL UNIT
+Article.
+
+OOF ENSEMBLING
+Arithmetic mean of the five seed probability vectors for each held-out
+article within its frozen outer fold.
+
+Seeds:
+11
+29
+47
+83
+131
+
+Prediction:
+argmax of the five-seed mean probability vector.
+
+PRIMARY ENDPOINT
+Macro-F1.
+
+PRIMARY CONTRAST
+Delta = MacroF1(StageA) - MacroF1(BASE).
+
+Macro-F1 always includes all declared task classes.
+
+zero_division = 0.
+
+RANDOM GENERATOR
+NumPy default_rng.
+
+MASTER RNG SEED
+20260921
+
+BOOTSTRAP
+10,000 paired class-stratified article-level replicates.
+
+Within every true-label stratum, articles are sampled with replacement
+using the original stratum sample size.
+
+The same sampled article indices are used for Stage A and BASE.
+
+Confidence interval:
+95% percentile bootstrap interval.
+
+Also report:
+P(Delta > 0).
+
+RANDOMIZATION
+10,000 paired article-level probability-vector swaps.
+
+For each article independently with probability 0.5, swap the entire
+Stage-A and BASE probability vectors.
+
+Two-sided plus-one p-value:
+
+p = (1 + count(|Delta_null| >= |Delta_observed|)) / (10000 + 1)
+
+MULTIPLE TESTING
+Benjamini-Hochberg FDR across exactly the three predeclared task-level
+Macro-F1 randomization p-values.
+
+SECONDARY METRICS
+Balanced accuracy.
+Accuracy.
+Weighted F1.
+Per-class precision.
+Per-class recall.
+Per-class F1.
+Confusion matrices.
+
+MINORITY-CLASS DIAGNOSTIC
+For classes having BASE recall = 0:
+
+- report Stage-A recall;
+- absolute recall change;
+- Stage-A F1;
+- whether Stage A recovered non-zero recall.
+
+This diagnostic is descriptive.
+
+SEED STABILITY
+Five seed-specific OOF results per task are descriptive only.
+
+Seeds are not inferential replicates.
+
+OUTER FOLDS
+Outer folds are not treated as n=4 independent inferential units.
+
+BASE COMPARATOR
+Use only the already frozen five-seed XLMR_BASE OOF probability
+ensemble from:
+
+01_event_aware_v3/06_supervised_analysis_v3/results_v3/
+oof_ensemble_predictions_v3.csv
+
+No BASE model is retrained.
+
+STAGE-A INPUT
+Use only the 60 already completed and provenance-validated Stage-A
+outer-test prediction files.
+
+No Stage-A model is retrained.
+
+DEVELOPMENT-SET STATUS
+This comparison is architectural development on LegacyAux-199.
+
+Because Stage A was designed after inspection of earlier LegacyAux
+error structure, this comparison is not independent external
+validation.
+
+EVENTGOLD
+EventGold-35 remains completely sealed.
+
+No aggregate Stage-A OOF result had been computed or inspected in this
+analysis workflow when this implementation lock was frozen.

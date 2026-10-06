@@ -1,0 +1,18 @@
+# Reference public environment
+# Python 3.11.14
+#
+# Versions below were recorded from the active CEDIA media_q1_env on 2026-10-06,
+# except ripser, whose frozen topology-analysis version is recorded in
+# protocols/11_representation_topology/TDA_PACKAGE_VERSIONS_v1.txt.
+
+networkx==3.6.1
+numpy==1.26.4
+pandas==2.2.3
+scikit-learn==1.5.2
+scipy==1.16.3
+sentence-transformers==3.0.1
+tokenizers==0.22.2
+torch==2.6.0
+tqdm==4.66.5
+transformers==4.57.6
+ripser==0.6.12

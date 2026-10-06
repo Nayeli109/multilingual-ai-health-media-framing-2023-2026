@@ -1,0 +1,31 @@
+{
+  "analysis_status": "COMPLETE",
+  "expected_runs": 120,
+  "validated_prediction_files": 120,
+  "tasks": [
+    "primary_frame",
+    "stance",
+    "misinformation_relation"
+  ],
+  "initializations": [
+    "XLMR_BASE",
+    "XLMR_DAPT_INDUCTIVE"
+  ],
+  "seeds": [
+    11,
+    29,
+    47,
+    83,
+    131
+  ],
+  "n_docs_per_task": 199,
+  "bootstrap_replicates_per_task": 10000,
+  "randomization_replicates_per_task": 10000,
+  "rng_seed": 20260920,
+  "statistical_plan_sha256": "cdfa108fb753af10e1ce6aad096f1f1570282f5a75d247a4f391bf09f150407c",
+  "implementation_lock_sha256": "609dbfd0a7c558d6fc54e54c496563678d591e906c1e6c1bdc6491d7fe81ccbd",
+  "manifest_sha256": "149089f3237ce36c34e917ed93cf05870c5396743355aa81850469dea7efe85f",
+  "full_finetune_audit_sha256": "85a7157e1de2aae97bc18d9592ebd72ec93fa727ada6cab1bb6f7d4ae3829b36",
+  "analysis_script_sha256": "8d6391b4d8dc3f50473feb25e7c1a4c04b643222de700f7b5cd3518b7aff1308",
+  "eventgold_status": "SEALED_NOT_ACCESSED"
+}

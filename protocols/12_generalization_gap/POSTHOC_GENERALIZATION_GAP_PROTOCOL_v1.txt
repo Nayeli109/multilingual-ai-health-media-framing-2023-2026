@@ -1,0 +1,136 @@
+Q1 Media Discourse 2026
+POST-HOC GENERALIZATION GAP PROTOCOL v1
+========================================
+
+STATUS
+------
+EXPLORATORY / POST-HOC GENERALIZATION DIAGNOSTIC.
+
+This protocol is frozen after completion of the prospective
+EventGold-35 evaluation.
+
+No model training, model selection, hyperparameter tuning,
+threshold tuning, relabeling, or architecture modification is
+permitted.
+
+DATASETS
+--------
+Developmental:
+LegacyAux-199 Stage-A NO_EVENT five-seed OOF ensemble predictions.
+
+Prospective held-out:
+EventGold-35 final human gold evaluated with the frozen final
+Stage-A NO_EVENT refit ensemble.
+
+PRIMARY QUESTION
+----------------
+How does predictive performance change from the developmental
+LegacyAux evaluation to the prospective EventGold benchmark?
+
+PRIMARY METRIC
+--------------
+Macro-F1.
+
+SECONDARY METRICS
+-----------------
+Balanced accuracy.
+Accuracy.
+Weighted F1.
+
+TASKS
+-----
+primary_frame
+stance
+misinformation_relation
+
+PERFORMANCE GAP
+---------------
+For each task and metric:
+
+gap = EventGold metric - LegacyAux metric
+
+Negative values indicate lower prospective held-out performance.
+
+Also report descriptive relative change:
+
+relative_change =
+(EventGold metric - LegacyAux metric) / LegacyAux metric
+
+UNCERTAINTY
+-----------
+Use 10,000 article-level stratified bootstrap replicates
+within each dataset and task.
+
+LegacyAux and EventGold are distinct samples and therefore
+are NOT paired.
+
+For each replicate:
+1. resample LegacyAux articles with replacement within gold class;
+2. resample EventGold articles with replacement within gold class;
+3. compute the metric in each sample;
+4. compute EventGold minus LegacyAux.
+
+Report percentile 95% intervals for the bootstrap gap.
+
+These intervals are exploratory uncertainty summaries.
+They are NOT confirmatory hypothesis tests.
+
+No p-values will be used for the generalization gap.
+
+LABEL-COMPOSITION DIAGNOSTICS
+-----------------------------
+For each task, compare gold-label distributions between
+LegacyAux-199 and EventGold-35.
+
+Report:
+- class proportions;
+- absolute proportion differences;
+- total variation distance;
+- Jensen-Shannon divergence.
+
+These quantify label-composition differences only.
+
+They do NOT establish full covariate shift, concept shift,
+dataset shift, or causal distribution shift.
+
+PER-CLASS DIAGNOSTICS
+---------------------
+Report precision, recall, F1, and support for the full frozen
+label universe in each dataset.
+
+Report EventGold minus LegacyAux per-class F1 where defined.
+
+PREDICTIVE UNCERTAINTY
+----------------------
+Using ensemble probabilities, report descriptively:
+- mean maximum predicted probability;
+- mean predictive entropy.
+
+These summaries are exploratory and are not calibration claims.
+
+INTERPRETATION CONSTRAINTS
+--------------------------
+1. LegacyAux is developmental evidence.
+2. EventGold is the prospective held-out benchmark.
+3. The two samples are not paired.
+4. Seeds and folds are not inferential observations.
+5. A performance gap is not itself proof of distribution shift.
+6. Label-composition differences are not equivalent to covariate
+   or concept shift.
+7. No result from this analysis may be used to modify the final
+   model or architecture.
+8. No equivalence claim follows from overlapping intervals.
+9. All conclusions are descriptive/exploratory unless otherwise
+   pre-specified before EventGold access.
+
+REPRODUCIBILITY
+---------------
+Bootstrap replicates: 10000
+
+RNG seeds:
+primary_frame              2026100601
+stance                     2026100602
+misinformation_relation    2026100603
+
+All source artifacts and analysis outputs must be SHA-256 hashed
+and frozen after successful execution.

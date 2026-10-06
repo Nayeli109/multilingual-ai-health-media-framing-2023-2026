@@ -1,0 +1,216 @@
+EVE-FRAME — FINAL STAGE-A REFIT PROTOCOL v1
+============================================
+
+STATUS
+------
+PRE-SPECIFIED AND FROZEN BEFORE FINAL REFIT TRAINING AND BEFORE
+ACCESS TO EVENTGOLD-35 CONTENT.
+
+FINAL DEVELOPMENTAL ARCHITECTURE
+--------------------------------
+STAGE_A_NO_EVENT
+
+Developmental architecture selection is closed.
+
+No V5, architecture search, hyperparameter search, threshold
+optimization, or result-dependent model modification is
+permitted before EventGold-35.
+
+TRAINING DATA
+-------------
+LegacyAux_leakage_free_v3.csv only.
+
+Number of documents:
+199
+
+All 199 LegacyAux developmental documents are used for each
+final refit.
+
+No EventGold document is included in training, validation,
+epoch selection, class weighting, tokenization, or any other
+training operation.
+
+MODEL
+-----
+FacebookAI/xlm-roberta-base
+
+Shared XLM-R encoder.
+
+No pooling layer from the pretrained model.
+
+Attention implementation:
+eager
+
+Dropout:
+0.10
+
+Three task-specific linear heads:
+- primary_frame
+- stance
+- misinformation_relation
+
+MULTITASK OBJECTIVE
+-------------------
+All final models retain the frozen Stage-A multitask objective.
+
+For every training document, class-weighted cross-entropy is
+computed independently for all three tasks.
+
+The three task losses are combined using their equal arithmetic
+mean.
+
+The target_task argument does NOT convert training into a
+single-task procedure.
+
+Its role in final refitting is solely to identify which
+pre-frozen task-specific epoch schedule is being instantiated.
+
+CLASS WEIGHTS
+-------------
+Class weights are recomputed from the complete 199-document
+LegacyAux training set separately for each of the three tasks,
+using the exact frozen Stage-A implementation.
+
+LABEL MAPPING
+-------------
+Labels are converted to strings.
+
+For each task, unique labels are sorted exactly as in frozen
+Stage A and integer IDs are assigned in sorted order.
+
+TOKENIZATION
+------------
+Text field:
+dapt_text
+
+Tokenizer:
+FacebookAI/xlm-roberta-base
+
+local_files_only=True
+use_fast=True
+
+Maximum sequence length:
+256
+
+Stride:
+32
+
+Maximum chunks per document:
+8
+
+OPTIMIZATION
+------------
+Optimizer:
+AdamW
+
+Learning rate:
+1e-5
+
+Weight decay:
+0.01
+
+Warmup fraction:
+0.10
+
+Gradient clipping:
+1.0
+
+Gradient accumulation:
+8 documents
+
+Precision:
+BF16 autocast
+
+Strict deterministic algorithms:
+enabled
+
+INITIALIZATION AND TRAINING ORDER
+---------------------------------
+Seeds:
+11
+29
+47
+83
+131
+
+The exact Stage-A initialization and deterministic per-epoch
+document permutation functions are reused.
+
+For epoch E, document order therefore remains governed by the
+original Stage-A deterministic schedule based on:
+
+seed + E * 100003
+
+SCHEDULER
+---------
+The learning-rate scheduler horizon remains fixed at 8 epochs,
+matching the frozen Stage-A refit implementation.
+
+The model may stop before scheduler horizon 8 according to its
+pre-frozen final_refit_epoch.
+
+FINAL EPOCH RULE
+----------------
+Epochs are read exclusively from:
+
+FINAL_REFIT_EPOCHS_v1.csv
+
+That table was frozen before final training and before EventGold
+access.
+
+For every task x seed configuration, final_refit_epoch is the
+ROUND_HALF_UP median of the four Stage-A selected epochs.
+
+No validation or early stopping is performed during final
+refitting.
+
+FINAL CONFIGURATIONS
+--------------------
+3 target tasks x 5 seeds = 15 logical final models.
+
+Each logical model is trained independently from the same
+XLM-R base initialization procedure.
+
+Because the underlying objective is multitask, two logical
+task/seed configurations having the same seed and the same final
+epoch are expected to be numerically identical under strict
+determinism. They remain separate logical configurations because
+the downstream frozen ensemble is task-specific.
+
+CHECKPOINTING
+-------------
+Each successful final refit stores:
+
+- model_state_dict_v1.pt
+- label_maps_v1.json
+- document_chunking_v1.csv
+- run_summary_final_refit_v1.json
+
+The checkpoint contains the complete trained state_dict and
+configuration metadata required for later inference.
+
+No optimizer or scheduler state is needed after successful
+training.
+
+FINAL MODEL SELECTION
+---------------------
+There is no model selection after final refitting.
+
+All five seed-specific checkpoints belonging to each task are
+retained.
+
+No final-refit training metric will be used to select, exclude,
+weight, or modify a seed.
+
+EVENTGOLD
+---------
+EventGold-35 remains:
+
+SEALED_NOT_ACCESSED
+
+throughout protocol creation, trainer creation, preflight,
+final refit training, checkpoint audit, and checkpoint freeze.
+
+EventGold may be opened only after all 15 final checkpoints have
+successfully completed and the final checkpoint package has been
+audited and frozen.

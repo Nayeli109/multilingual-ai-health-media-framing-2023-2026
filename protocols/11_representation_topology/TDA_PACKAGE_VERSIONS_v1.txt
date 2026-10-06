@@ -1,0 +1,4 @@
+numpy 1.26.4
+scipy 1.16.3
+sklearn 1.5.2
+ripser 0.6.12

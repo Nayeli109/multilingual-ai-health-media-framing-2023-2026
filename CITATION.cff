@@ -1,0 +1,33 @@
+cff-version: 1.2.0
+message: "If you use this reproducibility repository, please cite it using the metadata below."
+title: "Multilingual Media Discourse on Generative AI, Health, Misinformation, Trust, and Regulation (2023–2026): Reproducibility Repository"
+type: software
+authors:
+  - given-names: Nayeli
+    family-names: Bastidas-Benalcázar
+  - given-names: Diego
+    family-names: Almeida-Galárraga
+  - given-names: Henry
+    family-names: Carvajal-Mora
+  - given-names: Nathaly
+    family-names: Orozco-Garzón
+  - given-names: Andrés
+    family-names: Tirado-Espín
+version: 1.0.0
+date-released: 2026-10-06
+license: MIT
+keywords:
+  - generative AI
+  - media framing
+  - health communication
+  - misinformation
+  - multilingual NLP
+  - representation analysis
+  - event context
+  - reproducibility
+abstract: >-
+  Reproducibility package for a multilingual computational media-framing study
+  of generative AI discourse in health, misinformation, trust, and regulation.
+  The release contains frozen protocols, public analysis code, aggregate
+  development and held-out results, representation diagnostics, and provenance
+  records while excluding restricted source text and private annotation data.

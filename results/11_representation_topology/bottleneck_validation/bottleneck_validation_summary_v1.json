@@ -1,0 +1,16 @@
+{
+  "status": "INDEPENDENT_BOTTLENECK_VALIDATION_PASS",
+  "original_algorithm": "scipy.sparse.csgraph.maximum_bipartite_matching",
+  "independent_algorithm": "networkx Hopcroft-Karp bipartite matching",
+  "original_tda_source_sha256": "e7e3b726a237214a3e74c61cef9a503a8d0d398da7520e6120190eed6f35e7f6",
+  "tolerance": 1e-12,
+  "analytic_unit_tests_passed": true,
+  "h0_pass": true,
+  "h1_pass": true,
+  "input_sha256": {
+    "01_event_aware_v3/11_posthoc_representation_analysis_v1/results_v1/XLMR_BASE__H0_persistence_diagram_v1.csv": "ea6db223a3e9365a10d1512e8daadc7bed259528f02b9e46cc2a6cc4365a1680",
+    "01_event_aware_v3/11_posthoc_representation_analysis_v1/results_v1/XLMR_DAPT_INDUCTIVE__H0_persistence_diagram_v1.csv": "fbcaa5d0238f4a7aa782d62d864150525cef33644f6e787344ec0a4825667230",
+    "01_event_aware_v3/11_posthoc_representation_analysis_v1/results_v1/XLMR_BASE__H1_persistence_diagram_v1.csv": "c08a5df69099e8e600e629568849c1672e9f3df3cf85dda5ef3f7659fb936eb9",
+    "01_event_aware_v3/11_posthoc_representation_analysis_v1/results_v1/XLMR_DAPT_INDUCTIVE__H1_persistence_diagram_v1.csv": "e1f4a0c9aa2ad4c1ba6ae931b7e577fd5acef66a7568eca0f4f8a7c97efddc8a"
+  }
+}

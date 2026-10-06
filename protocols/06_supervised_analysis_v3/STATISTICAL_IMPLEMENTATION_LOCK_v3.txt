@@ -1,0 +1,40 @@
+SUPERVISED STATISTICAL IMPLEMENTATION LOCK v3
+==============================================
+
+Frozen before computation of aggregate OOF BASE-vs-DAPT results.
+
+Statistical analysis plan SHA256:
+cdfa108fb753af10e1ce6aad096f1f1570282f5a75d247a4f391bf09f150407c
+
+Random generator:
+NumPy default_rng
+
+Master RNG seed:
+20260920
+
+Bootstrap:
+10,000 paired stratified article-level replicates.
+
+Randomization:
+10,000 paired article-level probability-vector swaps.
+
+Macro-F1:
+All declared task classes are always included in the Macro-F1
+calculation, including classes with zero predicted examples.
+zero_division = 0.
+
+Ensembling:
+Arithmetic mean of the five seed probability vectors for each
+held-out article within its frozen outer fold.
+
+Prediction:
+argmax of the five-seed mean probability vector.
+
+Multiple testing:
+Benjamini-Hochberg FDR across the three predeclared task-level
+Macro-F1 randomization p-values.
+
+No aggregate BASE-vs-DAPT result had been computed or inspected when
+these implementation details were frozen.
+
+EventGold-35 remains sealed.

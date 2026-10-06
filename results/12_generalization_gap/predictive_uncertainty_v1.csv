@@ -1,0 +1,7 @@
+task,dataset,n_articles,mean_max_predicted_probability,mean_predictive_entropy_nats
+primary_frame,LegacyAux,199,0.20698063961375293,2.115389623384918
+primary_frame,EventGold,35,0.23902007873569212,2.0635235094006825
+stance,LegacyAux,199,0.3608366923940241,1.4887601213446249
+stance,EventGold,35,0.47480647615024013,1.3161093434637
+misinformation_relation,LegacyAux,199,0.4456993387871651,1.2385820968625105
+misinformation_relation,EventGold,35,0.4840240303959165,1.188389792762955

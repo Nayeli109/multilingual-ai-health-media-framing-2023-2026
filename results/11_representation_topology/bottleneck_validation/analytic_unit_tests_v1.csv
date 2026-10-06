@@ -1,0 +1,5 @@
+test,expected,observed,absolute_difference,pass
+identical_single_point,0.0,0.0,0.0,True
+one_point_vs_empty,1.0,1.0,0.0,True
+simple_shift,1.0,1.0,0.0,True
+diagonal_better_than_direct,5.0,5.0,0.0,True

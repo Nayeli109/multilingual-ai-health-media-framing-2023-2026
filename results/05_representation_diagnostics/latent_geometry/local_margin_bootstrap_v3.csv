@@ -1,0 +1,5 @@
+label_system,observed_mean_delta_local_margin,bootstrap_ci95_low,bootstrap_ci95_high,bootstrap_prob_delta_gt_0,n_bootstrap,status
+primary_frame,1.0438851635416399e-05,5.24601198401742e-06,1.535459215215749e-05,0.9999,10000,exploratory; pairwise dependence present
+stance,5.663262303431879e-06,1.61954898494834e-06,9.416332866191561e-06,0.9958,10000,exploratory; pairwise dependence present
+misinformation_relation,6.772504344900799e-06,2.3657063723672835e-06,1.0657996334423352e-05,0.9985,10000,exploratory; pairwise dependence present
+language_media_system_axis,0.0002442732969317679,0.00024033118172164951,0.0002483670934818301,1.0,10000,exploratory; pairwise dependence present

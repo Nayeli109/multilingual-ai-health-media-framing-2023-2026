@@ -1,0 +1,63 @@
+Q1 Media Discourse 2026
+GENERALIZATION GAP — EXECUTION AMENDMENT 01
+============================================
+
+STATUS
+------
+DOCUMENTED AFTER FAILED PRE-ANALYSIS JOB 28734
+AND BEFORE CORRECTED RESUBMISSION.
+
+ORIGINAL JOB
+------------
+SLURM job: 28734
+State: FAILED
+Exit code: 1:0
+
+FAILURE
+-------
+The frozen v1 analysis script referenced a non-existent
+Stage-A authoritative metrics path:
+
+01_event_aware_v3/07_eve_frame_stage_a_no_event/
+comparison_results_v3/task_metrics_v3.csv
+
+The actual authoritative Stage-A task-level metrics artifact is:
+
+01_event_aware_v3/07_eve_frame_stage_a_no_event/
+comparison_results_v3/task_metrics_comparison_v3.csv
+
+SCIENTIFIC IMPACT
+-----------------
+NONE.
+
+The failed job stopped at the fail-closed input existence audit,
+before loading the analysis inputs and before computing any
+generalization-gap statistics.
+
+No result files were produced.
+
+No model was trained, selected, modified, reweighted, or evaluated
+differently.
+
+No annotation or gold label was modified.
+
+The frozen post-hoc generalization-gap protocol is unchanged.
+
+CORRECTION
+----------
+Create a new immutable execution script v1_1 whose only intended
+substantive change is the Stage-A metrics artifact path:
+
+task_metrics_v3.csv
+->
+task_metrics_comparison_v3.csv
+
+The original frozen v1 script is retained unchanged for provenance.
+
+INTERPRETATION POLICY
+---------------------
+The analysis remains exploratory/post-hoc.
+
+No p-values are introduced.
+
+The results cannot be used for model or architecture modification.

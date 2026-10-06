@@ -1,0 +1,25 @@
+{
+  "selected_architecture": "STAGE_A_NO_EVENT",
+  "selected_system": "STAGE_A_NO_EVENT",
+  "selection_reason": "NO_V4_ARCHITECTURE_ELIGIBLE",
+  "eligibility": {
+    "V4_FILM_R32": {
+      "eligible": false,
+      "same_task_confirmatory_hits": []
+    },
+    "V4_LR_BILINEAR_R32": {
+      "eligible": false,
+      "same_task_confirmatory_hits": []
+    }
+  },
+  "verified_equal_weight_mean_macro_f1": {
+    "V4_FILM_R32": 0.507093629965967,
+    "V4_LR_BILINEAR_R32": 0.4995480783599317
+  },
+  "tie_precision_decimal_places": 12,
+  "tie_precedence": [
+    "V4_FILM_R32",
+    "V4_LR_BILINEAR_R32"
+  ],
+  "eventgold_status": "SEALED_NOT_ACCESSED"
+}

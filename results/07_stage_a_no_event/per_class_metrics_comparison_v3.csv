@@ -1,0 +1,37 @@
+task,system,class_id,class_label,support,precision,recall,f1
+primary_frame,XLMR_BASE_SINGLE_TASK,0,"access, inequality, and digital divide",5,0.0,0.0,0.0
+primary_frame,XLMR_BASE_SINGLE_TASK,1,clinical innovation and diagnostic benefit,36,0.48484848484848486,0.8888888888888888,0.6274509803921569
+primary_frame,XLMR_BASE_SINGLE_TASK,2,health safety risk and medical harm,14,0.0,0.0,0.0
+primary_frame,XLMR_BASE_SINGLE_TASK,3,labor automation and professional displacement,20,0.7272727272727273,0.4,0.5161290322580645
+primary_frame,XLMR_BASE_SINGLE_TASK,4,mental health and therapy risk,15,0.0,0.0,0.0
+primary_frame,XLMR_BASE_SINGLE_TASK,5,"misinformation, deepfakes, and fraud",48,0.5970149253731343,0.8333333333333334,0.6956521739130435
+primary_frame,XLMR_BASE_SINGLE_TASK,6,other / unclear,23,0.75,0.391304347826087,0.5142857142857142
+primary_frame,XLMR_BASE_SINGLE_TASK,7,public trust and accountability,4,0.0,0.0,0.0
+primary_frame,XLMR_BASE_SINGLE_TASK,8,"regulation, governance, and policy",34,0.627906976744186,0.7941176470588235,0.7012987012987013
+primary_frame,EVE_FRAME_STAGE_A_NO_EVENT,0,"access, inequality, and digital divide",5,0.0,0.0,0.0
+primary_frame,EVE_FRAME_STAGE_A_NO_EVENT,1,clinical innovation and diagnostic benefit,36,0.625,0.6944444444444444,0.6578947368421053
+primary_frame,EVE_FRAME_STAGE_A_NO_EVENT,2,health safety risk and medical harm,14,0.6111111111111112,0.7857142857142857,0.6875
+primary_frame,EVE_FRAME_STAGE_A_NO_EVENT,3,labor automation and professional displacement,20,0.5,0.65,0.5652173913043478
+primary_frame,EVE_FRAME_STAGE_A_NO_EVENT,4,mental health and therapy risk,15,0.5,0.13333333333333333,0.21052631578947367
+primary_frame,EVE_FRAME_STAGE_A_NO_EVENT,5,"misinformation, deepfakes, and fraud",48,0.6964285714285714,0.8125,0.75
+primary_frame,EVE_FRAME_STAGE_A_NO_EVENT,6,other / unclear,23,0.45454545454545453,0.6521739130434783,0.5357142857142857
+primary_frame,EVE_FRAME_STAGE_A_NO_EVENT,7,public trust and accountability,4,0.0,0.0,0.0
+primary_frame,EVE_FRAME_STAGE_A_NO_EVENT,8,"regulation, governance, and policy",34,0.8636363636363636,0.5588235294117647,0.6785714285714286
+stance,XLMR_BASE_SINGLE_TASK,0,cautious or mixed about ai in health,18,0.0,0.0,0.0
+stance,XLMR_BASE_SINGLE_TASK,1,critical of ai risks in health,44,0.717948717948718,0.6363636363636364,0.6746987951807228
+stance,XLMR_BASE_SINGLE_TASK,2,focused on regulation and governance,10,0.0,0.0,0.0
+stance,XLMR_BASE_SINGLE_TASK,3,optimistic about ai in health,40,0.6222222222222222,0.7,0.6588235294117647
+stance,XLMR_BASE_SINGLE_TASK,4,unclear / not applicable,87,0.6608695652173913,0.8735632183908046,0.7524752475247525
+stance,EVE_FRAME_STAGE_A_NO_EVENT,0,cautious or mixed about ai in health,18,0.3181818181818182,0.7777777777777778,0.45161290322580644
+stance,EVE_FRAME_STAGE_A_NO_EVENT,1,critical of ai risks in health,44,0.6078431372549019,0.7045454545454546,0.6526315789473685
+stance,EVE_FRAME_STAGE_A_NO_EVENT,2,focused on regulation and governance,10,0.2,0.6,0.3
+stance,EVE_FRAME_STAGE_A_NO_EVENT,3,optimistic about ai in health,40,0.5416666666666666,0.65,0.5909090909090909
+stance,EVE_FRAME_STAGE_A_NO_EVENT,4,unclear / not applicable,87,0.7692307692307693,0.22988505747126436,0.35398230088495575
+misinformation_relation,XLMR_BASE_SINGLE_TASK,0,direct misinformation focus,60,0.7910447761194029,0.8833333333333333,0.8346456692913385
+misinformation_relation,XLMR_BASE_SINGLE_TASK,1,indirect misinformation concern,20,0.0,0.0,0.0
+misinformation_relation,XLMR_BASE_SINGLE_TASK,2,no clear misinformation relation,95,0.7054263565891473,0.9578947368421052,0.8125
+misinformation_relation,XLMR_BASE_SINGLE_TASK,3,unclear / not applicable,24,1.0,0.125,0.2222222222222222
+misinformation_relation,EVE_FRAME_STAGE_A_NO_EVENT,0,direct misinformation focus,60,0.7575757575757576,0.8333333333333334,0.7936507936507936
+misinformation_relation,EVE_FRAME_STAGE_A_NO_EVENT,1,indirect misinformation concern,20,0.35714285714285715,0.25,0.29411764705882354
+misinformation_relation,EVE_FRAME_STAGE_A_NO_EVENT,2,no clear misinformation relation,95,0.7916666666666666,0.6,0.6826347305389222
+misinformation_relation,EVE_FRAME_STAGE_A_NO_EVENT,3,unclear / not applicable,24,0.3829787234042553,0.75,0.5070422535211268

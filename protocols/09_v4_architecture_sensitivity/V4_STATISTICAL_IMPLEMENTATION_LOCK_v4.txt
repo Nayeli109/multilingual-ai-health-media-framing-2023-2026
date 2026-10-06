@@ -1,0 +1,263 @@
+EVE-FRAME V4 — STATISTICAL IMPLEMENTATION LOCK
+==============================================
+
+STATUS
+------
+FROZEN BEFORE INSPECTION OR AGGREGATION OF V4 PERFORMANCE RESULTS.
+
+At the time of this lock:
+- all 240 V4 training configurations had completed successfully;
+- computational integrity had been audited;
+- no V4 task-level performance metric had been inspected or used;
+- no V4 architecture had been selected;
+- EventGold-35 remained SEALED_NOT_ACCESSED.
+
+PURPOSE
+-------
+This lock operationalizes the inferential plan already frozen in:
+
+EVE_FRAME_V4_ARCHITECTURE_SENSITIVITY_PROTOCOL_v4.txt
+
+No new scientific hypothesis, architecture, hyperparameter, endpoint,
+selection criterion, or testing family is introduced here.
+
+REFERENCE IMPLEMENTATION
+------------------------
+The inferential machinery is inherited from the frozen Stage-B
+analysis implementation:
+
+67_analyze_stage_b_v3.py
+
+SHA256:
+76bf72bafc71c5140845270cbe527d91506dc265232813fd6d0c7bc4a2d34b3a
+
+The following Stage-B procedures are retained:
+
+1. Five-seed probability ensemble at article level.
+2. Out-of-fold aggregation over the four frozen outer folds.
+3. Macro-F1 as the primary metric.
+4. Article as the inferential unit.
+5. Paired stratified bootstrap within true-label strata.
+6. 10,000 bootstrap replicates.
+7. Paired whole-probability-vector randomization.
+8. 10,000 randomization replicates.
+9. Two-sided randomization p-value.
+10. Benjamini-Hochberg adjustment within a predeclared family.
+11. Seeds and folds are not treated as inferential observations.
+12. Bootstrap fraction delta > 0 is descriptive and is not a
+    Bayesian posterior probability.
+13. Failure to reject is not interpreted as equivalence.
+
+TRAINING SEEDS
+--------------
+11
+29
+47
+83
+131
+
+OUTER FOLDS
+-----------
+1
+2
+3
+4
+
+TASKS
+-----
+primary_frame
+stance
+misinformation_relation
+
+ARCHITECTURES
+-------------
+V4_FILM_R32
+V4_LR_BILINEAR_R32
+
+ARMS
+----
+VERIFIED_CONTEXT
+PERMUTED_CONTEXT
+
+INFERENTIAL FAMILY 1
+--------------------
+Name:
+INCREMENTAL
+
+Contrasts:
+For each architecture and each task,
+
+VERIFIED_CONTEXT minus STAGE_A_NO_EVENT
+
+Number of confirmatory tests:
+2 architectures x 3 tasks = 6.
+
+Direction required for architecture eligibility:
+delta Macro-F1 > 0.
+
+Multiple testing:
+Benjamini-Hochberg across exactly these 6 p-values.
+
+Confirmatory threshold:
+BH q < 0.05.
+
+INFERENTIAL FAMILY 2
+--------------------
+Name:
+CONTEXT_SPECIFICITY
+
+Contrasts:
+For each architecture and each task,
+
+VERIFIED_CONTEXT minus same-architecture PERMUTED_CONTEXT
+
+Number of confirmatory tests:
+2 architectures x 3 tasks = 6.
+
+Direction required for architecture eligibility:
+delta Macro-F1 > 0.
+
+Multiple testing:
+Benjamini-Hochberg across exactly these 6 p-values.
+
+Confirmatory threshold:
+BH q < 0.05.
+
+IMPORTANT
+---------
+The two BH families are separate.
+
+No correction is performed across all 12 tests as one family.
+
+No architecture-specific BH family of 3 is permitted.
+
+No task-specific family of 2 is permitted.
+
+BOOTSTRAP
+---------
+Replicates:
+10000
+
+Scheme:
+Paired article-level stratified resampling within true-label strata.
+
+Statistic:
+Macro-F1(A) minus Macro-F1(B).
+
+Confidence interval:
+Empirical percentile 2.5% and 97.5%.
+
+The bootstrap interval and fraction delta > 0 are supportive
+uncertainty summaries.
+
+They do not replace the frozen randomization-test + BH decision rule.
+
+RANDOMIZATION
+-------------
+Replicates:
+10000
+
+Unit:
+Article.
+
+Operation:
+For each randomization replicate, swap the complete probability
+vector between systems A and B independently at article level.
+
+Statistic:
+Macro-F1(A) minus Macro-F1(B).
+
+P-value:
+Two-sided, using the same finite-sample randomization implementation
+as the frozen Stage-B analysis.
+
+RNG
+---
+All bootstrap and randomization RNG seeds are frozen in:
+
+V4_INFERENCE_RNG_v4.json
+
+There are:
+12 unique bootstrap seeds.
+12 unique randomization seeds.
+
+No RNG seed may be modified after V4 results are inspected.
+
+ARCHITECTURE ELIGIBILITY
+------------------------
+An architecture is eligible only if, for at least one SAME task,
+both of the following hold:
+
+A. INCREMENTAL:
+   VERIFIED_CONTEXT vs STAGE_A_NO_EVENT
+   delta Macro-F1 > 0
+   AND BH q < 0.05.
+
+B. CONTEXT_SPECIFICITY:
+   VERIFIED_CONTEXT vs the same architecture's PERMUTED_CONTEXT
+   delta Macro-F1 > 0
+   AND BH q < 0.05.
+
+The condition must occur on the same task.
+
+FINAL ARCHITECTURE RULE
+-----------------------
+Default:
+STAGE_A_NO_EVENT.
+
+If neither V4 architecture is eligible:
+select STAGE_A_NO_EVENT.
+
+If exactly one V4 architecture is eligible:
+select that architecture.
+
+If both V4 architectures are eligible:
+compute the equal-weight arithmetic mean of VERIFIED_CONTEXT
+Macro-F1 across the three tasks for each eligible architecture.
+
+Select the larger mean.
+
+Exact numerical tie:
+compare to 12 decimal places.
+
+If still tied:
+V4_FILM_R32 precedes V4_LR_BILINEAR_R32.
+
+No other tie-breaker is permitted.
+
+STOPPING RULE
+-------------
+No V5 architecture or reactive architectural modification is
+permitted before EventGold-35.
+
+V4 closes architecture development.
+
+EVENTGOLD
+---------
+EventGold-35 remains:
+
+SEALED_NOT_ACCESSED
+
+It may be opened only after:
+
+1. V4 inputs are audited.
+2. The V4 confirmatory analysis implementation is frozen.
+3. Both six-test BH families are computed.
+4. The frozen final-architecture rule is applied.
+5. The final architecture decision is written and frozen.
+
+INTERPRETATION CONSTRAINTS
+--------------------------
+LegacyAux-199 remains developmental evidence.
+
+A null confirmatory result is not evidence of equivalence.
+
+The permuted-context contrast tests context specificity under the
+predeclared control construction; it is not, by itself, a causal
+identification result.
+
+No bootstrap result may override the randomization-test + BH rule.
+
+No descriptive secondary metric may override architecture selection.
+
+No performance result may modify the frozen analysis implementation.

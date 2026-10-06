@@ -1,0 +1,289 @@
+EVE-FRAME STAGE A — NO_EVENT
+FINAL DEVELOPMENT CLOSURE v3
+===============================================
+
+STATUS
+CLOSED.
+
+Stage A training, provenance validation, OOF ensembling, paired
+inference, class-level diagnostics, and result hashing are complete.
+
+No Stage-A model will be retrained or retuned.
+
+DATA
+LegacyAux-199.
+
+ARCHITECTURE
+EVE_FRAME_STAGE_A_NO_EVENT.
+
+Shared XLM-R encoder with three jointly optimized task-specific heads:
+- primary_frame
+- stance
+- misinformation_relation
+
+No event, topic, source-domain, outlet, language, or region feature
+was supplied to the model.
+
+COMPUTATIONAL VALIDATION
+Expected runs: 60
+Valid runs: 60
+Invalid runs: 0
+OOF seed-level target prediction rows: 2,985
+Five-seed ensemble OOF articles per task: 199
+
+Total recorded GPU time:
+10.910352453523211 hours
+
+Maximum recorded GPU memory:
+6.814426898956299 GB
+
+=====================================================
+PRIMARY PREDECLARED COMPARISON
+=====================================================
+
+Comparator:
+Frozen XLMR_BASE independent single-task model.
+
+Primary endpoint:
+Five-seed probability-ensemble OOF Macro-F1.
+
+Contrast:
+Delta = MacroF1(StageA) - MacroF1(BASE)
+
+-----------------------------------------------------
+PRIMARY_FRAME
+-----------------------------------------------------
+
+BASE Macro-F1:
+0.3394240669052978
+
+Stage-A Macro-F1:
+0.4539360175801823
+
+Observed Delta:
++0.11451195067488451
+
+95% paired stratified bootstrap CI:
+[0.06345417967060003, 0.16665327942796984]
+
+Bootstrap P(Delta > 0):
+1.0
+
+Two-sided paired randomization p:
+0.0026997300269973002
+
+BH-adjusted q:
+0.0080991900809919
+
+Secondary metrics:
+
+BASE
+balanced_accuracy = 0.3675160241230147
+accuracy = 0.5829145728643216
+weighted_f1 = 0.5124364198986547
+
+STAGE A
+balanced_accuracy = 0.4763321673274785
+accuracy = 0.6231155778894473
+weighted_f1 = 0.5988156293070451
+
+Interpretation:
+Under the predeclared paired analysis, Stage A provides supported
+improvement in primary-frame OOF Macro-F1 relative to the frozen
+single-task BASE comparator.
+
+-----------------------------------------------------
+STANCE
+-----------------------------------------------------
+
+BASE Macro-F1:
+0.41719951442344794
+
+Stage-A Macro-F1:
+0.4698271747934443
+
+Observed Delta:
++0.05262766036999639
+
+95% paired stratified bootstrap CI:
+[-0.012848034468645983, 0.11968150988066367]
+
+Bootstrap P(Delta > 0):
+0.9439
+
+Two-sided paired randomization p:
+0.40435956404359563
+
+BH-adjusted q:
+0.4043595640435956
+
+Secondary metrics:
+
+BASE
+balanced_accuracy = 0.4419853709508882
+accuracy = 0.6633165829145728
+weighted_f1 = 0.6105780638144515
+
+STAGE A
+balanced_accuracy = 0.5924416579588994
+accuracy = 0.48743718592964824
+weighted_f1 = 0.47375701278946486
+
+Interpretation:
+Stage A produces a positive numerical shift in Macro-F1 and balanced
+accuracy but no supported task-level Macro-F1 difference under the
+predeclared randomization/FDR analysis.
+
+The change reflects substantial redistribution of predictions toward
+minority classes and a strong reduction in recall for the dominant
+unclear/not-applicable class.
+
+-----------------------------------------------------
+MISINFORMATION_RELATION
+-----------------------------------------------------
+
+BASE Macro-F1:
+0.4673419728783902
+
+Stage-A Macro-F1:
+0.5693613561924165
+
+Observed Delta:
++0.10201938331402627
+
+95% paired stratified bootstrap CI:
+[0.0172442226400859, 0.18939817539678222]
+
+Bootstrap P(Delta > 0):
+0.9905
+
+Two-sided paired randomization p:
+0.0811918808119188
+
+BH-adjusted q:
+0.1217878212178782
+
+Secondary metrics:
+
+BASE
+balanced_accuracy = 0.4915570175438596
+accuracy = 0.7386934673366834
+weighted_f1 = 0.6663295150292142
+
+STAGE A
+balanced_accuracy = 0.6083333333333334
+accuracy = 0.6532663316582915
+weighted_f1 = 0.6558829851554208
+
+Interpretation:
+Stage A shows a substantial positive numerical development-set shift
+in Macro-F1 and balanced accuracy, but the predeclared paired
+randomization/FDR analysis does not provide confirmatory support.
+
+=====================================================
+MINORITY-CLASS RECOVERY
+=====================================================
+
+Previously zero-recall classes under BASE:
+7 total.
+
+Recovered to non-zero recall under Stage A:
+5 of 7.
+
+PRIMARY_FRAME
+Recovered:
+- health safety risk and medical harm:
+  recall 0.000 -> 0.786
+  F1 0.000 -> 0.688
+
+- mental health and therapy risk:
+  recall 0.000 -> 0.133
+  F1 0.000 -> 0.211
+
+Not recovered:
+- access, inequality, and digital divide
+- public trust and accountability
+
+STANCE
+Recovered:
+- cautious or mixed about AI in health:
+  recall 0.000 -> 0.778
+  F1 0.000 -> 0.452
+
+- focused on regulation and governance:
+  recall 0.000 -> 0.600
+  F1 0.000 -> 0.300
+
+MISINFORMATION_RELATION
+Recovered:
+- indirect misinformation concern:
+  recall 0.000 -> 0.250
+  F1 0.000 -> 0.294
+
+=====================================================
+DEVELOPMENT INTERPRETATION
+=====================================================
+
+Stage A demonstrates that shared multi-task representation learning
+can materially alter minority-class discrimination relative to
+independent single-task fine-tuning.
+
+The effect is task-dependent.
+
+Primary-frame classification shows the strongest and confirmatorily
+supported development-set improvement.
+
+For stance and misinformation relation, gains in Macro-F1 / balanced
+accuracy are accompanied by redistribution away from dominant classes,
+and the task-level Macro-F1 contrasts are not supported by the
+predeclared randomization/FDR procedure.
+
+No claim of independent validation is made.
+
+Stage A was designed after inspection of earlier LegacyAux error
+structure and is therefore development evidence.
+
+=====================================================
+NEXT ARCHITECTURAL RULE
+=====================================================
+
+Stage A is now frozen as the NO_EVENT comparator.
+
+Subsequent EVE-FRAME development must preserve the Stage-A core,
+training regime, target-task folds, optimizer settings, class weighting,
+and evaluation protocol.
+
+The next experimental component should change only the event-context
+mechanism wherever technically possible, so its incremental contribution
+can be isolated against Stage A.
+
+No reactive modification of Stage-A loss weighting or task heads will
+be made based on these results.
+
+=====================================================
+EVENTGOLD
+=====================================================
+
+EventGold-35 remains SEALED.
+
+It has not been used for Stage-A training, model selection, architecture
+selection, OOF analysis, or statistical inference.
+
+Independent external evaluation remains deferred until the complete
+EVE-FRAME architecture and decision rules are frozen.
+
+=====================================================
+PRE-SPECIFICATION HASHES
+=====================================================
+
+Stage-A comparison analysis plan:
+423ba34ca3b44da3dd65c91dc5ea35ec41eec510008a581a5d4af1c9d2738bcf
+
+Stage-A statistical implementation lock:
+1eb61ad1c00f749d657f03497f26c9664c6d22bb700d0c111d48d7b618986084
+
+Stage-A analysis script:
+8bcd961084fcc7f3289ed73878685de1ce2c62e7d5974987facbb103afaf263b
+
+EventGold-35 status:
+SEALED.
